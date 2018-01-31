@@ -1,0 +1,4 @@
+/build/
+/.sconsign.dblite
+/**/__pycache__/
+*.bib.sav

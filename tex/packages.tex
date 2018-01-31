@@ -1,0 +1,142 @@
+% language-specific things (hyphenation, ...)
+\usepackage[ngerman,american]{babel}
+
+% biblatex package wants to have csquotes (otherwise: warning)
+\usepackage{csquotes}
+
+% lower-case page header
+\usepackage[markcase=upper]{scrlayer-scrpage}
+
+% dummy texts
+\usepackage[math]{blindtext}
+
+% amsmath with improvements
+\usepackage{mathtools}
+
+% math theorems
+\usepackage{amsthm}
+
+% format math theorems
+\usepackage{thmtools}
+
+% for \luadirect command
+\usepackage{luacode}
+
+% check mode
+\iftoggle{checkmode}{
+  % show non-whitelisted hyphenations
+  \usepackage[mark]{lua-check-hyphen}
+}{}
+
+% debug mode
+\iftoggle{debugmode}{
+  % show boxes, glues, and kerning
+  \usepackage{lua-visual-debug}
+}{}
+
+% Unicode umlauts
+\usepackage[utf8]{luainputenc}
+
+% use GoMono as typewriter font
+\usepackage[
+  % otherwise, bold is not available ("undefined font shape" warnings)
+  type1,
+  % scale to match main font size
+  scale=0.9,
+]{GoMono}
+
+% use TeX Gyre Heros as sans-serif font
+\usepackage{tgheros}
+
+% need T1 font encoding for Charter,
+% otherwise there will be "undefined font shape" warnings
+\usepackage[T1]{fontenc}
+
+% use Bitstream Charter as main font
+\usepackage[bitstream-charter]{mathdesign}
+
+% micro-typographic adjustments
+\usepackage[
+  % don't deactivate extensions due to document class draft option
+  final,
+  % increase letter spacing in small-caps
+  tracking=smallcaps,
+  % smaller amount of letter spacing (default: 100)
+  %letterspace=120,
+]{microtype}
+
+% reference last page of document
+\usepackage{lastpage}
+
+% extract number from page reference
+\usepackage{refcount}
+
+% graphics
+\usepackage{graphicx}
+
+% colors
+\usepackage{xcolor}
+
+% custom float captions, subfigures
+\usepackage{subcaption}
+
+% X column type for tables (filling rest of line)
+\usepackage{tabularx}
+
+% more beautiful tables
+\usepackage{booktabs}
+
+% draft watermarks (version info and line numbers)
+\iftoggle{draftmode}{
+  \usepackage{everypage}
+}{}
+
+% algorithms
+\usepackage{algorithmicx}
+
+% pseudo-code
+\usepackage[noend]{algpseudocode}
+
+% nice bars left of theorems
+\usepackage[framemethod=tikz]{mdframed}
+
+% styling of table of contents
+\usepackage{tocbasic}
+
+% reference current chapter, section, subsection, ...
+\usepackage{nameref}
+
+% table of symbols and acronyms
+\usepackage[
+  % show glossary in table of contents
+  toc,
+  % don't group entries with same first letter
+  nogroupskip,
+  % don't append full stop to entries
+  nopostdot,
+  % don't append pages where the acronym is referenced
+  nonumberlist,
+]{glossaries}
+
+% line spacing (one and a half lines)
+\usepackage[onehalfspacing]{setspace}
+
+% PDF links
+\usepackage{hyperref}
+
+% BibLaTeX
+\usepackage[
+  % abbreviate author names
+  giveninits=true,
+  % don't show ISBNs/ISSNs
+  isbn=false,
+  % only show years in dates
+  date=year,
+  % use alphabetic style instead of numeric
+  style=alphabetic,
+  % only use first author's name for the style
+  maxalphanames=1,
+]{biblatex}
+
+% named references
+\usepackage[capitalise]{cleveref}

@@ -1,0 +1,524 @@
+% ======================================================================
+% Meta-Data
+% ======================================================================
+
+% meta-data variables
+\newcommand*{\thetitle}{%
+  Inventing Time Travel:\texorpdfstring{\\}{}
+  Theory and Applications of the\texorpdfstring{\\}{}
+  Flux Capacitor%
+}
+\newcommand*{\theauthor}{Emett Brown}
+\newcommand*{\thebirthplace}{Hill Valley, California}
+\newcommand*{\thedefensedate}{21.\ Oktober 2015}
+\newcommand*{\thedate}{October 21, 2015}
+\newcommand*{\theyear}{2015}
+\newcommand*{\theinstitute}{Institute for Advanced Time Travel}
+\newcommand*{\theadvisor}{Prof.\ Dr.\ Albert Einstein}
+\newcommand*{\theexamineri}{Prof.\ Dr.\ Blaise Pascal}
+\newcommand*{\theexaminerii}{Prof.\ Dr.\ Marie Curie}
+\newcommand*{\theexamineriii}{Prof.\ Dr.\ Charles Darwin}
+
+% ======================================================================
+% Type Area
+% ======================================================================
+
+% recalculate page margins as the line spread has changed
+\recalctypearea
+
+% ======================================================================
+% Table of Contents
+% ======================================================================
+
+% use single spacing in table of contents
+\AfterTOCHead[toc]{\setstretch{1}}
+
+% ======================================================================
+% Headings
+% ======================================================================
+
+% don't use sans-serif font for headings
+\setkomafont{disposition}{\normalcolor\bfseries}
+
+% chapter heading: make number bigger
+\renewcommand*{\chapterformat}{%
+  \mbox{%
+    \chapappifchapterprefix{\nobreakspace}%
+    \scalebox{3.2}{\thechapter\autodot}%
+    \IfUsePrefixLine{}{\enskip}%
+  }%
+}
+
+% chapter heading: align number and text at the baseline of the last line
+% of the text, add some more space between number and text
+\renewcommand*{\chapterlinesformat}[3]{%
+  \begin{tabularx}{\textwidth}{@{}l@{}X@{}}%
+    % chapter number
+    #2%
+    % add hspace between number and text, but only if \chapter (not \chapter*)
+    % has been used (i.e., if the chapter number #2 is not empty)
+    \if\relax\detokenize{#2}\relax\else\hspace*{5mm}\fi&%
+    % text of heading, [b] is for alignment, \linewidth is width of X cell,
+    % \raggedchapter for not justifying headings
+    \parbox[b]{\linewidth}{\raggedchapter\setstretch{1}#3}%
+  \end{tabularx}%
+}
+
+% ======================================================================
+% Dictums
+% ======================================================================
+
+% don't use sans-serif font for dictums
+\addtokomafont{dictum}{\rmfamily}
+
+% format dictums with custom command
+\renewcommand*{\dictum}[2][]{\cleanchapterquote{#2}{#1}}
+
+% ======================================================================
+% Page Headers and Footers
+% ======================================================================
+
+% all-caps sans-serif page header
+\setkomafont{pageheadfoot}{%
+  \normalfont\normalcolor\sffamily\fontsize{9}{10}\selectfont\lsstyle%
+}
+\setkomafont{pagenumber}{\usekomafont{pageheadfoot}}
+
+% move page number to page header
+\clearscrheadfoot
+\lehead[]{\pagemark}
+\rehead{\headmark}
+\lohead{\headmark}
+\rohead[]{\pagemark}
+\lefoot[\pagemark]{}
+\rofoot[\pagemark]{}
+
+% prepend "Chapter X: " in front of the chapter name in page headers
+\renewcommand*{\chaptermarkformat}{Chapter \thechapter: }
+
+% ======================================================================
+% Float Captions
+% ======================================================================
+
+% change font size for captions
+\makeatletter
+\DeclareCaptionFormat{mycaptionformat}{%
+  \small\@hangfrom{#1#2}%
+  \advance\caption@parindent\hangindent
+  \advance\caption@hangindent\hangindent
+  \caption@@par#3\par%
+}
+\makeatother
+
+% change appearance of caption label
+\DeclareCaptionLabelFormat{mycaptionlabelformat}{%
+  \sffamily\bfseries\fontsize{9.5}{12}\selectfont\textls*{\MakeUppercase{#1}} #2%
+}
+
+% set caption format
+\captionsetup{
+  % use custom format
+  format=mycaptionformat,
+  % use custom label format
+  labelformat=mycaptionlabelformat,
+  % separate number and caption with \quad
+  labelsep=quad,
+}
+
+% change font size for sub-captions
+\makeatletter
+\DeclareCaptionFormat{mysubcaptionformat}{%
+  \fontsize{10}{12}\selectfont\@hangfrom{#1#2}%
+  \advance\caption@parindent\hangindent
+  \advance\caption@hangindent\hangindent
+  \caption@@par#3\par%
+}
+\makeatother
+
+% change appearance of sub-caption label
+\DeclareCaptionLabelFormat{mysubcaptionlabelformat}{%
+  \sffamily\bfseries\fontsize{8.8}{11}\selectfont\textls*{\MakeUppercase{#2}}%
+}
+
+% set sub-caption format
+\captionsetup[sub]{
+  % use custom format
+  format=mysubcaptionformat,
+  % use custom label format
+  labelformat=mysubcaptionlabelformat,
+  % separate number and caption with \quad
+  labelsep=quad,
+}
+
+% ======================================================================
+% Algorithms
+% ======================================================================
+
+% line number format
+\algrenewcommand{\alglinenumber}[1]{\footnotesize\color{anthrazit}{#1}}
+\algrenewcommand{\algorithmicrequire}{\textbf{Input:}}
+\algrenewcommand{\algorithmicensure}{\textbf{Output:}}
+
+% keywords (bold and typewriter)
+\algnewcommand{\Break}{\texttt{\textbf{break}}}
+\algnewcommand{\Continue}{\texttt{\textbf{continue}}}
+\algnewcommand{\True}{\texttt{\textbf{true}}}
+\algnewcommand{\False}{\texttt{\textbf{false}}}
+\algnewcommand{\Null}{\texttt{\textbf{null}}}
+\algrenewcommand{\algorithmicend}{\texttt{\textbf{end}}}
+\algrenewcommand{\algorithmicdo}{\texttt{\textbf{do}}}
+\algrenewcommand{\algorithmicwhile}{\texttt{\textbf{while}}}
+\algrenewcommand{\algorithmicfor}{\texttt{\textbf{for}}}
+\algrenewcommand{\algorithmicforall}{\texttt{\textbf{for all}}}
+\algrenewcommand{\algorithmicloop}{\texttt{\textbf{loop}}}
+\algrenewcommand{\algorithmicrepeat}{\texttt{\textbf{repeat}}}
+\algrenewcommand{\algorithmicuntil}{\texttt{\textbf{until}}}
+\algrenewcommand{\algorithmicprocedure}{\texttt{\textbf{procedure}}}
+\algrenewcommand{\algorithmicfunction}{\texttt{\textbf{function}}}
+\algrenewcommand{\algorithmicif}{\texttt{\textbf{if}}}
+\algrenewcommand{\algorithmicthen}{\texttt{\textbf{then}}}
+\algrenewcommand{\algorithmicelse}{\texttt{\textbf{else}}}
+\algrenewcommand{\algorithmicreturn}{\texttt{\textbf{return}}}
+\algnewcommand{\algorithmicforever}{\texttt{\textbf{for ever}}}
+\algdef{S}[FOR]{ForEver}{\algorithmicforever\ \algorithmicdo}
+\algnewcommand{\algorithmicgoto}{\texttt{\textbf{go to}}}%
+\algnewcommand{\Goto}[1]{\algorithmicgoto\ line\ \ref*{#1}}%
+
+% font size in algorithms
+\makeatletter
+\renewcommand*{\ALG@beginalgorithmic}{\small}
+\makeatother
+
+% comment format
+\algrenewcomment[1]{\hfill$\rightsquigarrow$ \emph{#1}}
+
+% declare algorithm float environment
+\DeclareNewTOC[
+  type=algorithm,
+  name=Algorithm,
+  float,
+  floattype=4,
+  counterwithin=chapter,
+]{loa}
+
+% ======================================================================
+% Floats
+% ======================================================================
+
+% automatically center all float and subfigure contents
+\makeatletter
+\g@addto@macro{\@floatboxreset}{\centering}
+\apptocmd\subcaption@minipage{\centering}{}{}
+\makeatother
+
+% change font size in float environments
+\makeatletter
+\g@addto@macro{\figure}{\small}
+\g@addto@macro{\table}{\small}
+\g@addto@macro{\algorithm}{\small}
+\makeatother
+
+% ======================================================================
+% Theorems
+% ======================================================================
+
+% define mdframed style for theorems (left bar)
+\mdfdefinestyle{mymdfstyle}{
+  hidealllines=true,
+  leftline=true,
+  innerleftmargin=10pt,
+  innerrightmargin=0pt,
+  innertopmargin=-1pt,
+  innerbottommargin=0pt,
+  linewidth=2pt,
+  linecolor=anthrazit,
+}
+
+% define theorem styles (format theorem "head" with sans-serif caps)
+\declaretheoremstyle[
+  headfont={\sffamily\bfseries\fontsize{9.5}{12}\selectfont},
+  headformat={\textls*{\MakeUppercase{\NAME{} \NUMBER}}\hspace{0.7em}\NOTE\\},
+  notefont={\normalfont\normalsize},
+  headpunct={},
+]{mythmdefstyle}
+
+% same as before, but italic body font
+\declaretheoremstyle[
+  headfont={\sffamily\bfseries\fontsize{9.5}{12}\selectfont},
+  headformat={\textls*{\MakeUppercase{\NAME{} \NUMBER}}\hspace{0.7em}\NOTE\\},
+  notefont={\normalfont\normalsize},
+  headpunct={},
+  bodyfont={\itshape},
+]{mythmplainstyle}
+
+% theorem environments
+\declaretheorem[
+  numberwithin=chapter,
+  mdframed={style=mymdfstyle},
+  style=mythmdefstyle,
+]{definition}
+\declaretheorem[
+  numberlike=definition,
+  mdframed={style=mymdfstyle},
+  style=mythmplainstyle,
+]{theorem}
+\declaretheorem[
+  numberlike=definition,
+  mdframed={style=mymdfstyle},
+  style=mythmplainstyle,
+]{proposition}
+\declaretheorem[
+  numberlike=definition,
+  mdframed={style=mymdfstyle},
+  style=mythmplainstyle,
+]{lemma}
+
+% ======================================================================
+% Mathematics
+% ======================================================================
+
+% vertically center ":" in ":="
+\mathtoolsset{centercolon}
+
+% ======================================================================
+% Blindtext
+% ======================================================================
+
+% get name of current label (chapter, section, subsection, ...)
+\makeatletter
+\newcommand*{\currentname}{\@currentlabelname}
+\makeatother
+
+% warn for every usage of \blindtext
+\let\oldblindtext\blindtext
+\renewcommand*{\blindtext}{%
+  \GenericWarning{}{%
+    LaTeX Warning (\thesubsection\space\currentname): \string\blindtext%
+  }%
+  \oldblindtext%
+}
+
+% ======================================================================
+% Graphics
+% ======================================================================
+
+% location of graphics files
+\graphicspath{{../gfx/}}
+
+% ======================================================================
+% Colors
+% ======================================================================
+
+% define line colors (mix between MATLAB and matplotlib colors)
+\definecolor{C0}{rgb}{0.000,0.447,0.741}
+\definecolor{C1}{rgb}{0.850,0.325,0.098}
+\definecolor{C2}{rgb}{0.929,0.694,0.125}
+\definecolor{C3}{rgb}{0.494,0.184,0.556}
+\definecolor{C4}{rgb}{0.466,0.674,0.188}
+\definecolor{C5}{rgb}{0.301,0.745,0.933}
+\definecolor{C6}{rgb}{0.635,0.078,0.184}
+\definecolor{C7}{rgb}{0.887,0.465,0.758}
+\definecolor{C8}{rgb}{0.496,0.496,0.496}
+
+% define university CD colors
+\definecolor{anthrazit}{RGB}{62,68,76}
+\definecolor{mittelblau}{RGB}{0,81,158}
+\definecolor{helllblau}{RGB}{0,190,255}
+
+% ======================================================================
+% Blindtext
+% ======================================================================
+
+% check mode
+\iftoggle{checkmode}{
+  % show overfull boxes
+  \overfullrule=1mm
+  % show underfull vboxes
+  \directlua{dofile("detect_underfull.lua")}
+  % whitelist is in hyphenation_whitelist.txt:
+  % one word per line (all lowercase) with dashes (-) indicating the
+  % places where hyphenation is permitted
+  \LuaCheckHyphen{whitelist=hyphenation_whitelist.txt}
+}{}
+
+% ======================================================================
+% Watermarks
+% ======================================================================
+
+% set up watermarks
+\iftoggle{draftmode}{
+  \AddEverypageHook{
+    \begin{tikzpicture}[remember picture,overlay,scale=1]
+      \node[
+        opacity=0.5,anchor=center,xshift=0mm,yshift=10mm,inner sep=0pt,
+      ] at (current page.south) [above] {%
+        \parbox{100mm}{%
+          \begin{center}
+          \bfseries%
+          Draft v\getAndIncreaseCompileCounter{} (\currentTimeShort)\\
+          Commit \gitCommitHash{} (\gitCommitTimeShort)
+          \end{center}%
+        }%
+      };
+      \ifthispageodd{
+        \node[
+          opacity=0.5,anchor=north east,xshift=-20mm,yshift=-46mm,inner sep=0pt,
+          text width=4.51mm,align=right,
+        ] at (current page.north east) [below left] {%
+          \onehalfspacing%
+          1\\2\\3\\4\\5\\6\\7\\8\\9\\10\\%
+          11\\12\\13\\14\\15\\16\\17\\18\\19\\20\\%
+          21\\22\\23\\24\\25\\26\\27\\28\\29\\30\\%
+          31\\32\\%
+        };
+      }{
+        \node[
+          opacity=0.5,anchor=north west,xshift=20mm,yshift=-46mm,color=black,inner sep=0pt,
+          text width=4.51mm,align=right,
+        ] at (current page.north west) [below right] {%
+          \onehalfspacing%
+          1\\2\\3\\4\\5\\6\\7\\8\\9\\10\\%
+          11\\12\\13\\14\\15\\16\\17\\18\\19\\20\\%
+          21\\22\\23\\24\\25\\26\\27\\28\\29\\30\\%
+          31\\32\\%
+        };
+      }
+    \end{tikzpicture}
+  }
+}{}
+
+% ======================================================================
+% PDF Meta-Data and Links
+% ======================================================================
+
+% set up hyperref
+\hypersetup{
+  % set metadata
+  pdftitle={\thetitle},
+  pdfauthor={\theauthor},
+  pdfcreator={LaTeX, KOMA-Script, hyperref},
+  % underline links instead of putting a framed box around them
+  pdfborderstyle={/S/U/W 1},
+  % set link colors
+  citebordercolor=C1,
+  filebordercolor=C1,
+  linkbordercolor=C1,
+  menubordercolor=C1,
+  runbordercolor=C1,
+  urlbordercolor=C0,
+}
+
+% ======================================================================
+% Bibliography
+% ======================================================================
+
+% location of *.bib file
+\addbibresource{../bib/bibliography.bib}
+
+% don't append "+" sign to BibLaTeX citations in alphabetic style
+\renewcommand*{\labelalphaothers}{}
+
+% insert colon after author names in bibliography
+\renewcommand*{\labelnamepunct}{: }
+
+% hide urldate field
+\AtEveryBibitem{\clearfield{urlyear}}
+
+% make paper titles italic, remove quotation marks
+\DeclareFieldFormat[article]{title}{\mkbibemph{#1}}
+\DeclareFieldFormat[article]{journaltitle}{#1}
+\DeclareFieldFormat[thesis]{title}{\mkbibemph{#1}}
+\DeclareFieldFormat[inbook]{title}{\mkbibemph{#1}}
+\DeclareFieldFormat[inbook]{booktitle}{#1}
+\DeclareFieldFormat[incollection]{title}{\mkbibemph{#1}}
+\DeclareFieldFormat[incollection]{booktitle}{#1}
+\DeclareFieldFormat[inproceedings]{title}{\mkbibemph{#1}}
+\DeclareFieldFormat[inproceedings]{booktitle}{#1}
+\DeclareFieldFormat[unpublished]{title}{\mkbibemph{#1}}
+
+% fix title capitalization to sentence case (all lowercase)
+\DeclareFieldFormat{titlecase}{\MakeSentenceCase*{#1}}
+
+% ... but don't change journal titles
+\renewbibmacro*{journal}{%
+  \iffieldundef{journaltitle}{}{%
+    \printtext[journaltitle]{%
+      \printfield[noformat]{journaltitle}%
+      \setunit{\subtitlepunct}%
+      \printfield[noformat]{journalsubtitle}%
+    }%
+  }%
+}
+
+% suppress "In:" before journal names
+\renewbibmacro*{in:}{}
+
+% separate authors with semicolon, suppress "and" in author names
+\renewcommand{\multinamedelim}{\addsemicolon\space}
+\renewcommand*{\finalnamedelim}{\addsemicolon\space}
+
+% make names bold
+\renewcommand*{\mkbibnamefamily}[1]{\textbf{#1}}
+
+\DeclareNameAlias{sortname}{last-first}
+\DeclareNameAlias{default}{last-first}
+
+% define custom heading to fix non-uppercase page header, make URLs smaller
+\defbibheading{myheading}[\bibname]{%
+  \addchap{#1}%
+  \markboth{BIBLIOGRAPHY}{BIBLIOGRAPHY}%
+  \let\oldtexttt\texttt%
+  \renewcommand*{\texttt}[1]{\oldtexttt{\scriptsize##1}}%
+}
+
+% add custom bibliography post note (URLs last checked on ...)
+\defbibnote{mypostnote}{%
+  All URLs have last been checked on \thedate.%
+  \renewcommand*{\texttt}[1]{\oldtexttt{##1}}%
+}
+
+% omit "URL:" and "DOI:" separators to save space
+\DeclareFieldFormat{url}{\url{#1}}
+\DeclareFieldFormat{doi}{%
+  \ifhyperref{\href{https://doi.org/#1}{\nolinkurl{#1}}}{\nolinkurl{#1}}%
+}
+
+% change font size of bibliography
+\renewcommand*{\bibfont}{\small}
+
+% set single line spacing for bibliography
+\renewcommand*{\bibsetup}{\setstretch{1}}
+
+% break URLs after every character (most importantly for bibliography)
+\luaexec{require("breakurl")}
+\let\oldhref\href
+\renewcommand*{\url}[1]{\luadirect{breakurl(\luastringN{#1}, \luastringN{#1})}}
+\renewcommand*{\href}[2]{\luadirect{breakurl(\luastringN{#1}, \luastringN{#2})}}
+
+% ======================================================================
+% Glossary
+% ======================================================================
+
+% define new glossary style based on long (uses longtable)
+% in which the column widths are fixed and space before/after the
+% table is removed
+\newglossarystyle{longfixed}{%
+  \setglossarystyle{long}%
+  \renewenvironment{theglossary}%
+    {%
+      \setlength{\LTpre}{0pt}%
+      \setlength{\LTpost}{0pt}%
+      \begin{spacing}{1}%
+        \begin{longtable}{@{}p{0.2\textwidth}@{}p{0.8\textwidth}@{}}%
+    }%
+    {%
+        \end{longtable}%
+      \end{spacing}%
+    }%
+}
+
+% use new glossary style
+\setglossarystyle{longfixed}
+
+% generate table of symbols and acronyms
+\makeglossaries

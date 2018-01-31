@@ -1,0 +1,8 @@
+Import("env")
+env = env.Clone()
+
+# install *.lua files in build directory
+lua = env.Glob("*.lua")
+lua_installed = env.Install(env["BUILD_DIR"], lua)
+
+Return("lua_installed")

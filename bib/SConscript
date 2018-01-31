@@ -1,0 +1,8 @@
+Import("env")
+env = env.Clone()
+
+# install *.bib files in build directory
+bib = env.Glob("*.bib")
+bib_installed = env.Install(env["BUILD_DIR"], bib)
+
+Return("bib_installed")

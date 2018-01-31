@@ -1,0 +1,188 @@
+\setdictum{%
+  Ah, Jesus Christ! Jesus Christ, Doc, you disintegrated Einstein!%
+}{%
+  Marty McFly%
+}
+
+\chapter{Introduction}
+
+\todo{write}
+
+Citations:
+\cite{boor72}
+
+Hello World! \texttt{Hello World!}
+
+Now I'm citing all references for demonstration purposes.
+\nocite{*}
+\todo{don't cite everything}
+
+Here are some umlauts: äöüß
+
+I'm testing the glossary:
+\sgpp is very cool.
+
+\section{Bla}
+
+This is\todo{write} defined\todo{write} as $a := 2b$.
+This is the function $f$ (which is defined as $y =: f(x)$).
+
+\begin{gather}
+  X \times Y\\
+  A \cdot \vec{x} = \vec{b}\\
+  \min_{\vec{x} \in [0, 1]} \int_\Omega f(\vec{x}, \vec{y}) d\vec{y}\\
+  4(a+b)f(x)g(x)h(x)p(x)(c+d)fghf^\prime g^\prime h^\prime\\
+  f(x)\cos(x)g(x)\\
+  \mathrm{f}(x)\cos(x)\mathrm{g}(x)
+\end{gather}
+
+\begin{table}
+  \begin{tabular}{llll}
+    \toprule
+    \textbf{Header 1}&\textbf{Header 2}&\textbf{Header 3}&\textbf{Header 4}\\
+    \midrule
+    bla&bla&bla&bla\\
+    bla&bla&bla&bla\\
+    bla&bla&bla&bla\\
+    \bottomrule
+  \end{tabular}
+  \caption{This is a test table.}
+  \label{tbl:test}
+\end{table}
+
+\begin{figure}
+  \begin{subfigure}{65mm}
+    \includegraphics{bspl_hier_1}
+    \caption{Dummy caption A.}
+    \label{fig:test1a}
+  \end{subfigure}
+  \hspace{3mm}
+  \begin{subfigure}{65mm}
+    \includegraphics{bspl_hier_1}
+    \caption{Dummy caption B.}
+    \label{fig:test1b}
+  \end{subfigure}
+  \caption{This is a test caption.}
+  \label{fig:test1}
+\end{figure}
+
+\begin{figure}
+  \includegraphics{bspl_hier_2}
+  \caption{%
+    This is a test caption.
+    This is a test caption.
+    This is a test caption.
+    This is a test caption.
+    This is a test caption.
+    This is a test caption.
+    This is a test caption.
+    This is a test caption.
+    This is a test caption.%
+  }
+  \label{fig:test2}
+\end{figure}
+
+\begin{algorithm}
+  \begin{algorithmic}[1]
+    \Statex{}
+    \Function{$a =$ GetAffectedBasisFunctions}{$X$, $\vec{\alpha}$, $\vec{x}$, $t$, $\vec{\ell}$, $\vec{j}$, $b$}
+    \If{$x_{\vec{\ell},\vec{j}} \notin X$}
+    \Return{$0$}
+    \Comment{nichts tun, falls Gitterpunkt nicht vorhanden}
+    \EndIf\vspace{-0.25em}
+    \If{$t = d$}
+    \State{$a \gets \alpha_{\vec{\ell},\vec{j}} \cdot (b \cdot \varphi_{\ell_d,j_d}(x_d))$}
+    \Comment{letzte Dimension: Summanden zu Ergebnis addieren}
+    \color{green}
+    \If{$\vec{x}_{\vec{\ell},\vec{j}}^{\text{(rn($d$))}} \in X$}
+    $a \gets a + \alpha_{\vec{\ell},\vec{j}}^{\text{(rn($d$))}} \cdot
+    (b \cdot \varphi_{\ell_d,j_d}^{\text{(rn($d$))}}(x_d))$
+    \EndIf
+    \label{line:getaffected1}
+    \If{$\vec{x}_{\vec{\ell},\vec{j}}^{\text{(ln($d$))}} \in X$}
+    $a \gets a + \alpha_{\vec{\ell},\vec{j}}^{\text{(ln($d$))}} \cdot
+    (b \cdot \varphi_{\ell_d,j_d}^{\text{(ln($d$))}}(x_d))$
+    \EndIf\vspace{-0.4em}
+    \label{line:getaffected2}
+    \color{black}
+    %         \If{$\text{\Call{RightNeighbor}{$\vec{\ell}$, $\vec{j}$}} \in X$}
+    %             $a \gets a + \alpha_{\vec{\ell},\vec{j}} \cdot (b \cdot \varphi_{\ell_d,j_d}(x_d))$
+    %         \EndIf
+    \Else
+    \State{$a \gets \text{\Call{GABF}{$X$, $\vec{\alpha}$, $\vec{x}$, $t+1$,
+          $\vec{\ell}$, $\vec{j}$, $b \cdot \varphi_{\ell_t,j_t}(x_t)$}}$}
+    \Comment{nächste Dimension}
+    \label{line:getaffected5}
+    \color{green}
+    \If{$\vec{x}_{\vec{\ell},\vec{j}}^{\text{(rn($t$))}} \in X$}
+    $a \gets a + \text{\Call{GABF}{$X$, $\vec{\alpha}$, $\vec{x}$, $t+1$,
+        $\vec{\ell}$, $\vec{j}^{\text{(rn($t$))}}$,
+        $b \cdot \varphi_{\ell_t,j_t}^{\text{(rn($t$))}}(x_t)$}}$
+    \EndIf
+    \label{line:getaffected3}
+    \If{$\vec{x}_{\vec{\ell},\vec{j}}^{\text{(ln($t$))}} \in X$}
+    $a \gets a + \text{\Call{GABF}{$X$, $\vec{\alpha}$, $\vec{x}$, $t+1$,
+        $\vec{\ell}$, $\vec{j}^{\text{(ln($t$))}}$,
+        $b \cdot \varphi_{\ell_t,j_t}^{\text{(ln($t$))}}(x_t)$}}$
+    \EndIf
+    \label{line:getaffected4}
+    \color{black}
+    \EndIf\vspace{-0.25em}
+    \If{$x_t > j_t h_{\ell_t}$}
+    $a \gets a + \text{\Call{GABF}{$X$, $\vec{\alpha}$, $\vec{x}$, $t$,
+        $\vec{\ell}^{\text{(rc($t$))}}$, $\vec{j}^{\text{(rc($t$))}}$, $b$}}$
+    \Comment{nächster Level}
+    \label{line:getaffected6}
+    \Else{}
+    $a \gets a + \text{\Call{GABF}{$X$, $\vec{\alpha}$, $\vec{x}$, $t$,
+        $\vec{\ell}^{\text{(lc($t$))}}$, $\vec{j}^{\text{(lc($t$))}}$, $b$}}$
+    \EndIf\vspace{-0.15em}
+    \label{line:getaffected7}
+    \State{\Return{$a$}}
+    \EndFunction
+  \end{algorithmic}
+  \caption{Approximative Auswertung von Linearkombinationen auf dünnen Gittern,
+    Zeilen \ref*{line:getaffected1}, \ref*{line:getaffected2},
+    \ref*{line:getaffected3}, \ref*{line:getaffected4} nicht für
+    stückweise lineare Basisfunktionen,\\
+    \emph{input:}
+    Gitter $X = \{\vec{x}_i\}_i$,
+    Koeffizienten $\vec{\alpha} = (\alpha_i)_i$,
+    Auswertungspunkt $\vec{x} \in [0, 1]^d$,
+    aktuelle Dimension $t \in \{1, \dotsc, d\}$ (anfangs $1$),
+    Level und Index $(\vec{\ell}, \vec{j})$ des aktuellen Punkts
+    (für randlose Gitter anfangs $(\vec{e}, \vec{e})$) und
+    aktuelles Produkt $b$ von 1D-Auswertungen (anfangs 1),\\
+    \emph{output:}
+    $a \approx \widetilde{f}(\vec{x}) = \sum_{k=1}^N \alpha_k \varphi_k(\vec{x})$
+    (für stückweise lineare Funktionen sogar $a = \widetilde{f}(\vec{x})$)}%
+  \label{alg:getaffected}
+\end{algorithm}
+
+\cref{tbl:test}
+
+\cref{fig:test1}
+
+\cref{fig:test1a}
+
+\cref{fig:test1b}
+
+\cref{fig:test2}
+
+\cref{alg:getaffected}
+
+\begin{theorem}[TODO Theorem]
+  \blindtext
+\end{theorem}
+
+\begin{lemma}[TODO Lemma]
+  TODO
+\end{lemma}
+
+\blindtext
+
+\begin{definition}[TODO Definition]%
+  \blindtext
+\end{definition}
+
+\blindmathpaper

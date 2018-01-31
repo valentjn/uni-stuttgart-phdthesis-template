@@ -1,0 +1,59 @@
+% set title page one-sided
+\KOMAoptions{twoside=false}
+
+\begin{titlepage}
+  \begin{spacing}{1}
+    \begin{center}
+      \begin{otherlanguage}{ngerman}
+        % no indentation of paragraphs
+        \setlength{\parindent}{0pt}
+        
+        \includegraphics[width=60mm]{logo_us}
+        
+        \vfill
+        
+        {\bfseries\huge\thetitle\par}
+        
+        \vfill
+        
+        Vom Stuttgarter Zentrum für Simulationswissenschaften der\\
+        Universität~Stuttgart zur Erlangung der Würde eines Doktors der\\
+        Naturwissenschaften (Dr.~rer.~nat.) genehmigte Abhandlung
+        
+        \vfill
+        
+        Vorgelegt von
+        
+        {\bfseries\Large\theauthor\par}
+        
+        aus \thebirthplace
+        
+        \vfill
+        
+        \begin{tabular}{ll}
+          Hauptberichter:&
+          \theadvisor\\[0.5em]
+          Mitberichter:&
+          \theexamineri\\
+          &\theexaminerii\\
+          &\theexamineriii\\[1em]
+          \multicolumn{2}{l}{%
+            Tag der mündlichen Prüfung:\quad%
+            \thedefensedate%
+          }
+        \end{tabular}
+        
+        \vfill
+        
+        \theinstitute
+        
+        \vspace{1em}
+        
+        \theyear
+      \end{otherlanguage}
+    \end{center}
+  \end{spacing}
+\end{titlepage}
+
+% set other pages two-sided
+\KOMAoptions{twoside}

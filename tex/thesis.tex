@@ -1,0 +1,70 @@
+% create and set switches
+\input{switches}
+
+% warns about outdated packages and missing caption declarations
+\RequirePackage[l2tabu,orthodox]{nag}
+
+% set main document class and options
+\documentclass[
+  % choose font size (PO: should be between 12pt and 14pt)
+  fontsize=12pt,
+  % calculate appropriate page margins
+  DIV=11,
+  % binding correction subtracted per page
+  BCOR=10mm,
+  % define page header as part of text area to move the text area down
+  % (as we have empty page footers)
+  headinclude=true,
+]{scrbook}
+
+% include packages
+\input{packages}
+
+% set packages options
+\input{settings}
+
+% define commands
+\input{commands}
+
+% define symbols and acronyms
+\input{glossary}
+
+\begin{document}
+  % title page
+  \input{titlepage}
+  
+  % second title page
+  \input{titlepage2}
+  
+  % table of contents
+  \cleardoublepage
+  \tableofcontents
+  
+  % table of symbols and acronyms
+  \printglossary[title={Symbols and Acronyms}]
+  
+  % abstract
+  \input{abstract}
+  
+  % preface
+  \input{preface}
+  
+  % chapters
+  \include{1_introduction}
+  \include{2_flux_capacitors}
+  \include{3_conclusion}
+  
+  % start appendix
+  \appendix
+  
+  % bibliography
+  \printbibliography[%
+    % change title
+    title=Bibliography,
+    % use custom heading
+    heading=myheading,
+    % print custom note
+    postnote=mypostnote,
+  ]
+  \cleardoublepage
+\end{document}

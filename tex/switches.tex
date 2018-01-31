@@ -1,0 +1,23 @@
+% needed for custom switches
+\RequirePackage{etoolbox}
+
+% draftmode switch:
+% show draft watermark, disabling overrides checkmode and debugmode (see below)
+\newtoggle{draftmode}
+\toggletrue{draftmode}
+
+% checkmode switch:
+% show all overfull/underfull boxes, show unknown hyphenations
+\newtoggle{checkmode}
+\toggletrue{checkmode}
+
+% debugmode switch:
+% show all boxes, glues, and kerning info
+\newtoggle{debugmode}
+\togglefalse{debugmode}
+
+% disable checkmode and debugmode if draftmode is disabled
+\iftoggle{draftmode}{}{
+  \togglefalse{checkmode}
+  \togglefalse{debugmode}
+}
