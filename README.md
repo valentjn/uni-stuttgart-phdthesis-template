@@ -35,7 +35,8 @@ You can download a compiled sample PDF located in `pdf/thesis.pdf`.
 * Output to-do notes as warnings to the log file to stay on track
 * Consistent figure, sub-figure, algorithm, and theorem style
 * Bibliography and glossary
-* Automatic generation of graphics with SCons and Matplotlib
+* Automatic generation of graphics with SCons and Matplotlib, figures
+  are only recompiled if the PGF code changed
 
 ## Requirements
 
