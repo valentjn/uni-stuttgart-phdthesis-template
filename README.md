@@ -20,6 +20,13 @@ back your work using pull requests.
 
 ## Features
 
+![Sample title page](readme_image_title.png)
+![Sample second title page](readme_image_title2.png)
+![Sample text page](readme_image_text.png)
+![Sample page with chapter heading](readme_image_heading.png)
+
+You can download a compiled sample PDF located in `pdf/thesis.pdf`.
+
 * Improved typographic style with KOMA-Script and microtype
 * Draft mode: Line numbers, Git commit and compile date as watermark,
   highlighting of overfull hboxes, underfull vboxes, and hyphenation
