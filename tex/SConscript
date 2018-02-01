@@ -55,6 +55,17 @@ pdf = env.PDF(target="{}/thesis.pdf".format(env["BUILD_DIR"]), source="thesis.te
 lua = env.SConscript("../lua/SConscript", exports="env")
 env.Depends(pdf, lua)
 
+# force glossary generation for each run
+# (the glossary does not seem to update if the description of a
+# glossary entry changes; you would have to change the name of the entry
+# to force re-generation...)
+def delete_glossary_files(target, source, env):
+  for extension in ["gls", "glsdefs", "glo"]:
+    path = os.path.join(env["BUILD_DIR"].abspath, "thesis.{}".format(extension))
+    env.Execute(Delete(path))
+
+env.AddPreAction(pdf, delete_glossary_files)
+
 # copy hyphenation whitelist (needed in check mode)
 hyphenation_whitelist = env.Install(env["BUILD_DIR"], "hyphenation_whitelist.txt")
 env.Depends(pdf, hyphenation_whitelist)
