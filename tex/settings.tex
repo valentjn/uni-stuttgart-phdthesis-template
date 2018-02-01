@@ -512,13 +512,18 @@
 % in which the column widths are fixed and space before/after the
 % table is removed
 \newglossarystyle{longfixed}{%
-  \setglossarystyle{long}%
+  \setglossarystyle{long3col}%
   \renewenvironment{theglossary}%
     {%
       \setlength{\LTpre}{0pt}%
       \setlength{\LTpost}{0pt}%
       \begin{spacing}{1}%
-        \begin{longtable}{@{}p{0.2\textwidth}@{}p{0.8\textwidth}@{}}%
+        \begin{longtable}{%
+            @{}p{0.2\textwidth}@{}%
+            p{0.7\textwidth}@{}%
+            >{\raggedleft}p{0.1\textwidth}@{}%
+        }%
+          \textbf{Symbol}&\textbf{Meaning}&\textbf{Page}\vspace{2mm}\endhead%
     }%
     {%
         \end{longtable}%
@@ -528,6 +533,27 @@
 
 % use new glossary style
 \setglossarystyle{longfixed}
+
+% disable output of \gls, insert text manually
+% (the glossaries package has no command to just reference an entry
+% without inserting something...)
+\renewcommand*{\glstextformat}[1]{}
+
+% shortcut for \newglossaryentry + \gls
+\makeatletter
+\newcommand*{\newgsymbol}[3]{%
+  \newglossaryentry{#1}{sort=#1,name={#2},description={#3}}%
+  % only reference the entry if not in preamble
+  \ifx\@onlypreamble\@notprerr\gls{#1}\else\fi%
+}
+\makeatother
+
+% shortcut for \newacronym, automatically generating
+% a corresponding command that references the entry
+\newcommand*{\newgacronym}[3]{%
+  \newacronym[sort=#1]{#1}{#2}{#3}%
+  \newnamecommand{#1}{\gls{#1}#2\xspace}%
+}
 
 % generate table of symbols and acronyms
 \makeglossaries

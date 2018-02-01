@@ -1,23 +1,10 @@
-% shortcut for \newglossaryentry
-\newcommand*{\newgsymbol}[3]{%
-  \newglossaryentry{#1}{sort=#1,name={#2},description={#3}}%
-}
-
-% shortcut for \newacronym, automatically generating
-% a corresponding command
-\newcommand*{\newgacronym}[3]{%
-  \newacronym[sort=#1]{#1}{#2}{#3}%
-  \newnamecommand{#1}{\gls{#1}\xspace}%
-}
-
-% symbols
+% symbols that shouldn't get a page number
 \newgsymbol{N}{$\NN$}{$1, 2, 3, \dotsc$}
 \newgsymbol{N0}{$\NN_0$}{$\NN \cup \{0\}$}
 
-% acronyms
+% acronyms that shouldn't get a page number
 \newgacronym{sgpp}{SG\textsuperscript{++}}{Sparse grid toolbox for C++}
 \newgacronym{wtf}{WTF}{Acronym that you can't spell out on TV}
 
-% don't replace these acronyms with description on first use
-\glsunset{sgpp}
-\glsunset{wtf}
+% ... other symbols and acronyms are defined in the text when first using them
+% (the page number will then be printed to the glossary)
