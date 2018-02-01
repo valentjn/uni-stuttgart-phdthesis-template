@@ -23,13 +23,13 @@
 \usepackage{luacode}
 
 % check mode
-\iftoggle{checkmode}{
+\iftoggle{checkMode}{
   % show non-whitelisted hyphenations
   \usepackage[mark]{lua-check-hyphen}
 }{}
 
 % debug mode
-\iftoggle{debugmode}{
+\iftoggle{debugMode}{
   % show boxes, glues, and kerning
   \usepackage{lua-visual-debug}
 }{}
@@ -87,7 +87,7 @@
 \usepackage{booktabs}
 
 % draft watermarks (version info and line numbers)
-\iftoggle{draftmode}{
+\iftoggle{draftMode}{
   \usepackage{everypage}
 }{}
 

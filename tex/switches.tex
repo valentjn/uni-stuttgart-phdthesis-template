@@ -5,20 +5,20 @@
 % Toggle settings
 % ======================================================================
 
-% draftmode switch:
-% show draft watermark, disabling overrides checkmode and debugmode (see below)
-\newtoggle{draftmode}
-\toggletrue{draftmode}
+% draftMode switch:
+% show draft watermark, disabling overrides checkMode and debugMode (see below)
+\newtoggle{draftMode}
+\toggletrue{draftMode}
 
-% checkmode switch:
+% checkMode switch:
 % show all overfull/underfull boxes, show unknown hyphenations
-\newtoggle{checkmode}
-\toggletrue{checkmode}
+\newtoggle{checkMode}
+\toggletrue{checkMode}
 
-% debugmode switch:
+% debugMode switch:
 % show all boxes, glues, and kerning info
-\newtoggle{debugmode}
-\togglefalse{debugmode}
+\newtoggle{debugMode}
+\togglefalse{debugMode}
 
 % partialCompile switches:
 % only compile a single chapter to save compilation time
@@ -35,10 +35,10 @@
 % Toggle logic
 % ======================================================================
 
-% disable checkmode and debugmode if draftmode is disabled
-\iftoggle{draftmode}{}{
-  \togglefalse{checkmode}
-  \togglefalse{debugmode}
+% disable checkMode and debugMode if draftMode is disabled
+\iftoggle{draftMode}{}{
+  \togglefalse{checkMode}
+  \togglefalse{debugMode}
 }
 
 % disable compileChapterX if partialCompileMode is disabled

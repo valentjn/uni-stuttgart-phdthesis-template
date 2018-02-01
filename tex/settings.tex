@@ -339,7 +339,7 @@
 % ======================================================================
 
 % check mode
-\iftoggle{checkmode}{
+\iftoggle{checkMode}{
   % show overfull boxes
   \overfullrule=1mm
   % show underfull vboxes
@@ -355,7 +355,7 @@
 % ======================================================================
 
 % set up watermarks
-\iftoggle{draftmode}{
+\iftoggle{draftMode}{
   \AddEverypageHook{
     \begin{tikzpicture}[remember picture,overlay,scale=1]
       \node[
