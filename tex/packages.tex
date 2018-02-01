@@ -107,16 +107,18 @@
 \usepackage{nameref}
 
 % table of symbols and acronyms
-\usepackage[
-  % show glossary in table of contents
-  toc,
-  % don't group entries with same first letter
-  nogroupskip,
-  % don't append full stop to entries
-  nopostdot,
-  % only print the page number of the first occurrence
-  indexonlyfirst,
-]{glossaries}
+\iftoggle{partialCompileMode}{}{
+  \usepackage[
+    % show glossary in table of contents
+    toc,
+    % don't group entries with same first letter
+    nogroupskip,
+    % don't append full stop to entries
+    nopostdot,
+    % only print the page number of the first occurrence
+    indexonlyfirst,
+  ]{glossaries}
+}
 
 % line spacing (one and a half lines)
 \usepackage[onehalfspacing]{setspace}
@@ -125,18 +127,20 @@
 \usepackage{hyperref}
 
 % BibLaTeX
-\usepackage[
-  % abbreviate author names
-  giveninits=true,
-  % don't show ISBNs/ISSNs
-  isbn=false,
-  % only show years in dates
-  date=year,
-  % use alphabetic style instead of numeric
-  style=alphabetic,
-  % only use first author's name for the style
-  maxalphanames=1,
-]{biblatex}
+\iftoggle{partialCompileMode}{}{
+  \usepackage[
+    % abbreviate author names
+    giveninits=true,
+    % don't show ISBNs/ISSNs
+    isbn=false,
+    % only show years in dates
+    date=year,
+    % use alphabetic style instead of numeric
+    style=alphabetic,
+    % only use first author's name for the style
+    maxalphanames=1,
+  ]{biblatex}
+}
 
 % named references
 \usepackage[capitalise]{cleveref}

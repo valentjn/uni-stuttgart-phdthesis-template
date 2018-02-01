@@ -30,46 +30,50 @@
 \input{glossary}
 
 \begin{document}
-  % title page
-  \input{titlepage}
-  
-  % second title page
-  \input{titlepage2}
-  
-  % table of contents
-  \cleardoublepage
-  \tableofcontents
-  
-  % table of symbols and acronyms
-  \printglossary[title={Symbols and Acronyms}]
-  
-  % abstract
-  \input{abstract}
-  
-  % preface
-  \input{preface}
+  \iftoggle{partialCompileMode}{}{
+    % title page
+    \input{titlepage}
+    
+    % second title page
+    \input{titlepage2}
+    
+    % table of contents
+    \cleardoublepage
+    \tableofcontents
+    
+    % table of symbols and acronyms
+    \printglossary[title={Symbols and Acronyms}]
+    
+    % abstract
+    \input{abstract}
+    
+    % preface
+    \input{preface}
+  }
   
   % chapters
-  \include{1_introduction}
-  \include{2_flux_capacitor}
-  \include{3_conclusion}
+  \iftoggle{compileChapter1}{\include{1_introduction}}{}
+  \iftoggle{compileChapter2}{\include{2_flux_capacitor}}{}
+  \iftoggle{compileChapter3}{\include{3_conclusion}}{}
   
-  % start appendix
-  \appendix
-  
-  % bibliography
-  \printbibliography[%
-    % change title
-    title=Bibliography,
-    % use custom heading
-    heading=myheading,
-    % print custom note
-    postnote=mypostnote,
-  ]
-  \cleardoublepage
-  
-  % add all symbols and acronyms that have not been used
-  % in the text to the glossary
-  % (this command has to come after all glossary definitions)
-  \glsaddallunused
+  \iftoggle{partialCompileMode}{}{
+    % start appendix
+    \appendix
+    
+    % bibliography
+    \printbibliography[%
+      % change title
+      title=Bibliography,
+      % use custom heading
+      heading=myheading,
+      % print custom note
+      postnote=mypostnote,
+    ]
+    \cleardoublepage
+    
+    % add all symbols and acronyms that have not been used
+    % in the text to the glossary
+    % (this command has to come after all glossary definitions)
+    \glsaddallunused
+  }
 \end{document}

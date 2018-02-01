@@ -421,139 +421,148 @@
 % Bibliography
 % ======================================================================
 
-% location of *.bib file
-\addbibresource{../bib/bibliography.bib}
-
-% don't append "+" sign to BibLaTeX citations in alphabetic style
-\renewcommand*{\labelalphaothers}{}
-
-% insert colon after author names in bibliography
-\renewcommand*{\labelnamepunct}{: }
-
-% hide urldate field
-\AtEveryBibitem{\clearfield{urlyear}}
-
-% make paper titles italic, remove quotation marks
-\DeclareFieldFormat[article]{title}{\mkbibemph{#1}}
-\DeclareFieldFormat[article]{journaltitle}{#1}
-\DeclareFieldFormat[thesis]{title}{\mkbibemph{#1}}
-\DeclareFieldFormat[inbook]{title}{\mkbibemph{#1}}
-\DeclareFieldFormat[inbook]{booktitle}{#1}
-\DeclareFieldFormat[incollection]{title}{\mkbibemph{#1}}
-\DeclareFieldFormat[incollection]{booktitle}{#1}
-\DeclareFieldFormat[inproceedings]{title}{\mkbibemph{#1}}
-\DeclareFieldFormat[inproceedings]{booktitle}{#1}
-\DeclareFieldFormat[unpublished]{title}{\mkbibemph{#1}}
-
-% fix title capitalization to sentence case (all lowercase)
-\DeclareFieldFormat{titlecase}{\MakeSentenceCase*{#1}}
-
-% ... but don't change journal titles
-\renewbibmacro*{journal}{%
-  \iffieldundef{journaltitle}{}{%
-    \printtext[journaltitle]{%
-      \printfield[noformat]{journaltitle}%
-      \setunit{\subtitlepunct}%
-      \printfield[noformat]{journalsubtitle}%
-    }%
-  }%
-}
-
-% suppress "In:" before journal names
-\renewbibmacro*{in:}{}
-
-% separate authors with semicolon, suppress "and" in author names
-\renewcommand{\multinamedelim}{\addsemicolon\space}
-\renewcommand*{\finalnamedelim}{\addsemicolon\space}
-
-% make names bold
-\renewcommand*{\mkbibnamefamily}[1]{\textbf{#1}}
-
-\DeclareNameAlias{sortname}{last-first}
-\DeclareNameAlias{default}{last-first}
-
-% define custom heading to fix non-uppercase page header, make URLs smaller
-\defbibheading{myheading}[\bibname]{%
-  \addchap{#1}%
-  \markboth{BIBLIOGRAPHY}{BIBLIOGRAPHY}%
-  \let\oldtexttt\texttt%
-  \renewcommand*{\texttt}[1]{\oldtexttt{\scriptsize##1}}%
-}
-
-% add custom bibliography post note (URLs last checked on ...)
-\defbibnote{mypostnote}{%
-  All URLs have last been checked on \thedate.%
-  \renewcommand*{\texttt}[1]{\oldtexttt{##1}}%
-}
-
-% omit "URL:" and "DOI:" separators to save space
-\DeclareFieldFormat{url}{\url{#1}}
-\DeclareFieldFormat{doi}{%
-  \ifhyperref{\href{https://doi.org/#1}{\nolinkurl{#1}}}{\nolinkurl{#1}}%
-}
-
-% change font size of bibliography
-\renewcommand*{\bibfont}{\small}
-
-% set single line spacing for bibliography
-\renewcommand*{\bibsetup}{\setstretch{1}}
-
 % break URLs after every character (most importantly for bibliography)
 \luaexec{require("breakurl")}
 \let\oldhref\href
 \renewcommand*{\url}[1]{\luadirect{breakurl(\luastringN{#1}, \luastringN{#1})}}
 \renewcommand*{\href}[2]{\luadirect{breakurl(\luastringN{#1}, \luastringN{#2})}}
 
+\iftoggle{partialCompileMode}{
+  \renewcommand*{\cite}[1]{#1}
+}{
+  % location of *.bib file
+  \addbibresource{../bib/bibliography.bib}
+  
+  % don't append "+" sign to BibLaTeX citations in alphabetic style
+  \renewcommand*{\labelalphaothers}{}
+  
+  % insert colon after author names in bibliography
+  \renewcommand*{\labelnamepunct}{: }
+  
+  % hide urldate field
+  \AtEveryBibitem{\clearfield{urlyear}}
+  
+  % make paper titles italic, remove quotation marks
+  \DeclareFieldFormat[article]{title}{\mkbibemph{#1}}
+  \DeclareFieldFormat[article]{journaltitle}{#1}
+  \DeclareFieldFormat[thesis]{title}{\mkbibemph{#1}}
+  \DeclareFieldFormat[inbook]{title}{\mkbibemph{#1}}
+  \DeclareFieldFormat[inbook]{booktitle}{#1}
+  \DeclareFieldFormat[incollection]{title}{\mkbibemph{#1}}
+  \DeclareFieldFormat[incollection]{booktitle}{#1}
+  \DeclareFieldFormat[inproceedings]{title}{\mkbibemph{#1}}
+  \DeclareFieldFormat[inproceedings]{booktitle}{#1}
+  \DeclareFieldFormat[unpublished]{title}{\mkbibemph{#1}}
+  
+  % fix title capitalization to sentence case (all lowercase)
+  \DeclareFieldFormat{titlecase}{\MakeSentenceCase*{#1}}
+  
+  % ... but don't change journal titles
+  \renewbibmacro*{journal}{%
+    \iffieldundef{journaltitle}{}{%
+      \printtext[journaltitle]{%
+        \printfield[noformat]{journaltitle}%
+        \setunit{\subtitlepunct}%
+        \printfield[noformat]{journalsubtitle}%
+      }%
+    }%
+  }
+  
+  % suppress "In:" before journal names
+  \renewbibmacro*{in:}{}
+  
+  % separate authors with semicolon, suppress "and" in author names
+  \renewcommand{\multinamedelim}{\addsemicolon\space}
+  \renewcommand*{\finalnamedelim}{\addsemicolon\space}
+  
+  % make names bold
+  \renewcommand*{\mkbibnamefamily}[1]{\textbf{#1}}
+  
+  \DeclareNameAlias{sortname}{last-first}
+  \DeclareNameAlias{default}{last-first}
+  
+  % define custom heading to fix non-uppercase page header, make URLs smaller
+  \defbibheading{myheading}[\bibname]{%
+    \addchap{#1}%
+    \markboth{BIBLIOGRAPHY}{BIBLIOGRAPHY}%
+    \let\oldtexttt\texttt%
+    \renewcommand*{\texttt}[1]{\oldtexttt{\scriptsize##1}}%
+  }
+  
+  % add custom bibliography post note (URLs last checked on ...)
+  \defbibnote{mypostnote}{%
+    All URLs have last been checked on \thedate.%
+    \renewcommand*{\texttt}[1]{\oldtexttt{##1}}%
+  }
+  
+  % omit "URL:" and "DOI:" separators to save space
+  \DeclareFieldFormat{url}{\url{#1}}
+  \DeclareFieldFormat{doi}{%
+    \ifhyperref{\href{https://doi.org/#1}{\nolinkurl{#1}}}{\nolinkurl{#1}}%
+  }
+  
+  % change font size of bibliography
+  \renewcommand*{\bibfont}{\small}
+  
+  % set single line spacing for bibliography
+  \renewcommand*{\bibsetup}{\setstretch{1}}
+}
+
 % ======================================================================
 % Glossary
 % ======================================================================
 
-% define new glossary style based on long (uses longtable)
-% in which the column widths are fixed and space before/after the
-% table is removed
-\newglossarystyle{longfixed}{%
-  \setglossarystyle{long3col}%
-  \renewenvironment{theglossary}%
-    {%
-      \setlength{\LTpre}{0pt}%
-      \setlength{\LTpost}{0pt}%
-      \begin{spacing}{1}%
-        \begin{longtable}{%
-            @{}p{0.2\textwidth}@{}%
-            p{0.7\textwidth}@{}%
-            >{\raggedleft}p{0.1\textwidth}@{}%
-        }%
-          \textbf{Symbol}&\textbf{Meaning}&\textbf{Page}\vspace{2mm}\endhead%
-    }%
-    {%
-        \end{longtable}%
-      \end{spacing}%
-    }%
+\iftoggle{partialCompileMode}{
+  \newcommand*{\newgsymbol}[3]{}
+  \newcommand*{\newgacronym}[3]{}
+}{
+  % define new glossary style based on long (uses longtable)
+  % in which the column widths are fixed and space before/after the
+  % table is removed
+  \newglossarystyle{longfixed}{%
+    \setglossarystyle{long3col}%
+    \renewenvironment{theglossary}%
+      {%
+        \setlength{\LTpre}{0pt}%
+        \setlength{\LTpost}{0pt}%
+        \begin{spacing}{1}%
+          \begin{longtable}{%
+              @{}p{0.2\textwidth}@{}%
+              p{0.7\textwidth}@{}%
+              >{\raggedleft}p{0.1\textwidth}@{}%
+          }%
+            \textbf{Symbol}&\textbf{Meaning}&\textbf{Page}\vspace{2mm}\endhead%
+      }%
+      {%
+          \end{longtable}%
+        \end{spacing}%
+      }%
+  }
+  
+  % use new glossary style
+  \setglossarystyle{longfixed}
+  
+  % disable output of \gls, insert text manually
+  % (the glossaries package has no command to just reference an entry
+  % without inserting something...)
+  \renewcommand*{\glstextformat}[1]{}
+  
+  % shortcut for \newglossaryentry + \gls
+  \makeatletter
+  \newcommand*{\newgsymbol}[3]{%
+    \newglossaryentry{#1}{sort=#1,name={#2},description={#3}}%
+    % only reference the entry if not in preamble
+    \ifx\@onlypreamble\@notprerr\gls{#1}\else\fi%
+  }
+  \makeatother
+  
+  % shortcut for \newacronym, automatically generating
+  % a corresponding command that references the entry
+  \newcommand*{\newgacronym}[3]{%
+    \newacronym[sort=#1]{#1}{#2}{#3}%
+    \newnamecommand{#1}{\gls{#1}#2\xspace}%
+  }
+  
+  % generate table of symbols and acronyms
+  \makeglossaries
 }
-
-% use new glossary style
-\setglossarystyle{longfixed}
-
-% disable output of \gls, insert text manually
-% (the glossaries package has no command to just reference an entry
-% without inserting something...)
-\renewcommand*{\glstextformat}[1]{}
-
-% shortcut for \newglossaryentry + \gls
-\makeatletter
-\newcommand*{\newgsymbol}[3]{%
-  \newglossaryentry{#1}{sort=#1,name={#2},description={#3}}%
-  % only reference the entry if not in preamble
-  \ifx\@onlypreamble\@notprerr\gls{#1}\else\fi%
-}
-\makeatother
-
-% shortcut for \newacronym, automatically generating
-% a corresponding command that references the entry
-\newcommand*{\newgacronym}[3]{%
-  \newacronym[sort=#1]{#1}{#2}{#3}%
-  \newnamecommand{#1}{\gls{#1}#2\xspace}%
-}
-
-% generate table of symbols and acronyms
-\makeglossaries

@@ -1,6 +1,10 @@
 % needed for custom switches
 \RequirePackage{etoolbox}
 
+% ======================================================================
+% Toggle settings
+% ======================================================================
+
 % draftmode switch:
 % show draft watermark, disabling overrides checkmode and debugmode (see below)
 \newtoggle{draftmode}
@@ -16,8 +20,30 @@
 \newtoggle{debugmode}
 \togglefalse{debugmode}
 
+% partialCompile switches:
+% only compile a single chapter to save compilation time
+\newtoggle{partialCompileMode}
+\togglefalse{partialCompileMode}
+
+% compileChapterX:
+% select chapter to compile for partialCompileMode = true
+\newtoggle{compileChapter1}
+\newtoggle{compileChapter2}\toggletrue{compileChapter2}
+\newtoggle{compileChapter3}
+
+% ======================================================================
+% Toggle logic
+% ======================================================================
+
 % disable checkmode and debugmode if draftmode is disabled
 \iftoggle{draftmode}{}{
   \togglefalse{checkmode}
   \togglefalse{debugmode}
+}
+
+% disable compileChapterX if partialCompileMode is disabled
+\iftoggle{partialCompileMode}{}{
+  \toggletrue{compileChapter1}
+  \toggletrue{compileChapter2}
+  \toggletrue{compileChapter3}
 }
