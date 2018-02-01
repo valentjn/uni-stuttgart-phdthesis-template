@@ -13,7 +13,7 @@ function vertical_pack(h, grcode, tam, tipo, maxd)
   local g, b
   g,b = node.vpack(h, tam, tipo)
   if (b>100) then
-    color_push.data="1 0 1 rg"
+    color_push.data="0.3 0 0.3 rg"
     h = node.insert_before(h,h,node.copy(color_push))
     h = node.insert_after(h,node.tail(h),node.copy(color_pop))
     return h
