@@ -4,11 +4,32 @@ import sys
 Import("env")
 env = env.Clone()
 
+# increase line length of LuaLaTeX error log lines by setting environment variables
+env["ENV"]["max_print_line"] = "1000"
+env["ENV"]["error_line"] = "254"
+env["ENV"]["half_error_line"] = "238"
+
+# use LuaLaTeX as compiler (successor of PDFLaTeX)
+env.Replace(PDFLATEX="texfot lualatex")
 # enable SyncTeX for GUI editors
 env.Append(PDFLATEXFLAGS="--synctex=1")
-
 # enable shell commands to display Git version
 env.Append(PDFLATEXFLAGS="--shell-escape")
+
+# don't call BibTeX on *.aux files of chapters
+env.Replace(BIBTEXCOM="")
+# quiet Biber output
+env.Append(BIBERFLAGS="-q")
+
+# use makeglossaries instead of directly calling makeindex
+env.Replace(MAKEGLOSSARY="makeglossaries")
+# quiet makeglossaries output
+env.Replace(MAKEGLOSSARYFLAGS="-q")
+# reorder arguments for makeglossaries
+# (filename without extension has to be at the end)
+env.Replace(MAKEGLOSSARYCOM=env["MAKEGLOSSARYCOM"].replace(
+    "${SOURCE.filebase}.glo $MAKEGLOSSARYFLAGS -o ${SOURCE.filebase}.gls",
+    "$MAKEGLOSSARYFLAGS -o ${SOURCE.filebase}.gls ${SOURCE.filebase}"))
 
 # set TMPDIR to get texfot to work on Windows
 if sys.platform == "win32": env["ENV"]["TMPDIR"] = env["ENV"]["TEMP"]
