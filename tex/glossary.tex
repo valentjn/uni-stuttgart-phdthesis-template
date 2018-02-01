@@ -1,26 +1,18 @@
 % shortcut for \newglossaryentry
-\newcommand*{\newlabeledgsymbol}[3]{%
-  \newglossaryentry{#1}{name={#2},description={#3}}%
-}
-
-% like \newglossaryentry, but we don't care about the label
-% ==> generate an arbitrary one based on a counter
-\newcounter{symbolcounter}
-\newcommand*{\newgsymbol}[2]{%
-  \newlabeledgsymbol{symbol\thesymbolcounter}{#1}{#2}%
-  \stepcounter{symbolcounter}%
+\newcommand*{\newgsymbol}[3]{%
+  \newglossaryentry{#1}{sort=#1,name={#2},description={#3}}%
 }
 
 % shortcut for \newacronym, automatically generating
 % a corresponding command
 \newcommand*{\newgacronym}[3]{%
-  \newacronym{#1}{#2}{#3}%
+  \newacronym[sort=#1]{#1}{#2}{#3}%
   \newnamecommand{#1}{\gls{#1}\xspace}%
 }
 
 % symbols
-\newgsymbol{$\NN$}{$1, 2, 3, \dotsc$}
-\newgsymbol{$\NN_0$}{$\NN \cup \{0\}$}
+\newgsymbol{N}{$\NN$}{$1, 2, 3, \dotsc$}
+\newgsymbol{N0}{$\NN_0$}{$\NN \cup \{0\}$}
 
 % acronyms
 \newgacronym{sgpp}{SG\textsuperscript{++}}{Sparse grid toolbox for C++}
@@ -29,7 +21,3 @@
 % don't replace these acronyms with description on first use
 \glsunset{sgpp}
 \glsunset{wtf}
-
-% add all symbols and acronyms to glossary without
-% referencing them in the text
-\glsaddall
