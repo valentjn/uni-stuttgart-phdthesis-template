@@ -41,7 +41,8 @@ You can download a compiled sample PDF located in `pdf/thesis.pdf`.
 ## Requirements
 
 * T<sub>E</sub>X distribution with LuaL<sup>A</sup>T<sub>E</sub>X,
-  Biber, texfot, and PDFCROP (tested with TeXLive 2017)
+  Biber, Makeglossaries, makeindex, texfot, and PDFCROP
+  (tested with TeXLive 2017)
 * Python 3.x with Matplotlib, NumPy, SciPy
 * SCons
 * Git
