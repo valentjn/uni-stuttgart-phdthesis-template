@@ -523,21 +523,25 @@
   \newglossarystyle{long3fixed}{%
     \setglossarystyle{long3col}%
     \renewenvironment{theglossary}%
-      {%
-        \setlength{\LTpre}{0pt}%
-        \setlength{\LTpost}{0pt}%
-        \begin{spacing}{1}%
-          \begin{longtable}{%
-              @{}p{0.2\textwidth}@{}%
-              p{0.7\textwidth}@{}%
-              >{\raggedleft}p{0.1\textwidth}@{}%
-          }%
-            \textbf{Symbol}&\textbf{Meaning}&\textbf{Page}\vspace{2mm}\endhead%
-      }%
-      {%
-          \end{longtable}%
-        \end{spacing}%
-      }%
+    {%
+      \setlength{\LTpre}{0pt}%
+      \setlength{\LTpost}{0pt}%
+      \begin{spacing}{1}%
+        \begin{longtable}{%
+            @{}p{0.15\textwidth}@{}%
+            p{0.78\textwidth}@{}%
+            >{\raggedleft}p{0.07\textwidth}@{}%
+        }%
+          \textbf{Symbol}&\textbf{Meaning}&\textbf{Page}\vspace{2mm}\endhead%
+    }%
+    {%
+        \end{longtable}%
+      \end{spacing}%
+    }%
+    \renewcommand*{\glossentry}[2]{%
+      \glsentryitem{##1}\glstarget{##1}{\glossentryname{##1}}&%
+      \glossentrydesc{##1}\dotfill&##2\tabularnewline%
+    }%
   }
   
   % use new glossary style
