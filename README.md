@@ -69,6 +69,11 @@ There several modes that can be activated or deactivated in
   (one word per line, all lowercase, with hyphens where hypenation
   is allowed).
 * *Debug mode:* This shows all boxes, glues, and kerning info.
+* *Partial compile mode:* This allows to select individual chapters
+  to speed up the compilation process. After enabling this mode,
+  turn on the respective `compileChapterX` toggle to only compile
+  that chapter (without appendices, table of contents, glossary,
+  and bibliography).
 
 By default, the draft and the check mode are activated.
 
@@ -85,3 +90,12 @@ Additionally, the versioning info includes a compile counter. The
 counter increases on each compile by 1 and is located in the file
 `compile_counter.txt`. Removing it should be very easy, if you
 don't want this.
+
+## Caveats
+
+* There are some problems with Windows. Calling external processes
+  (io.popen) does not seem to work, which means that the version
+  info won't be printed.
+* The glossary has to be re-generated for every SCons call.
+  Otherwise, it may happen that a change in the description of a
+  glossary entry won't be reflected in the glossary itself.
