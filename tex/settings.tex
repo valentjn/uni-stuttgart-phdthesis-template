@@ -512,6 +512,7 @@
 % Glossary
 % ======================================================================
 
+\makeatletter
 \iftoggle{partialCompileMode}{
   \newcommand*{\newgsymbol}[3]{}
   \newcommand*{\newgacronym}[3]{}
@@ -548,13 +549,11 @@
   \renewcommand*{\glstextformat}[1]{}
   
   % shortcut for \newglossaryentry + \gls
-  \makeatletter
   \newcommand*{\newgsymbol}[3]{%
     \newglossaryentry{#1}{sort=#1,name={#2},description={#3}}%
     % only reference the entry if not in preamble
     \ifx\@onlypreamble\@notprerr\gls{#1}\else\fi%
   }
-  \makeatother
   
   % shortcut for \newacronym, automatically generating
   % a corresponding command that references the entry
@@ -566,3 +565,4 @@
   % generate table of symbols and acronyms
   \makeglossaries
 }
+\makeatother
