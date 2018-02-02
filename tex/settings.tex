@@ -520,7 +520,7 @@
   % define new glossary style based on long (uses longtable)
   % in which the column widths are fixed and space before/after the
   % table is removed
-  \newglossarystyle{longfixed}{%
+  \newglossarystyle{long3fixed}{%
     \setglossarystyle{long3col}%
     \renewenvironment{theglossary}%
       {%
@@ -541,7 +541,7 @@
   }
   
   % use new glossary style
-  \setglossarystyle{longfixed}
+  \setglossarystyle{long3fixed}
   
   % disable output of \gls, insert text manually
   % (the glossaries package has no command to just reference an entry
