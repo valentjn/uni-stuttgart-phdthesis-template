@@ -64,6 +64,33 @@
   \end{tabularx}%
 }
 
+% decrease skip before \paragraph and \subparagraph headings
+\RedeclareSectionCommand[beforeskip=2ex plus 1ex minus .2px]{paragraph}
+\RedeclareSectionCommand[beforeskip=1ex plus 1ex minus .2px]{subparagraph}
+
+\makeatletter
+
+% append period to \paragraph headings
+\let\paragraphwithoutperiod\paragraph
+\newcommand*{\paragraphwithperiodwithstar}[1]{\paragraphwithoutperiod*{#1.}}
+\newcommand*{\paragraphwithperiod}[1]{\paragraphwithoutperiod{#1.}}
+\renewcommand*{\paragraph}{%
+  \@ifstar{\paragraphwithperiodwithstar}{\paragraphwithperiod}%
+}
+
+% append period to \subparagraph headings
+\let\subparagraphwithoutperiod\subparagraph
+\newcommand*{\subparagraphwithperiodwithstar}[1]{\subparagraphwithoutperiod*{#1.}}
+\newcommand*{\subparagraphwithperiod}[1]{\subparagraphwithoutperiod{#1.}}
+\renewcommand*{\subparagraph}{%
+\@ifstar{\subparagraphwithperiodwithstar}{\subparagraphwithperiod}%
+}
+
+\makeatother
+
+% increase indentation of paragraphs (default: 1em = \quad)
+\setlength{\parindent}{2em}
+
 % ======================================================================
 % Dictums
 % ======================================================================
