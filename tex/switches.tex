@@ -6,7 +6,8 @@
 % ======================================================================
 
 % draftMode switch:
-% show draft watermark, disabling overrides checkMode and debugMode (see below)
+% show draft watermark, disabling overrides checkMode, debugMode, and
+% showGlossaryDefinitionsMode (see below)
 \newtoggle{draftMode}
 \toggletrue{draftMode}
 
@@ -19,6 +20,11 @@
 % show all boxes, glues, and kerning info
 \newtoggle{debugMode}
 \togglefalse{debugMode}
+
+% showGlossaryDefinitionsMode switch:
+% print definition of glossary entries in the text body
+\newtoggle{showGlossaryDefinitionsMode}
+\togglefalse{showGlossaryDefinitionsMode}
 
 % partialCompile switches:
 % only compile a single chapter to save compilation time
@@ -35,10 +41,12 @@
 % Toggle logic
 % ======================================================================
 
-% disable checkMode and debugMode if draftMode is disabled
+% disable checkMode, showGlossaryDefinitionsMode, and debugMode
+% if draftMode is disabled
 \iftoggle{draftMode}{}{
   \togglefalse{checkMode}
   \togglefalse{debugMode}
+  \togglefalse{showGlossaryDefinitionsMode}
 }
 
 % disable compileChapterX if partialCompileMode is disabled
