@@ -635,7 +635,8 @@
     }%
     \renewcommand*{\glossentry}[2]{%
       \glsentryitem{##1}\glstarget{##1}{\glossentryname{##1}}&%
-      \glossentrydesc{##1}\dotfill&##2\tabularnewline%
+      \glossentrydesc{##1}\leavevmode\kern3pt\leaders\hbox{.}\hfill\kern0pt&%
+      ##2\tabularnewline%
     }%
   }
   
