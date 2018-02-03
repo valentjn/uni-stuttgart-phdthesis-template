@@ -18,7 +18,7 @@ function getGitCommitHash()
   local gitStatus = execute("git status --porcelain")
   local n = 0
   for i in gitStatus:gmatch("\n") do n = n + 1 end
-  if n > 2 then
+  if n > 1 then
     gitHash = gitHash .. "*"
   end
   tex.print(gitHash)
