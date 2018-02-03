@@ -74,6 +74,38 @@
 % format dictums with custom command
 \renewcommand*{\dictum}[2][]{\cleanchapterquote{#2}{#1}}
 
+% shortcut for setting the dictum for a chapter
+\newcommand*{\setdictum}[2]{%
+  \setchapterpreamble{%
+    \dictum[#2]{#1}%
+    \chapterheadendvskip%
+  }%
+}
+
+% fancy quotes (taken from cleanthesis.sty, slightly adapted)
+\newcommand*{\hugequote}{%
+  \fontsize{75}{80}\selectfont%
+  \hspace*{-0.6em}\color{lightgray}%
+  \textit{``}%
+  \vskip -0.8em%
+}
+
+\newcommand*{\cleanchapterquote}[2]{%
+  \begin{minipage}{\textwidth}%
+    \begin{flushright}
+      \begin{minipage}{0.54\textwidth}%
+        \begin{flushleft}
+          {\hugequote}\textit{#1}
+        \end{flushleft}
+        \begin{flushright}
+          \small--- #2
+        \end{flushright}
+      \end{minipage}%
+    \end{flushright}
+  \end{minipage}%
+  \bigskip
+}
+
 % ======================================================================
 % Page Headers and Footers
 % ======================================================================
@@ -318,6 +350,33 @@
 
 % location of graphics files
 \graphicspath{{../gfx/}}
+
+% ======================================================================
+% Dynamic Commands
+% ======================================================================
+
+% calculate difference between page numbers
+\newcommand*{\pagedifference}[2]{%
+  \number\numexpr\getpagerefnumber{#2}-\getpagerefnumber{#1}\relax%
+}
+
+% custom TODO command with warning
+% (all packages that were tried produced problems)
+\newcommand*{\todo}[1]{%
+  \GenericWarning{}{%
+    LaTeX Warning (\thesubsection\space\currentname): TODO "#1"%
+  }%
+  \textcolor{red}{TODO: #1}%
+}
+
+% set up versioning information
+\luaexec{require("version")}
+\edef\gitCommitHash{\luadirect{getGitCommitHash()}}
+\edef\gitCommitTimeShort{\luadirect{getGitCommitTimeShort()}}
+\edef\gitCommitTimeLong{\luadirect{getGitCommitTimeLong()}}
+\edef\currentTimeShort{\luadirect{getCurrentTimeShort()}}
+\edef\currentTimeLong{\luadirect{getCurrentTimeLong()}}
+\edef\getAndIncreaseCompileCounter{\luadirect{getAndIncreaseCompileCounter()}}
 
 % ======================================================================
 % Colors
