@@ -20,11 +20,25 @@
 \newcommand*{\theexamineriii}{Prof.\ Dr.\ Charles Darwin}
 
 % ======================================================================
-% Type Area
+% KOMA-Script and Text Area
 % ======================================================================
 
-% recalculate page margins as the line spread has changed
-\recalctypearea
+% options for KOMA-Script
+\KOMAoptions{
+  % choose font size (PO: should be between 12pt and 14pt)
+  fontsize=12pt,
+  % suppress "very small head height detected" warning
+  DIV=12,
+}
+
+\geometry{
+  bindingoffset=10mm,
+  inner=15mm,
+  outer=30mm,
+  top=20mm,
+  bottom=30mm,
+  includehead=true,
+}
 
 % ======================================================================
 % Table of Contents
@@ -448,7 +462,7 @@
   \AddEverypageHook{
     \begin{tikzpicture}[remember picture,overlay,scale=1]
       \node[
-        opacity=0.5,anchor=center,xshift=0mm,yshift=10mm,inner sep=0pt,
+        opacity=0.5,anchor=center,xshift=0mm,yshift=7mm,inner sep=0pt,
       ] at (current page.south) [above] {%
         \parbox{100mm}{%
           \begin{center}
@@ -460,25 +474,25 @@
       };
       \ifthispageodd{
         \node[
-          opacity=0.5,anchor=north east,xshift=-20mm,yshift=-43.5mm,
+          opacity=0.5,anchor=north east,xshift=-15mm,yshift=-38.5mm,
           inner sep=0pt,text width=4.51mm,align=right,
         ] at (current page.north east) [below left] {%
-          \onehalfspacing%
+          \ttfamily\onehalfspacing%
           1\\2\\3\\4\\5\\6\\7\\8\\9\\10\\%
           11\\12\\13\\14\\15\\16\\17\\18\\19\\20\\%
           21\\22\\23\\24\\25\\26\\27\\28\\29\\30\\%
-          31\\32\\33\\%
+          31\\32\\33\\34\\35\\36\\37%
         };
       }{
         \node[
-          opacity=0.5,anchor=north west,xshift=20mm,yshift=-43.5mm,color=black,
+          opacity=0.5,anchor=north west,xshift=15mm,yshift=-38.5mm,color=black,
           inner sep=0pt,text width=4.51mm,align=right,
         ] at (current page.north west) [below right] {%
-          \onehalfspacing%
+          \ttfamily\onehalfspacing%
           1\\2\\3\\4\\5\\6\\7\\8\\9\\10\\%
           11\\12\\13\\14\\15\\16\\17\\18\\19\\20\\%
           21\\22\\23\\24\\25\\26\\27\\28\\29\\30\\%
-          31\\32\\33\\%
+          31\\32\\33\\34\\35\\36\\37%
         };
       }
     \end{tikzpicture}
