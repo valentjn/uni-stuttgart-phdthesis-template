@@ -506,6 +506,11 @@
   urlbordercolor=C0,
 }
 
+% include parentheses of \eqref in hyperlink
+\makeatletter
+\renewcommand*{\eqref}[1]{\hyperref[{#1}]{\textup{\tagform@{\ref*{#1}}}}}
+\makeatother
+
 % ======================================================================
 % Bibliography
 % ======================================================================
