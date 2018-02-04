@@ -29,8 +29,7 @@ You can download a compiled sample PDF located in `pdf/thesis.pdf`.
 
 * Improved typographic style with KOMA-Script and microtype
 * Draft mode: Line numbers, Git commit and compile date as watermark,
-  highlighting of overfull hboxes, underfull vboxes, and hyphenation
-  places
+  highlighting of overfull hboxes and hyphenation places
 * Filtering of LuaL<sup>A</sup>T<sub>E</sub>X via texfot
 * Output to-do notes as warnings to the log file to stay on track
 * Consistent figure, sub-figure, algorithm, and theorem style
@@ -60,9 +59,8 @@ There several modes that can be activated or deactivated in
   every page. When deactivated, this overrides the settings for
   debug and check modes and deactivates them.
 * *Check mode:* This highlights all overfull hboxes with a black bar
-  near the box and underfull vboxes with purple text color.
-  All places where a word was hyphenated due to line wrapping
-  are also highlighted with a black bar.
+  near the box. All places where a word was hyphenated due to
+  line wrapping are also highlighted with a black bar.
   Additionally, the hyphenated words are written to the
   end of the log file `build/tex/thesis.log`. To whitelist the
   hyphenation of a word, add it to `hyphenation_whitelist.txt`
