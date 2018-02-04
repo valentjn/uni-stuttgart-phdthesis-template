@@ -324,6 +324,18 @@
   bodyfont={\itshape},
 ]{mythmplainstyle}
 
+% proofs are set like normal text
+\declaretheoremstyle[
+  headfont={\normalfont\normalsize\itshape},
+  headpunct={.},
+  qed={\qedsymbol},
+]{mythmproofstyle}
+
+% redefine proof environment as the vertical spacing of the default
+% environment seems to be a bit weird (it's implemented as a list...)
+\let\proof\relax
+\let\endproof\relax
+
 % theorem environments
 \declaretheorem[
   numberwithin=chapter,
@@ -350,6 +362,11 @@
   mdframed={style=mymdfstyle},
   style=mythmplainstyle,
 ]{corollary}
+\declaretheorem[
+  unnumbered,
+  name={Proof},
+  style=mythmproofstyle,
+]{proof}
 
 % ======================================================================
 % Mathematics
