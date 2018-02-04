@@ -4,19 +4,10 @@
 % warns about outdated packages and missing caption declarations
 \RequirePackage[l2tabu,orthodox]{nag}
 
-% set main document class and options
+% set main document class (KOMA-Script's scrbook)
 \documentclass[
-  % choose font size (PO: should be between 12pt and 14pt)
-  fontsize=12pt,
-  % calculate appropriate page margins
-  % (note: this makes the margins a bit small for me,
-  % but otherwise the text area is really small...)
-  DIV=12,
-  % binding correction subtracted per page
-  BCOR=10mm,
-  % define page header as part of text area to move the text area down
-  % (as we have empty page footers)
-  headinclude=true,
+  % align equation numbers left to the equation
+  leqno,
 ]{scrbook}
 
 % include packages
