@@ -1,0 +1,170 @@
+\chapter{Proofs}
+
+\endinput
+
+\begin{proof}
+  We prove the claim \eqref{eq:invariant}
+  by induction over $t = 1, \dotsc, d$.
+  For $t = 1$, the right-hand side (RHS) of~\eqref{eq:invariant} equals
+  $\{\ell \in \NN_0 \mid \ell \le n\}$, which is just $L^{(1)}$.
+  
+  For the induction step $t - 1 \to t$, we assume that
+  \begin{equation}
+  \label{eq:indhyp}
+  \begin{aligned}
+  L^{(t-1)}
+  &= \{\vec{\ell'} \in \NN^{t-1} \mid
+  \norm{\vec{\ell'}}_1 \le n+t-2\} \;\cup\\
+  &\hphantom{=\;\;}
+  \{\vec{\ell'} \in \NN_0^{t-1} \setminus \NN^{t-1} \mid
+  \norm{\vec{\ell'}}_1 + N_{\vec{\ell'}} \le n+t-1-b\} \cup
+  \{\vec{0}\}.
+  \end{aligned}
+  \end{equation}
+  First, we show that every inserted level $\vec{\ell}$ in the inner loop
+  can be found on the right-hand side of~\eqref{eq:invariant}.
+  If $\vec{\ell} := (\vec{\ell'}, 0)$
+  is inserted for some $\vec{\ell'} \in L^{(t-1)}$,
+  then we have $\norm{\vec{\ell'}}_1 + (N_{\vec{\ell'}} + 1) \le n + t - b$ or
+  $N_{\vec{\ell'}} = t - 1$ by the if clause.
+  In the first case, we have
+  \begin{equation*}
+  \norm{\vec{\ell}}_1 + N_{\vec{\ell}}
+  = \norm{\vec{\ell'}}_1 + (N_{\vec{\ell'}} + 1)
+  \le n + t - b,
+  \end{equation*}
+  and in the second case, it holds $\vec{\ell} = \vec{0}$.
+  by the if clause.
+  In either case, $\vec{\ell}$ is contained in the RHS of~%
+  \eqref{eq:invariant}.
+  
+  If $\vec{\ell} := (\vec{\ell'}, \ell_t)$ is inserted
+  for some $\vec{\ell'} \in L^{(t-1)}$ and
+  $1 \le \ell_t \le u_{\vec{\ell'}}$, then we have,
+  depending on whether $N_{\vec{\ell'}} > 0$ or not, two cases:
+  \begin{enumerate}
+    \item
+    If $N_{\vec{\ell'}} > 0$, then $\vec{\ell} \in \NN_0^t \setminus \NN^t$
+    and
+    \begin{align*}
+    \norm{\vec{\ell}}_1 + N_{\vec{\ell}}
+    %&= \norm{\vec{\ell'}}_1 + \ell_t + N_{\vec{\ell'}}\\
+    &\le \norm{\vec{\ell'}}_1 + u_{\vec{\ell'}} + N_{\vec{\ell'}}\\
+    &= \norm{\vec{\ell'}}_1 + \left(n + t - b -
+    (\norm{\vec{\ell'}}_1 + N_{\vec{\ell'}})\right) + N_{\vec{\ell'}}\\
+    &= n + t - b,
+    \end{align*}
+    i.e., $\vec{\ell}$ is contained in the second set of the RHS of~%
+    \eqref{eq:invariant}.
+    
+    \item
+    If $N_{\vec{\ell'}} = 0$, then $\vec{\ell} \in \NN^t$ and
+    \begin{align*}
+    \norm{\vec{\ell}}_1 + N_{\vec{\ell}}
+    %&= \norm{\vec{\ell'}}_1 + \ell_t + N_{\vec{\ell'}}\\
+    &\le \norm{\vec{\ell'}}_1 + u_{\vec{\ell'}} + N_{\vec{\ell'}}\\
+    &= \norm{\vec{\ell'}}_1 +
+    \left(n + t - 1 - \norm{\vec{\ell'}}_1\right)\\
+    &= n + t - 1,
+    \end{align*}
+    i.e., $\vec{\ell}$ is contained in the first set of the RHS of~%
+    \eqref{eq:invariant}.
+  \end{enumerate}
+  Therefore, all levels, which the algorithm inserts into $L^{(t)}$,
+  can be found on the RHS of \eqref{eq:invariant}.
+  
+  It remains to prove that all levels on the RHS of~\eqref{eq:invariant}
+  are inserted by the algorithm into $L^{(t)}$ eventually.
+  First, we take some $\vec{\ell} = (\vec{\ell'}, \ell_t)$
+  in the first set of the RHS,
+  i.e., $\norm{\vec{\ell}}_1 \le n + t - 1$ and $\ell_t > 0$.
+  Note that $\vec{\ell'}$ will be encountered in the loop 2b), as
+  \begin{equation*}
+  \vec{\ell'} \in \NN^{t-1},\quad
+  \norm{\vec{\ell'}}_1
+  = \norm{\vec{\ell}}_1 - \ell_t
+  \le (n+t-1) - 1
+  = n + t - 2
+  \end{equation*}
+  implies $\vec{\ell'} \in L^{(t-1)}$ by the induction
+  hypothesis~\eqref{eq:indhyp}.
+  Since $N_{\vec{\ell'}} = 0$ and
+  \begin{equation*}
+  \ell_t
+  = \norm{\vec{\ell}}_1 - \norm{\vec{\ell'}}_1
+  \le n+t-1 - \norm{\vec{\ell'}}_1
+  = u_{\vec{\ell'}},
+  \end{equation*}
+  this $\vec{\ell}$ is inserted into $L^{(t)}$ during the innermost loop.
+  
+  Now, we take $\vec{\ell} = (\vec{\ell'}, \ell_t)$
+  in the second set of the RHS, i.e.,
+  $\norm{\vec{\ell}}_1 + N_{\vec{\ell}} \le n+t-b$ and
+  $N_{\vec{\ell}} > 0$.
+  Again, there are two cases:
+  \begin{enumerate}
+    \item
+    $\ell_t > 0$:
+    This implies $N_{\vec{\ell'}} = N_{\vec{\ell}} > 0$ and
+    $\vec{\ell'}$ will be reached in the loop 2b) since
+    \begin{equation*}
+    \vec{\ell'} \in \NN_0^{t-1} \setminus \NN^{t-1},\quad
+    \norm{\vec{\ell'}}_1 + N_{\vec{\ell'}}
+    = (\norm{\vec{\ell}}_1 - \ell_t) + N_{\vec{\ell}}
+    \le n+t-b-\ell_t
+    \le n+t-1-b
+    \end{equation*}
+    implies $\vec{\ell'} \in L^{(t-1)}$ by the induction
+    hypothesis~\eqref{eq:indhyp}.
+    Also,
+    \begin{equation*}
+    \ell_t
+    = \norm{\vec{\ell}}_1 - \norm{\vec{\ell'}}_1
+    \le (n+t-b - N_{\vec{\ell}}) - \norm{\vec{\ell'}}_1
+    = n+t-b - (\norm{\vec{\ell'}}_1 + N_{\vec{\ell'}})
+    = u_{\vec{\ell'}},
+    \end{equation*}
+    i.e., $\vec{\ell}$ gets added to $L^{(t)}$
+    by the innermost loop.
+    
+    \item
+    $\ell_t = 0$:
+    This implies
+    $\norm{\vec{\ell'}}_1 = \norm{\vec{\ell}}_1$ and
+    $N_{\vec{\ell'}} = N_{\vec{\ell}} - 1$.
+    $\vec{\ell'}$ will be reached in the loop 2b) since
+    \begin{equation*}
+    \vec{\ell'} \in \NN_0^{t-1} \setminus \NN^{t-1},\quad
+    \norm{\vec{\ell'}}_1 + N_{\vec{\ell'}}
+    = \norm{\vec{\ell}}_1 + (N_{\vec{\ell}} - 1)
+    \le n + t - 1 - b,
+    \end{equation*}
+    if $N_{\vec{\ell'}} > 0$ and
+    \begin{equation*}
+    \vec{\ell'} \in \NN^{t-1},\quad
+    \norm{\vec{\ell'}}_1
+    = \norm{\vec{\ell}}_1
+    \le n + t - b - N_{\vec{\ell}}
+    \le n + t - 2,
+    \end{equation*}
+    if $N_{\vec{\ell'}} = 0$
+    (due to $N_{\vec{\ell}} = 1$ in this sub-case and $b \ge 1$).
+    In both of these sub-cases,
+    we have $\vec{\ell'} \in L^{(t-1)}$ by the induction
+    hypothesis~\eqref{eq:indhyp}. Also,
+    \begin{equation*}
+    \norm{\vec{\ell'}}_1 + (N_{\vec{\ell'}} + 1)
+    = \norm{\vec{\ell}}_1 + N_{\vec{\ell}}
+    \le n + t - b.
+    \end{equation*}
+    i.e., $\vec{\ell}$ gets added to $L^{(t)}$
+    by the if clause.
+  \end{enumerate}
+  
+  Finally, we take $\vec{\ell} = (\vec{0}, 0) \in \NN_0^t$
+  in the third set of the RHS.
+  This level is appended to $L^{(t)}$, because
+  $\vec{\ell'} = \vec{0} \in \NN_0^{t-1}$ is in $L^{(t-1)}$ by 
+  induction hypothesis~\eqref{eq:indhyp} and $N_{\vec{\ell'}} = t - 1$
+  (i.e., the second statement in the if clause is fulfilled).
+\end{proof}
