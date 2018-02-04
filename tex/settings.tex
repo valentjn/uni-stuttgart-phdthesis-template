@@ -641,7 +641,7 @@
 
 \iftoggle{partialCompileMode}{
   \newcommand*{\newgsymbol}[3]{}
-  \newcommand*{\newgacronym}[3]{}
+  \newcommand*{\newgacronym}[3]{\newnamecommand{#1}{#2\xspace}}
 }{
   % define new glossary style based on long (uses longtable)
   % in which the column widths are fixed and space before/after the
