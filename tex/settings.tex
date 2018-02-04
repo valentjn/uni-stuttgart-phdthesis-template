@@ -329,6 +329,15 @@
   bodyfont={\itshape},
 ]{mythmplainstyle}
 
+% same as before, but no note and line break after head
+\declaretheoremstyle[
+  headfont={\sffamily\bfseries\fontsize{9.5}{12}\selectfont},
+  headformat={\textls*{\MakeUppercase{\NAME{} \NUMBER}}\hspace{0.7em}},
+  notefont={\normalfont\normalsize},
+  headpunct={},
+  bodyfont={\itshape},
+]{mythmshortplainstyle}
+
 % proofs are set like normal text
 \declaretheoremstyle[
   headfont={\normalfont\normalsize\itshape},
@@ -343,33 +352,44 @@
 
 % theorem environments
 \declaretheorem[
+  name={Definition},
   numberwithin=chapter,
   mdframed={style=mymdfstyle},
   style=mythmdefstyle,
 ]{definition}
 \declaretheorem[
+  name={Theorem},
   numberlike=definition,
   mdframed={style=mymdfstyle},
   style=mythmplainstyle,
 ]{theorem}
 \declaretheorem[
+  name={Proposition},
   numberlike=definition,
   mdframed={style=mymdfstyle},
   style=mythmplainstyle,
 ]{proposition}
 \declaretheorem[
+  name={Lemma},
   numberlike=definition,
   mdframed={style=mymdfstyle},
   style=mythmplainstyle,
 ]{lemma}
 \declaretheorem[
+  name={Corollary},
   numberlike=definition,
   mdframed={style=mymdfstyle},
   style=mythmplainstyle,
 ]{corollary}
 \declaretheorem[
-  unnumbered,
+  name={Corollary},
+  numberlike=definition,
+  mdframed={style=mymdfstyle},
+  style=mythmshortplainstyle,
+]{shortcorollary}
+\declaretheorem[
   name={Proof},
+  unnumbered,
   style=mythmproofstyle,
 ]{proof}
 
