@@ -169,12 +169,12 @@
 
 % move page number to page header
 \clearscrheadfoot
-\lehead[]{\pagemark}
-\rehead{\headmark}
-\lohead{\headmark}
-\rohead[]{\pagemark}
-\lefoot[\pagemark]{}
-\rofoot[\pagemark]{}
+\lehead[\pagemark]{\pagemark}
+\rehead[]{\headmark}
+\lohead[]{\headmark}
+\rohead[\pagemark]{\pagemark}
+\lefoot[]{}
+\rofoot[]{}
 
 % prepend "Chapter X: " in front of the chapter name in page headers
 \renewcommand*{\chaptermarkformat}{Chapter \thechapter: }
