@@ -162,9 +162,10 @@
 
 % all-caps sans-serif page header
 \setkomafont{pageheadfoot}{%
-  \normalfont\normalcolor\sffamily\fontsize{9}{10}\selectfont\lsstyle%
+  \normalfont\normalcolor\sffamily%
+  \fontsize{9.5}{12}\selectfont\lsstyle%
 }
-\setkomafont{pagenumber}{\usekomafont{pageheadfoot}}
+\setkomafont{pagenumber}{\usekomafont{pageheadfoot}\bfseries}
 
 % move page number to page header
 \clearscrheadfoot
