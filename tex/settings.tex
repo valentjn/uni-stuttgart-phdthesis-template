@@ -197,6 +197,11 @@
 }
 \makeatother
 
+% special format for unnumbered figures (e.g., cover figure)
+\DeclareCaptionLabelFormat{mycaptionlabelformatunnumbered}{%
+  \sffamily\bfseries\fontsize{9.5}{12}\selectfont\textls*{\MakeUppercase{#1}}%
+}
+
 % change appearance of caption label
 \DeclareCaptionLabelFormat{mycaptionlabelformat}{%
   \sffamily\bfseries\fontsize{9.5}{12}\selectfont\textls*{\MakeUppercase{#1}} #2%

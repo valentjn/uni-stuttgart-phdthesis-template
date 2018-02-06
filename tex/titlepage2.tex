@@ -79,7 +79,28 @@
 
 \vspace*{\fill}
 
-\begin{tabular}{@{}l@{}l@{}}
-  Compiled as version \getAndIncreaseCompileCounter{}\hphantom*{~}&on \currentTimeLong\\
-  Committed as \gitCommitHash{}\hphantom*{~}&on \gitCommitTimeLong
-\end{tabular}
+{
+  % no indentation of paragraphs
+  \setlength{\parindent}{0pt}%
+  
+  % cover figure caption with special name and label format (without number)
+  \captionsetup[figure]{
+    name={Cover Figure},
+    labelformat=mycaptionlabelformatunnumbered,
+  }
+  \captionof{figure}{%
+    A regular sparse grid in two dimensions \emph{(dots)} as a subset
+    of the full grid \emph{(mesh, bottom)}
+    with a bicubic B-spline \emph{(mesh, top)}.%
+  }
+
+  \vspace{2em}
+  
+  % version information
+  \begin{tabular}{@{}l@{}l@{}}
+    Compiled as version
+    \getAndIncreaseCompileCounter{}\hphantom*{~}&on \currentTimeLong\\
+    Committed as
+    \gitCommitHash{}\hphantom*{~}&on \gitCommitTimeLong
+  \end{tabular}%
+}
