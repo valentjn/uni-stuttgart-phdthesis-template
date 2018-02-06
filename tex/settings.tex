@@ -51,7 +51,7 @@
 % ======================================================================
 
 % use single spacing in table of contents
-\AfterTOCHead[toc]{\setstretch{1}}
+\AfterTOCHead[toc]{\singlespacing}
 
 % include subsubsections in table of contents, but without numbers
 \setcounter{tocdepth}{\subsubsectionnumdepth}
@@ -83,7 +83,7 @@
     \if\relax\detokenize{#2}\relax\else\hspace*{5mm}\fi&%
     % text of heading, [b] is for alignment, \linewidth is width of X cell,
     % \raggedchapter for not justifying headings
-    \parbox[b]{\linewidth}{\raggedchapter\setstretch{1}#3}%
+    \parbox[b]{\linewidth}{\raggedchapter\singlespacing#3}%
   \end{tabularx}%
 }
 
@@ -659,7 +659,7 @@
   \renewcommand*{\bibfont}{\small}
   
   % set single line spacing for bibliography
-  \renewcommand*{\bibsetup}{\setstretch{1}}
+  \renewcommand*{\bibsetup}{\singlespacing}
 }
 
 % ======================================================================
