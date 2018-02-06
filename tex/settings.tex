@@ -514,12 +514,12 @@
     \begin{tikzpicture}[remember picture,overlay,scale=1]
       \node[
         opacity=0.5,anchor=center,xshift=0mm,yshift=7mm,inner sep=0pt,
-      ] at (current page.south) [above] {%
+      ] at (current page.south) [above] {
         \parbox{100mm}{%
-          \begin{center}
-          \bfseries\color{black}%
-          Draft v\getAndIncreaseCompileCounter{} (\currentTimeShort)\\
-          Commit \gitCommitHash{} (\gitCommitTimeShort)
+          \begin{center}%
+            \onehalfspacing\bfseries\color{black}%
+            Draft v\getAndIncreaseCompileCounter{} (\currentTimeShort)\\%
+            Commit \gitCommitHash{} (\gitCommitTimeShort)%
           \end{center}%
         }%
       };
