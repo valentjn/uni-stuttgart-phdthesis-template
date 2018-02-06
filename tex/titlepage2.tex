@@ -1,14 +1,21 @@
 % use new right page
 \cleardoublepage
 
+% set page margins
+\newgeometry{
+  bindingoffset=\bindingoffset,
+  inner=20mm,
+  outer=40mm,
+  top=35mm,
+  bottom=35mm,
+}
+
 % don't display page number
 \thispagestyle{empty}
 
 \begin{spacing}{1}
   % no indentation of paragraphs
   \setlength{\parindent}{0pt}
-  
-  \vspace*{2em}
   
   {\LARGE\itshape\theauthor\par}
   
@@ -28,7 +35,7 @@
   \vfill
   
   \begin{center}
-    \includegraphics[height=80mm]{title_1}
+    \includegraphics[height=90mm]{title_1}
   \end{center}
   
   \vfill
@@ -40,6 +47,9 @@
     \raisebox{-0.5\height}{\includegraphics[height=15mm]{logo_sgs_gray}}\par%
   }
 \end{spacing}
+
+% restore original margin sizes
+\restoregeometry
 
 \pagebreak
 
