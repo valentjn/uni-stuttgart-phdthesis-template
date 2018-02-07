@@ -49,13 +49,13 @@
   \iftoggle{compileChapter2}{\include{2_flux_capacitor}}{}
   \iftoggle{compileChapter3}{\include{3_conclusion}}{}
   
+  % start appendix
+  \appendix
+  
+  % appendix chapters
+  \iftoggle{compileChapterAppendix1}{\include{a10proofs}}{}
+  
   \iftoggle{partialCompileMode}{}{
-    % start appendix
-    \appendix
-    
-    % appendix chapters
-    \include{a10proofs}
-    
     % bibliography
     \printbibliography[%
       % change title
@@ -65,8 +65,11 @@
       % print custom note
       postnote=mypostnote,
     ]
-    \cleardoubleevenemptypage
-    
+  }
+  
+  \cleardoubleoddpage
+  
+  \iftoggle{partialCompileMode}{}{
     % add all symbols and acronyms that have not been used
     % in the text to the glossary
     % (this command has to come after all glossary definitions)
