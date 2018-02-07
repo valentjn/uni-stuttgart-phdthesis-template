@@ -55,7 +55,7 @@
   % appendix chapters
   \iftoggle{compileChapterAppendix1}{\include{a10proofs}}{}
   
-  \iftoggle{partialCompileMode}{}{
+  \iftoggle{compileBibliography}{
     % bibliography
     \printbibliography[%
       % change title
@@ -65,7 +65,7 @@
       % print custom note
       postnote=mypostnote,
     ]
-  }
+  }{}
   
   \cleardoubleoddpage
   

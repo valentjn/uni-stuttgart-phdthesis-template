@@ -591,9 +591,7 @@
 \renewcommand*{\url}[1]{\luadirect{breakurl(\luastringN{#1}, \luastringN{#1})}}
 \renewcommand*{\href}[2]{\luadirect{breakurl(\luastringN{#1}, \luastringN{#2})}}
 
-\iftoggle{partialCompileMode}{
-  \renewcommand*{\cite}[1]{#1}
-}{
+\iftoggle{compileBibliography}{
   % location of *.bib file
   \addbibresource{../bib/bibliography.bib}
   
@@ -670,6 +668,9 @@
   
   % set single line spacing for bibliography
   \renewcommand*{\bibsetup}{\singlespacing}
+}{
+  % dummy print citation key if bibliography is disabled
+  \renewcommand*{\cite}[1]{[#1]}
 }
 
 % ======================================================================
