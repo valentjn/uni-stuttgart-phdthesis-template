@@ -656,7 +656,7 @@
   
   % define custom heading to fix non-uppercase page header, make URLs smaller
   \defbibheading{myheading}[\bibname]{%
-    \addchap{#1}%
+    \chapter{#1}%
     \markboth{BIBLIOGRAPHY}{BIBLIOGRAPHY}%
     \let\oldtexttt\texttt%
     \renewcommand*{\texttt}[1]{\oldtexttt{\scriptsize##1}}%
