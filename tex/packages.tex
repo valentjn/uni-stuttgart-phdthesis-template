@@ -89,10 +89,11 @@
 % more beautiful tables
 \usepackage{booktabs}
 
-% draft watermarks (version info and line numbers)
-\iftoggle{draftMode}{
-  \usepackage{everypage}
-}{}
+% consistent style of units and numbers
+\usepackage{siunitx}
+
+% watermarks
+\usepackage{everypage}
 
 % algorithms
 \usepackage{algorithmicx}
