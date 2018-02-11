@@ -687,8 +687,12 @@
   % set single line spacing for bibliography
   \renewcommand*{\bibsetup}{\singlespacing}
 }{
-  % dummy print citation key if bibliography is disabled
-  \renewcommand*{\cite}[1]{[#1]}
+  \luaexec{require("citationReference")}
+  
+  % dummy print citation reference if bibliography is disabled
+  \renewcommand*{\cite}[1]{%
+    [\luadirect{generateCitationReference(\luastringN{#1})}]%
+  }
 }
 
 % ======================================================================
