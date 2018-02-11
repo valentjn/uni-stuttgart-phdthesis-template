@@ -410,6 +410,10 @@
   style=mythmproofstyle,
 ]{proof}
 
+% reference theorems with their name appended
+\newcommand*{\thmref}[1]{\hyperlink{#1}{\cref*{#1}~(\nameref*{#1})}}
+\newcommand*{\Thmref}[1]{\hyperlink{#1}{\Cref*{#1}~(\nameref*{#1})}}
+
 % ======================================================================
 % Mathematics
 % ======================================================================
