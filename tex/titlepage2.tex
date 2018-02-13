@@ -108,9 +108,9 @@
   
   % version information
   \begin{tabular}{@{}l@{}l@{}}
-    Compiled as version
-    \getAndIncreaseCompileCounter{}\hphantom*{~}&on \currentTimeLong\\
-    Committed as
-    \gitCommitHash{}\hphantom*{~}&on \gitCommitTimeLong
+    Compiled as version \texttt{v\compileCounter{}}%
+    \hphantom*{~}&on \currentTimeLong\\
+    Committed as \texttt{\gitCommitHash{}}%
+    \hphantom*{~}&on \gitCommitTimeLong
   \end{tabular}%
 }
