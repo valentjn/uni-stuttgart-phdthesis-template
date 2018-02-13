@@ -443,12 +443,10 @@
 \newcommand*{\currentname}{\@currentlabelname}
 \makeatother
 
-% warn for every usage of \blindtext
+% insert TODO and warn for every usage of \blindtext
 \let\oldblindtext\blindtext
 \renewcommand*{\blindtext}{%
-  \GenericWarning{}{%
-    LaTeX Warning (\thesubsection\space\currentname): \string\blindtext%
-  }%
+  \todo{write}
   \textcolor{gray}{\oldblindtext}%
 }
 
