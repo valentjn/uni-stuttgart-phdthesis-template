@@ -217,6 +217,11 @@
   labelsep=quad,
 }
 
+% don't indent caption text in SCfigure (figures with side caption)
+\DeclareCaptionFormat{mysidecaptionformat}{\small#1#2\\#3\par}
+\AtBeginEnvironment{SCfigure}{\captionsetup{format=mysidecaptionformat}}
+\AtBeginEnvironment{SCtable}{\captionsetup{format=mysidecaptionformat}}
+
 % change font size for sub-captions
 \makeatletter
 \DeclareCaptionFormat{mysubcaptionformat}{%
