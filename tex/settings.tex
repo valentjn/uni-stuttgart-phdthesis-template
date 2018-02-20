@@ -4,9 +4,9 @@
 
 % meta-data variables
 \newcommand*{\thetitle}{%
-  Inventing Time Travel:\texorpdfstring{\\}{}
-  Theory and Applications of the\texorpdfstring{\\}{}
-  Flux Capacitor%
+  B-Splines for Sparse Grids:\texorpdfstring{\\}{}
+  Algorithms and Application to\texorpdfstring{\\}{}
+  Higher-Dimensional Optimization%
 }
 \newcommand*{\theauthor}{Emmett Brown}
 \newcommand*{\thebirthplace}{Hill Valley, California}
@@ -492,6 +492,20 @@
 \edef\currentTimeLong{\luadirect{getCurrentTimeLong()}}
 \edef\compileCounter{\luadirect{getAndIncreaseCompileCounter()}}
 
+% command for checking if file is in includeonly or not
+\makeatletter
+\newcommand*{\isincluded}[1]{%
+  \@tempswatrue
+  \if@partsw
+    \@tempswafalse
+    \edef\reserved@b{#1}%
+    \@for\reserved@a:=\@partlist\do
+    {\ifx\reserved@a\reserved@b\@tempswatrue\fi}%
+  \fi
+  \if@tempswa\expandafter\@firstoftwo\else\expandafter\@secondoftwo\fi
+}
+\makeatother
+
 % ======================================================================
 % Colors
 % ======================================================================
@@ -612,102 +626,93 @@
 \renewcommand*{\url}[1]{\luadirect{breakurl(\luastringN{#1}, \luastringN{#1})}}
 \renewcommand*{\href}[2]{\luadirect{breakurl(\luastringN{#1}, \luastringN{#2})}}
 
-\iftoggle{compileBibliography}{
-  % location of *.bib file
-  \addbibresource{../bib/bibliography.bib}
-  
-  % don't append "+" sign to BibLaTeX citations in alphabetic style
-  \renewcommand*{\labelalphaothers}{}
-  
-  % insert colon after author names in bibliography
-  \renewcommand*{\labelnamepunct}{: }
-  
-  % hide urldate field
-  \AtEveryBibitem{\clearfield{urlyear}}
-  
-  % make paper titles italic, remove quotation marks
-  \DeclareFieldFormat[article]{title}{\mkbibemph{#1}}
-  \DeclareFieldFormat[article]{journaltitle}{#1}
-  \DeclareFieldFormat[thesis]{title}{\mkbibemph{#1}}
-  \DeclareFieldFormat[inbook]{title}{\mkbibemph{#1}}
-  \DeclareFieldFormat[inbook]{booktitle}{#1}
-  \DeclareFieldFormat[incollection]{title}{\mkbibemph{#1}}
-  \DeclareFieldFormat[incollection]{booktitle}{#1}
-  \DeclareFieldFormat[inproceedings]{title}{\mkbibemph{#1}}
-  \DeclareFieldFormat[inproceedings]{booktitle}{#1}
-  \DeclareFieldFormat[unpublished]{title}{\mkbibemph{#1}}
-  
-  % fix title capitalization to sentence case (all lowercase),
-  \DeclareFieldFormat{titlecase}{\MakeTitleCase{#1}}
-  
-  % .. but don't change journal titles, book titles, and so on
-  \newrobustcmd{\MakeTitleCase}[1]{%
-    \ifthenelse{%
-      \ifcurrentfield{booktitle}\OR\ifcurrentfield{booksubtitle}%
-      \OR\ifcurrentfield{maintitle}\OR\ifcurrentfield{mainsubtitle}%
-      \OR\ifcurrentfield{journaltitle}\OR\ifcurrentfield{journalsubtitle}%
-      \OR\ifcurrentfield{issuetitle}\OR\ifcurrentfield{issuesubtitle}%
-      \OR\ifentrytype{book}\OR\ifentrytype{mvbook}\OR\ifentrytype{bookinbook}%
-      \OR\ifentrytype{booklet}\OR\ifentrytype{suppbook}%
-      \OR\ifentrytype{collection}\OR\ifentrytype{mvcollection}%
-      \OR\ifentrytype{suppcollection}\OR\ifentrytype{manual}%
-      \OR\ifentrytype{periodical}\OR\ifentrytype{suppperiodical}%
-      \OR\ifentrytype{proceedings}\OR\ifentrytype{mvproceedings}%
-      \OR\ifentrytype{reference}\OR\ifentrytype{mvreference}%
-      \OR\ifentrytype{report}\OR\ifentrytype{thesis}%
-    }{%
-      #1%
-    }{%
-      \MakeSentenceCase*{#1}%
-    }%
-  }
-  
-  % suppress "In:" before journal names
-  \renewbibmacro*{in:}{}
-  
-  % separate authors with semicolon, suppress "and" in author names
-  \renewcommand{\multinamedelim}{\addsemicolon\space}
-  \renewcommand*{\finalnamedelim}{\addsemicolon\space}
-  
-  % make names bold
-  \renewcommand*{\mkbibnamefamily}[1]{\textbf{#1}}
-  
-  \DeclareNameAlias{sortname}{last-first}
-  \DeclareNameAlias{default}{last-first}
-  
-  % define custom heading to fix non-uppercase page header, make URLs smaller
-  \defbibheading{myheading}[\bibname]{%
-    \chapter{#1}%
-    \markboth{BIBLIOGRAPHY}{BIBLIOGRAPHY}%
-    \let\oldtexttt\texttt%
-    \renewcommand*{\texttt}[1]{\oldtexttt{\scriptsize##1}}%
-  }
-  
-  % add custom bibliography post note (URLs last checked on ...)
-  \defbibnote{mypostnote}{%
-    All URLs have last been checked on \thedate.%
-    \renewcommand*{\texttt}[1]{\oldtexttt{##1}}%
-  }
-  
-  % omit "URL:" and "DOI:" separators to save space
-  \DeclareFieldFormat{url}{\url{#1}}
-  \DeclareFieldFormat{doi}{%
-    \ifhyperref{\href{https://doi.org/#1}{\nolinkurl{#1}}}{\nolinkurl{#1}}%
-  }
-  
-  % change font size of bibliography
-  \renewcommand*{\bibfont}{\small}
-  
-  % set single line spacing for bibliography
-  \renewcommand*{\bibsetup}{\singlespacing}
-}{
-  \luaexec{require("citationReference")}
-  
-  % dummy print citation reference if bibliography is disabled
-  \renewcommand*{\cite}[1]{%
-    [\luadirect{generateCitationReference(\luastringN{#1})}]%
-  }
+% location of *.bib file
+\addbibresource{../bib/bibliography.bib}
+
+% don't append "+" sign to BibLaTeX citations in alphabetic style
+\renewcommand*{\labelalphaothers}{}
+
+% insert colon after author names in bibliography
+\renewcommand*{\labelnamepunct}{: }
+
+% hide urldate field
+\AtEveryBibitem{\clearfield{urlyear}}
+
+% make paper titles italic, remove quotation marks
+\DeclareFieldFormat[article]{title}{\mkbibemph{#1}}
+\DeclareFieldFormat[article]{journaltitle}{#1}
+\DeclareFieldFormat[thesis]{title}{\mkbibemph{#1}}
+\DeclareFieldFormat[inbook]{title}{\mkbibemph{#1}}
+\DeclareFieldFormat[inbook]{booktitle}{#1}
+\DeclareFieldFormat[incollection]{title}{\mkbibemph{#1}}
+\DeclareFieldFormat[incollection]{booktitle}{#1}
+\DeclareFieldFormat[inproceedings]{title}{\mkbibemph{#1}}
+\DeclareFieldFormat[inproceedings]{booktitle}{#1}
+\DeclareFieldFormat[unpublished]{title}{\mkbibemph{#1}}
+
+% fix title capitalization to sentence case (all lowercase),
+\DeclareFieldFormat{titlecase}{\MakeTitleCase{#1}}
+
+% .. but don't change journal titles, book titles, and so on
+\newrobustcmd{\MakeTitleCase}[1]{%
+  \ifthenelse{%
+    \ifcurrentfield{booktitle}\OR\ifcurrentfield{booksubtitle}%
+    \OR\ifcurrentfield{maintitle}\OR\ifcurrentfield{mainsubtitle}%
+    \OR\ifcurrentfield{journaltitle}\OR\ifcurrentfield{journalsubtitle}%
+    \OR\ifcurrentfield{issuetitle}\OR\ifcurrentfield{issuesubtitle}%
+    \OR\ifentrytype{book}\OR\ifentrytype{mvbook}\OR\ifentrytype{bookinbook}%
+    \OR\ifentrytype{booklet}\OR\ifentrytype{suppbook}%
+    \OR\ifentrytype{collection}\OR\ifentrytype{mvcollection}%
+    \OR\ifentrytype{suppcollection}\OR\ifentrytype{manual}%
+    \OR\ifentrytype{periodical}\OR\ifentrytype{suppperiodical}%
+    \OR\ifentrytype{proceedings}\OR\ifentrytype{mvproceedings}%
+    \OR\ifentrytype{reference}\OR\ifentrytype{mvreference}%
+    \OR\ifentrytype{report}\OR\ifentrytype{thesis}%
+  }{%
+    #1%
+  }{%
+    \MakeSentenceCase*{#1}%
+  }%
 }
+
+% suppress "In:" before journal names
+\renewbibmacro*{in:}{}
+
+% separate authors with semicolon, suppress "and" in author names
+\renewcommand{\multinamedelim}{\addsemicolon\space}
+\renewcommand*{\finalnamedelim}{\addsemicolon\space}
+
+% make names bold
+\renewcommand*{\mkbibnamefamily}[1]{\textbf{#1}}
+
+\DeclareNameAlias{sortname}{last-first}
+\DeclareNameAlias{default}{last-first}
+
+% define custom heading to fix non-uppercase page header, make URLs smaller
+\defbibheading{myheading}[\bibname]{%
+  \chapter{#1}%
+  \markboth{BIBLIOGRAPHY}{BIBLIOGRAPHY}%
+  \let\oldtexttt\texttt%
+  \renewcommand*{\texttt}[1]{\oldtexttt{\scriptsize##1}}%
+}
+
+% add custom bibliography post note (URLs last checked on ...)
+\defbibnote{mypostnote}{%
+  All URLs have last been checked on \thedate.%
+  \renewcommand*{\texttt}[1]{\oldtexttt{##1}}%
+}
+
+% omit "URL:" and "DOI:" separators to save space
+\DeclareFieldFormat{url}{\url{#1}}
+\DeclareFieldFormat{doi}{%
+  \ifhyperref{\href{https://doi.org/#1}{\nolinkurl{#1}}}{\nolinkurl{#1}}%
+}
+
+% change font size of bibliography
+\renewcommand*{\bibfont}{\small}
+
+% set single line spacing for bibliography
+\renewcommand*{\bibsetup}{\singlespacing}
 
 % ======================================================================
 % Glossary

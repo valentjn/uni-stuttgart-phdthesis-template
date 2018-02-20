@@ -114,7 +114,12 @@
 \usepackage{nameref}
 
 % table of symbols and acronyms
-\iftoggle{partialCompileMode}{}{
+\iftoggle{partialCompileMode}{
+  % these packages are necessary so that LaTeX doesn't complain
+  % about undefined counters when using \includeonly
+  \usepackage{substr}
+  \usepackage{longtable}
+}{
   \usepackage[
     % show glossary in table of contents
     toc,
@@ -136,20 +141,18 @@
 \usepackage{hyperref}
 
 % BibLaTeX
-\iftoggle{compileBibliography}{
-  \usepackage[
-    % abbreviate author names
-    giveninits=true,
-    % don't show ISBNs/ISSNs
-    isbn=false,
-    % only show years in dates
-    date=year,
-    % use alphabetic style instead of numeric
-    style=alphabetic,
-    % only use first author's name for the style
-    maxalphanames=1,
-  ]{biblatex}
-}{}
+\usepackage[
+  % abbreviate author names
+  giveninits=true,
+  % don't show ISBNs/ISSNs
+  isbn=false,
+  % only show years in dates
+  date=year,
+  % use alphabetic style instead of numeric
+  style=alphabetic,
+  % only use first author's name for the style
+  maxalphanames=1,
+]{biblatex}
 
 % named references
 \usepackage[

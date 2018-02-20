@@ -2,7 +2,7 @@
 \RequirePackage{etoolbox}
 
 % ======================================================================
-% Toggle settings
+% Toggle Settings
 % ======================================================================
 
 % draftMode switch:
@@ -31,16 +31,16 @@
 \newtoggle{partialCompileMode}
 \togglefalse{partialCompileMode}
 
-% compileX:
 % select chapters to compile for partialCompileMode = true
-\newtoggle{compileChapter1}
-\newtoggle{compileChapter2}\toggletrue{compileChapter2}
-\newtoggle{compileChapter3}
-\newtoggle{compileChapterAppendix1}\toggletrue{compileChapterAppendix1}
-\newtoggle{compileBibliography}\toggletrue{compileBibliography}
+\includeonly{%
+  %1_introduction,
+  2_flux_capacitor,
+  %3_conclusion,
+  %app1_proofs,
+}
 
 % ======================================================================
-% Toggle logic
+% Toggle Logic
 % ======================================================================
 
 % disable checkMode, showGlossaryDefinitionsMode, and debugMode
@@ -51,11 +51,9 @@
   \togglefalse{showGlossaryDefinitionsMode}
 }
 
-% disable compileX if partialCompileMode is disabled
+% compile everything if partialCompileMode is disabled
+\makeatletter
 \iftoggle{partialCompileMode}{}{
-  \toggletrue{compileChapter1}
-  \toggletrue{compileChapter2}
-  \toggletrue{compileChapter3}
-  \toggletrue{compileChapterAppendix1}
-  \toggletrue{compileBibliography}
+  % disable the \includeonly mechanism
+  \@partswfalse
 }

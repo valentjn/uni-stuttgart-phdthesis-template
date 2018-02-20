@@ -27,8 +27,9 @@
     % second title page
     \input{titlepage2}
     
-    % table of contents
+    % table of contents, create bookmark
     \cleardoublepage
+    \pdfbookmark[section]{\contentsname}{toc}
     \tableofcontents
     
     % table of symbols and acronyms
@@ -42,27 +43,25 @@
   }
   
   % chapters
-  \iftoggle{compileChapter1}{\include{1_introduction}}{}
-  \iftoggle{compileChapter2}{\include{2_flux_capacitor}}{}
-  \iftoggle{compileChapter3}{\include{3_conclusion}}{}
+  \include{1_introduction}
+  \include{2_flux_capacitor}
+  \include{3_conclusion}
   
   % start appendix
   \appendix
   
   % appendix chapters
-  \iftoggle{compileChapterAppendix1}{\include{app1_proofs}}{}
+  \include{app1_proofs}
   
-  \iftoggle{compileBibliography}{
-    % bibliography
-    \printbibliography[%
-      % change title
-      title=Bibliography,
-      % use custom heading
-      heading=myheading,
-      % print custom note
-      postnote=mypostnote,
-    ]
-  }{}
+  % bibliography
+  \printbibliography[%
+    % change title
+    title=Bibliography,
+    % use custom heading
+    heading=myheading,
+    % print custom note
+    postnote=mypostnote,
+  ]
   
   \iftoggle{partialCompileMode}{}{
     % add all symbols and acronyms that have not been used
