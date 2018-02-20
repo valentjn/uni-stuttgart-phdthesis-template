@@ -432,12 +432,13 @@
 
 % automatically replace "l" with \ell in math mode
 \mathcode`l="8000
-\begingroup
 \makeatletter
+\begingroup
 \lccode`\~=`\l
 \DeclareMathSymbol{\lsb@l}{\mathalpha}{letters}{`l}
 \lowercase{\gdef~{\ifnum\the\mathgroup=\m@ne \ell \else \lsb@l \fi}}%
 \endgroup
+\makeatother
 
 % ======================================================================
 % Blindtext
