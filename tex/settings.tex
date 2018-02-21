@@ -188,7 +188,7 @@
 % Float Captions
 % ======================================================================
 
-% change font size for captions
+% change font size for captions, add horizontal rule
 \makeatletter
 \DeclareCaptionFormat{mycaptionformat}{%
   \small\@hangfrom{#1#2}%
@@ -327,7 +327,7 @@
 % Theorems
 % ======================================================================
 
-% define mdframed style for theorems (left bar)
+% define mdframed style for theorems (left rule)
 \mdfdefinestyle{mymdfstyle}{
   hidealllines=true,
   leftline=true,
@@ -364,18 +364,6 @@
   headpunct={},
   bodyfont={\itshape},
 ]{mythmshortplainstyle}
-
-% proofs are set like normal text
-\declaretheoremstyle[
-  headfont={\normalfont\normalsize\itshape},
-  headpunct={.},
-  qed={\qedsymbol},
-]{mythmproofstyle}
-
-% redefine proof environment as the vertical spacing of the default
-% environment seems to be a bit weird (it's implemented as a list...)
-\let\proof\relax
-\let\endproof\relax
 
 % theorem environments
 \declaretheorem[
@@ -414,11 +402,16 @@
   mdframed={style=mymdfstyle},
   style=mythmshortplainstyle,
 ]{shortcorollary}
-\declaretheorem[
-  name={Proof},
-  unnumbered,
-  style=mythmproofstyle,
-]{proof}
+
+% use tcolorbox for dashed rule near proofs
+\tcolorboxenvironment{proof}{
+  blanker,
+  before skip=1.5em,
+  after skip=\topsep,
+  borderline west={2pt}{0pt}{anthrazit,dashed},
+  breakable,
+  left=12pt,
+}
 
 % reference theorems with their name appended
 \newcommand*{\thmref}[1]{\hyperlink{#1}{\cref*{#1}~(\nameref*{#1})}}
