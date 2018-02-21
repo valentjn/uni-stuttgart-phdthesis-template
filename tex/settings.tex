@@ -67,29 +67,30 @@
 % don't use sans-serif font for headings
 \setkomafont{disposition}{\normalcolor\bfseries}
 
-% chapter heading: make number bigger
-\renewcommand*{\chapterformat}{%
-  \mbox{%
+% format chapter headings with custom commands (below)
+\renewcommand*{\chapterformat}{\chapternumber{\thechapter\autodot}}
+\renewcommand*{\chapterlinesformat}[3]{#2\chaptertitle{#3}}
+
+% scale chapter number, bottom alignment
+\newcommand*{\chapternumber}[1]{%
+  \begin{minipage}[b]{0.15\linewidth}%
     \chapappifchapterprefix{\nobreakspace}%
-    \scalebox{3.2}{\thechapter\autodot}%
+    \scalebox{3.2}{#1\vphantom{0123456789}}%
     \IfUsePrefixLine{}{\enskip}%
+  \end{minipage}%
+}
+
+% left-align chapter title, use single spacing
+\newcommand*{\chaptertitle}[1]{%
+  \leavevmode\smash{%
+    \begin{minipage}[b]{0.85\linewidth}%
+      \raggedchapter\singlespacing#1%
+    \end{minipage}%
   }%
 }
 
-% chapter heading: align number and text at the baseline of the last line
-% of the text, add some more space between number and text
-\renewcommand*{\chapterlinesformat}[3]{%
-  \begin{tabularx}{\textwidth}{@{}l@{}X@{}}%
-    % chapter number
-    #2%
-    % add hspace between number and text, but only if \chapter (not \chapter*)
-    % has been used (i.e., if the chapter number #2 is not empty)
-    \if\relax\detokenize{#2}\relax\else\hspace*{5mm}\fi&%
-    % text of heading, [b] is for alignment, \linewidth is width of X cell,
-    % \raggedchapter for not justifying headings
-    \parbox[b]{\linewidth}{\raggedchapter\singlespacing#3}%
-  \end{tabularx}%
-}
+% set space before and after chapter heading
+\RedeclareSectionCommand[beforeskip=8em,afterskip=5em]{chapter}
 
 % decrease skip before \paragraph and \subparagraph headings
 \RedeclareSectionCommand[beforeskip=2ex plus 1ex minus .2px]{paragraph}
