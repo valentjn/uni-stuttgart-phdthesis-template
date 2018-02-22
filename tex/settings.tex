@@ -51,6 +51,21 @@
 }
 
 % ======================================================================
+% Graphics
+% ======================================================================
+
+% location of graphics files
+\graphicspath{{../gfx/}}
+
+% TikZ libraries
+\usetikzlibrary{
+  % curly braces
+  decorations.pathreplacing,
+  % ornamental lines
+  patterns.images,
+}
+
+% ======================================================================
 % Table of Contents
 % ======================================================================
 
@@ -323,9 +338,32 @@
 % the default value is 0.5, which is a bit small
 \renewcommand*{\floatpagefraction}{0.7}
 
-% separate floats from text with a dotted line
-\newcommand*{\topfigrule}{\textcolor{black}{\vskip1.2ex\noindent\dotfill}}
-\newcommand*{\botfigrule}{\textcolor{black}{\noindent\dotfill\vskip1.2ex}}
+% space between floats and text
+\setlength{\textfloatsep}{40pt}
+
+% height of ornament
+\newcommand*{\myornamentheight}{8pt}
+% center ornament vertically
+\newcommand*{\myornamentmargin}{%
+  \dimexpr\textfloatsep/2-\myornamentheight/2\relax%
+}
+% load ornament image
+\pgfSetupImageAsPattern[height=\myornamentheight]{myornament}{../gfx/ornament}
+
+% separate floats from text with an ornament line
+\newcommand*{\topfigrule}{%
+  {%
+    \color{black}%
+    \vspace{\myornamentmargin}%
+    \noindent%
+    \begin{tikzpicture}[use image as pattern=myornament]
+      \draw[draw=none,image as pattern={center,bottom}]
+        (0,0) rectangle (\textwidth,\myornamentheight);
+    \end{tikzpicture}%
+    \vspace{-\myornamentmargin}%
+    \vspace{-\myornamentheight}%
+  }%
+}
 
 % ======================================================================
 % Theorems
@@ -456,16 +494,6 @@
   \todo{write}
   \textcolor{gray}{\oldblindtext}%
 }
-
-% ======================================================================
-% Graphics
-% ======================================================================
-
-% location of graphics files
-\graphicspath{{../gfx/}}
-
-% TikZ libraries
-\usetikzlibrary{decorations.pathreplacing}
 
 % ======================================================================
 % Dynamic Commands
