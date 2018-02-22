@@ -40,8 +40,12 @@ for py in pys:
       break
   
   # generate list of *.pdf files
-  cur_pdfs = [os.path.join(env["BUILD_DIR"].abspath, "{}_{}.pdf".format(name, i))
-              for i in range(1, pdf_count + 1)]
+  if name == "ornament":
+    cur_pdfs = [os.path.join(env["BUILD_DIR"].abspath, "ornament.pdf")]
+  else:
+    cur_pdfs = [os.path.join(env["BUILD_DIR"].abspath, "{}_{}.pdf".format(name, i))
+                for i in range(1, pdf_count + 1)]
+  
   # generate *.pdf files
   py_env.Command(cur_pdfs, py, "python3 $SOURCE")
   pdfs.extend(cur_pdfs)
