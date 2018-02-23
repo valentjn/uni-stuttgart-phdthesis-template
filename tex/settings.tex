@@ -750,6 +750,10 @@
 
 \makeatletter
 
+% \newcommand with variable command names
+\newcommand*{\newnamecommand}{\@star@or@long\new@name@command}
+\newcommand*{\new@name@command}[1]{\expandafter\new@command\csname #1\endcsname}
+
 \iftoggle{partialCompileMode}{
   \newcommand*{\newgsymbol}[3]{}
   \newcommand*{\newgacronym}[3]{\newnamecommand{#1}{#2\xspace}}
