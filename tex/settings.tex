@@ -79,8 +79,8 @@
 % Headings
 % ======================================================================
 
-% don't use sans-serif font for headings
-\setkomafont{disposition}{\normalcolor\bfseries}
+% don't use sans-serif font for headings, use single spacing
+\setkomafont{disposition}{\normalcolor\bfseries\setstretch{1}}
 
 % format chapter headings with custom commands (below)
 \renewcommand*{\chapterformat}{\chapternumber{\thechapter\autodot}}
@@ -95,11 +95,11 @@
   \end{minipage}%
 }
 
-% left-align chapter title, use single spacing
+% left-align chapter title
 \newcommand*{\chaptertitle}[1]{%
   \leavevmode\smash{%
     \begin{minipage}[b]{0.85\linewidth}%
-      \raggedchapter\singlespacing#1%
+      \raggedchapter#1%
     \end{minipage}%
   }%
 }
