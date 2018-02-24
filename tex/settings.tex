@@ -866,6 +866,10 @@
     \newnamecommand{#1sc}{\Glspl{#1}\xspace}%
   }
   
+  % spell out acronyms at beginning of chapters and sections
+  \addtokomafont{chapter}{\glsresetall}
+  \addtokomafont{section}{\glsresetall}
+  
   % generate table of symbols and acronyms
   \makeglossaries
 }
