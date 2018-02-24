@@ -866,6 +866,13 @@
     \newnamecommand{#1sc}{\Glspl{#1}\xspace}%
   }
   
+  % shortcut for \newgacronym wihout displaying an entry in the glossary
+  \newignoredglossary{hidden}
+  \newcommand*{\newghiddenacronym}[3]{%
+    \newgacronym{#1}{#2}{#3}%
+    \glsmoveentry{#1}{hidden}%
+  }
+  
   % spell out acronyms at beginning of chapters and sections
   \addtokomafont{chapter}{\glsresetall}
   \addtokomafont{section}{\glsresetall}
