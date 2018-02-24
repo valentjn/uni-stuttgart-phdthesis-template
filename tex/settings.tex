@@ -66,6 +66,51 @@
 }
 
 % ======================================================================
+% Cross-References
+% ======================================================================
+
+% define abbreviated names for cross-references
+\crefname{algorithm}{Alg.}{Algorithms}
+\Crefname{algorithm}{Algorithm}{Algorithms}
+
+\crefname{chapter}{Chap.}{Chapters}
+\Crefname{chapter}{Chapter}{Chapters}
+
+\crefname{corollary}{Cor.}{Corollaries}
+\Crefname{corollary}{Corollary}{Corollaries}
+
+\crefname{definition}{Def.}{Definitions}
+\Crefname{definition}{Definition}{Definitions}
+
+\crefname{equation}{Eq.}{Equations}
+\Crefname{equation}{Equation}{Equations}
+
+\crefname{figure}{Fig.}{Figures}
+\Crefname{figure}{Figure}{Figures}
+
+\crefname{lemma}{Lemma}{Lemmas}
+\Crefname{lemma}{Lemma}{Lemmas}
+
+\crefname{line}{Line}{Lines}
+\Crefname{line}{Line}{Lines}
+
+\crefname{proposition}{Prop.}{Propositions}
+\Crefname{proposition}{Proposition}{Propositions}
+
+\crefname{section}{Sec.}{Sections}
+\Crefname{section}{Section}{Sections}
+
+\crefname{table}{Tab.}{Tables}
+\Crefname{table}{Table}{Tables}
+
+\crefname{theorem}{Thm.}{Theorems}
+\Crefname{theorem}{Theorem}{Theorems}
+
+% reference theorems with their name appended
+\newcommand*{\thmref}[1]{\hyperlink{#1}{\cref*{#1}~(\nameref*{#1})}}
+\newcommand*{\Thmref}[1]{\hyperlink{#1}{\Cref*{#1}~(\nameref*{#1})}}
+
+% ======================================================================
 % Table of Contents
 % ======================================================================
 
@@ -457,10 +502,6 @@
   breakable,
   left=12pt,
 }
-
-% reference theorems with their name appended
-\newcommand*{\thmref}[1]{\hyperlink{#1}{\cref*{#1}~(\nameref*{#1})}}
-\newcommand*{\Thmref}[1]{\hyperlink{#1}{\Cref*{#1}~(\nameref*{#1})}}
 
 % ======================================================================
 % Mathematics
