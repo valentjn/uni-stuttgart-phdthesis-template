@@ -366,6 +366,21 @@
 ]{loa}
 
 % ======================================================================
+% Tables
+% ======================================================================
+
+% fixed-width column types with left, center, and right alignment
+\newcolumntype{L}[1]{%
+  >{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}%
+}
+\newcolumntype{C}[1]{%
+  >{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}%
+}
+\newcolumntype{R}[1]{%
+  >{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}%
+}
+
+% ======================================================================
 % Floats
 % ======================================================================
 
@@ -805,19 +820,17 @@
   % define new glossary style based on long (uses longtable)
   % in which the column widths are fixed and space before/after the
   % table is removed
-  \newglossarystyle{long3fixed}{%
-    \setglossarystyle{long3col}%
+  \newglossarystyle{longraggedfixed}{%
+    \setglossarystyle{long}%
     \renewenvironment{theglossary}%
     {%
       \setlength{\LTpre}{0pt}%
       \setlength{\LTpost}{0pt}%
       \begin{spacing}{1}%
-        \begin{longtable}{%
-            @{}p{0.15\textwidth}@{}%
-            p{0.78\textwidth}@{}%
-            >{\raggedleft}p{0.07\textwidth}@{}%
-        }%
-          \textbf{Symbol}&\textbf{Meaning}&\textbf{Page}\vspace{2mm}\endhead%
+        \begin{longtable}{@{}L{0.15\textwidth}@{}L{0.85\textwidth}@{}}%
+          \textbf{Symbol}&%
+          \textbf{Meaning\hfill{}Page(s) with Explanation}%
+          \vspace{2mm}\endhead%
     }%
     {%
         \end{longtable}%
@@ -827,14 +840,14 @@
       \glsentryitem{##1}\glstarget{##1}{\glossentryname{##1}}&%
       \glossentrydesc{##1}\leavevmode\kern3pt\leaders\hbox{%
         \hspace{0.25em}.\hspace{0.25em}%
-      }\hfill\kern0pt&%
+      }\hfill\kern0pt%
       ##2%
       \tabularnewline%
     }%
   }
   
   % use new glossary style
-  \setglossarystyle{long3fixed}
+  \setglossarystyle{longraggedfixed}
   
   % shortcut for \newglossaryentry + \gls
   \newcommand*{\newgsymbol}[3]{%
