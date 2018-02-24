@@ -816,6 +816,7 @@
 \iftoggle{partialCompileMode}{
   \newcommand*{\newgsymbol}[3]{}
   \newcommand*{\newgacronym}[3]{\newnamecommand{#1}{#2\xspace}}
+  \newcommand*{\hidegacronym}[1]{}
 }{
   % define new glossary style based on long (uses longtable)
   % in which the column widths are fixed and space before/after the
@@ -866,12 +867,9 @@
     \newnamecommand{#1sc}{\Glspl{#1}\xspace}%
   }
   
-  % shortcut for \newgacronym wihout displaying an entry in the glossary
+  % hide specific acronyms (that are only used once) in glossary
   \newignoredglossary{hidden}
-  \newcommand*{\newghiddenacronym}[3]{%
-    \newgacronym{#1}{#2}{#3}%
-    \glsmoveentry{#1}{hidden}%
-  }
+  \newcommand*{\hidegacronym}[1]{\glsmoveentry{#1}{hidden}}
   
   % spell out acronyms at beginning of chapters and sections
   \addtokomafont{chapter}{\glsresetall}
