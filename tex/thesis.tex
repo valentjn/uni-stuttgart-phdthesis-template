@@ -63,13 +63,6 @@
     postnote=mypostnote,
   ]
   
-  \iftoggle{partialCompileMode}{}{
-    % add all symbols and acronyms that have not been used
-    % in the text to the glossary
-    % (this command has to come after all glossary definitions)
-    \glsaddallunused
-  }
-  
   % end with even page
   \cleardoublepage
 \end{document}
