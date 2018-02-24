@@ -861,7 +861,9 @@
   \newcommand*{\newgacronym}[3]{%
     \newacronym[sort={#1},description={\makefirstuc{#3}}]{#1}{#2}{#3}%
     \newnamecommand{#1}{\gls{#1}\xspace}%
-    \newnamecommand{#1Cap}{\Gls{#1}\xspace}%
+    \newnamecommand{#1s}{\glspl{#1}\xspace}%
+    \newnamecommand{#1c}{\Gls{#1}\xspace}%
+    \newnamecommand{#1sc}{\Glspl{#1}\xspace}%
   }
   
   % generate table of symbols and acronyms
