@@ -116,6 +116,15 @@
 % reference current chapter, section, subsection, ...
 \usepackage{nameref}
 
+% line spacing (one and a half lines)
+\usepackage[onehalfspacing]{setspace}
+
+% PDF links
+\usepackage{hyperref}
+
+% create custom PDF bookmarks
+\usepackage{bookmark}
+
 % table of symbols and acronyms
 \iftoggle{partialCompileMode}{
   % these packages are necessary so that LaTeX doesn't complain
@@ -136,12 +145,6 @@
     ucmark,
   ]{glossaries}
 }
-
-% line spacing (one and a half lines)
-\usepackage[onehalfspacing]{setspace}
-
-% PDF links
-\usepackage{hyperref}
 
 % BibLaTeX
 \usepackage[
