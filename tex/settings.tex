@@ -823,6 +823,18 @@
 % set single line spacing for bibliography
 \renewcommand*{\bibsetup}{\singlespacing}
 
+% include brackets in \cite hyperlink
+\DeclareCiteCommand{\cite}{\usebibmacro{prenote}}{%
+  \usebibmacro{citeindex}%
+  \printtext[bibhyperref]{\mkbibbrackets{\usebibmacro{cite}}}%
+}{\multicitedelim}{\usebibmacro{postnote}}
+
+% declare special \multicite command which produce [Abc01; Def02]
+% (instead of [Abc01]; [Def02])
+\DeclareCiteCommand{\multicite}[\mkbibbrackets]{\usebibmacro{prenote}}{%
+  \usebibmacro{citeindex}\usebibmacro{cite}%
+}{\multicitedelim}{\usebibmacro{postnote}}
+
 % ======================================================================
 % Glossary
 % ======================================================================
