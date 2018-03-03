@@ -248,12 +248,18 @@
 % Initials
 % ======================================================================
 
-\setlength{\DefaultNindent}{0em}
-\setcounter{DefaultLines}{3}
-
+% load Zallman Caps font
 \input{Zallman.fd}
 \newcommand*{\initfamily}{\usefont{U}{Zallman}{xl}{n}}
+
+% no indent right of initial
+\setlength{\DefaultNindent}{0em}
+% height of initial in text lines
+\setcounter{DefaultLines}{3}
+% use Zallman Caps for initial
 \renewcommand*{\LettrineFontHook}{\initfamily}
+% don't use small caps for rest of text
+\renewcommand*{\LettrineTextFont}{\normalfont}
 
 % ======================================================================
 % Float Captions
