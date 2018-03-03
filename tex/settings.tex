@@ -245,6 +245,17 @@
 \renewcommand*{\chaptermarkformat}{Chapter \thechapter: }
 
 % ======================================================================
+% Initials
+% ======================================================================
+
+\setlength{\DefaultNindent}{0em}
+\setcounter{DefaultLines}{3}
+
+\input{Zallman.fd}
+\newcommand*{\initfamily}{\usefont{U}{Zallman}{xl}{n}}
+\renewcommand*{\LettrineFontHook}{\initfamily}
+
+% ======================================================================
 % Float Captions
 % ======================================================================
 
