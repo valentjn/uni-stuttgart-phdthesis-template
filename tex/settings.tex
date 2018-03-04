@@ -922,6 +922,10 @@
   % use new glossary style
   \setglossarystyle{longraggedfixed}
   
+  % add field to glossary entries that stores whether the entry
+  % has been used at least once in the document
+  \glsaddstoragekey{myused}{false}{\glsmyused}
+  
   % \newnotation{sortKey}{entrySymbol}{entryText}
   % adds notation to the glossary without command,
   % only to be used with \usenotation
@@ -945,12 +949,15 @@
     \newglossaryentry{#2}{text={},sort={#2},name={#3},description={#4}}%
     % only reference entry if outside glossary
     % (otherwise, the page number of the glossary would be displayed)
-    \apptocmd{#1}{\ifinglossary\else\gls{#2}\fi}{}{}%
+    \apptocmd{#1}{\ifinglossary\else\usenotation{#2}\fi}{}{}%
   }
   
   % \usenotation{sortKey}
   % explicitly "uses" the notation given by sortKey without printing anything
-  \newcommand*{\usenotation}[1]{\glsdisp{#1}{\relax}\ignorespaces}
+  \newcommand*{\usenotation}[1]{%
+    \glsfieldgdef{#1}{myused}{true}%
+    \glsdisp{#1}{\relax}\ignorespaces%
+  }
   
   % deprecated
   \newcommand*{\newgsymbol}[3]{%
@@ -963,10 +970,10 @@
   % a corresponding shortcut for \gls
   \newcommand*{\newgacronym}[3]{%
     \newacronym[sort={#1},description={\makefirstuc{#3}}]{#1}{#2}{#3}%
-    \newnamecommand{#1}{\gls{#1}\xspace}%
-    \newnamecommand{#1s}{\glspl{#1}\xspace}%
-    \newnamecommand{#1c}{\Gls{#1}\xspace}%
-    \newnamecommand{#1sc}{\Glspl{#1}\xspace}%
+    \newnamecommand{#1}{\glsfieldgdef{#1}{myused}{true}\gls{#1}\xspace}%
+    \newnamecommand{#1s}{\glsfieldgdef{#1}{myused}{true}\glspl{#1}\xspace}%
+    \newnamecommand{#1c}{\glsfieldgdef{#1}{myused}{true}\Gls{#1}\xspace}%
+    \newnamecommand{#1sc}{\glsfieldgdef{#1}{myused}{true}\Glspl{#1}\xspace}%
   }
   
   % hide specific acronyms (that are only used once) in glossary
@@ -976,6 +983,17 @@
   % spell out acronyms at beginning of chapters and sections
   \addtokomafont{chapter}{\glsresetall}
   \addtokomafont{section}{\glsresetall}
+  
+  % warn for every symbol that has not been used i
+  \AtEndDocument{%
+    \forglsentries{\mysymbolname}{%
+      \ifthenelse{\equal{\glsmyused{\mysymbolname}}{false}}{
+        \GenericWarning{}{%
+          LaTeX Warning: Symbol ``\mysymbolname'' defined, but unused%
+        }%
+      }{}%
+    }%
+  }
   
   % generate table of symbols and acronyms
   \makeglossaries
