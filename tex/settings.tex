@@ -886,7 +886,25 @@
       }\hfill\kern0pt%
       ##2%
       \tabularnewline%
-    }%
+    }
+    
+    % only print number of first occurrence
+    % (we use \glsresetall at the beginning of each chapter and section
+    % to redisplay the full versions of acronyms, but this adds all the
+    % page numbers of an occurrence after a new chapter/section to the
+    % table)
+    \renewcommand*{\glossaryentrynumbers}[1]{%
+      \newif\iffirstpagenumber%
+      \firstpagenumbertrue%
+      ##1\gls@save@numberlist{##1}%
+    }
+    \renewcommand*{\glsnumberformat}[1]{%
+      \iffirstpagenumber%
+        \glshypernumber{##1}%
+        \firstpagenumberfalse%
+      \fi%
+    }
+    \renewcommand*{\delimN}{}%
   }
   
   % use new glossary style
