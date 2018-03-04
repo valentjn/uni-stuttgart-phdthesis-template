@@ -1,0 +1,83 @@
+% black-board letters
+% define \bbN and \NN (N = arbitrary letter)
+\newcommand*{\defbb}[1]{%
+  \newnamecommand{bb#1}{\mathbb{#1}}%
+  \newnamecommand{#1#1}{\mathbb{#1}}%
+}
+%\defbb{N}
+\defbb{R}
+\defbb{Z}
+
+\newnotationcommand{\NN}{\mathbb{N}}{N}{$\NN$}{
+  Natural numbers without zero ($1, 2, 3, \dotsc$)
+}
+\newnotationcommand{\NNz}{\mathbb{N}_0}{N0}{$\NNz$}{
+  Natural numbers with zero ($\NN \cup \{0\}$)
+}
+
+\newnotation{l}{$l$}{Level $\in \NN_0$}
+\newnotation{i}{$i$}{Index $= 0, \dotsc, 2^l$}
+
+\newnotationcommand[1]{\gp}{x_{#1}}{xli}{$x_{l,i}$}{
+  Grid point $:= i \cdot h_l$
+}
+
+% calligraphic letters
+% define \calC (C = arbitrary letter)
+\newcommand*{\defcal}[1]{\newnamecommand{cal#1}{\mathcal{#1}}}
+\defcal{C}
+\defcal{O}
+
+% defined terms
+\newcommand*{\term}[1]{\emph{#1}}
+
+% mathematic operators
+\DeclareMathOperator{\intsupp}{\interior{\supp}}
+\makecommandnotation{\intsupp}{supp!}{$\intsupp$}{
+  Bla bla blubb
+}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\xor}{xor}
+
+% subsets
+\renewcommand*{\subset}{\subseteq}
+
+% differential for integral/derivatives
+\newcommand*{\diff}{\mathop{}\!\mathrm{d}}
+\newcommand*{\dx}{\diff{}x}
+\newcommand*{\partialdiff}{\mathop{}\!\partial}
+
+% vectors
+\renewcommand*{\vec}[1]{{\boldsymbol{#1}}}
+\newcommand*{\ß}[1]{\vec{#1}}
+\newcommand*{\veclog}{\mathop{\vec{\log}}}
+\newcommand*{\vecmax}{\mathop{\vec{\max}}}
+
+% quantors
+\newcommand*{\fa}[2]{\forall_{#1}\;\;#2}
+\newcommand*{\ex}[2]{\exists_{#1}\;\;#2}
+
+% norm
+\newcommand*{\norm}[1]{\lVert{#1}\rVert}
+\newcommand*{\bignorm}[1]{\left\lVert{#1}\right\rVert}
+
+% superscripts
+\newcommand*{\clenshawcurtis}{\mathrm{cc}}
+\newcommand*{\modified}{\mathrm{mod}}
+\newcommand*{\ntrl}{\mathrm{nat}}
+\newcommand*{\notaknot}{\mathrm{nak}}
+\newcommand*{\sparse}{\mathrm{s}}
+
+% disjoint union
+\newcommand*{\dotcup}{\mathbin{\dot{\cup}}}
+\DeclareMathOperator*{\bigdotcup}{\dot{\bigcup}}
+
+% interior and boundary
+\newcommand*{\interior}[1]{\mathring{#1}}
+\newcommand*{\bndry}[1]{\mathop{}\!\partial#1}
+
+% open interval
+\newcommand*{\openinterval}[1]{\mathopen]#1\mathclose[}
+\newcommand*{\halfopeninterval}[1]{\mathopen[#1\mathclose[}
+\newcommand*{\openintervalscaled}[1]{\left]#1\right[}
