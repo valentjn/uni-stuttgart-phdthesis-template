@@ -842,6 +842,11 @@
 \newcommand*{\new@name@command}[1]{\expandafter\new@command\csname #1\endcsname}
 
 \iftoggle{partialCompileMode}{
+  \newcommand*{\newnotation}[3]{}
+  \newcommand*{\newnotationcommand}[6][0]{\newcommand*{#2}[#1]{#3}}
+  \newcommand*{\makecommandnotation}[4]{}
+  \newcommand*{\usenotation}[1]{\ignorespaces}
+  
   \newcommand*{\newgsymbol}[3]{}
   \newcommand*{\newgacronym}[3]{%
     \newnamecommand{#1}{#2\xspace}%
@@ -910,9 +915,36 @@
   % use new glossary style
   \setglossarystyle{longraggedfixed}
   
-  % shortcut for \newglossaryentry + \gls
+  % \newnotation{sortKey}{entrySymbol}{entryText}
+  % adds notation to the glossary without command,
+  % only to be used with \usenotation
+  \newcommand*{\newnotation}[3]{%
+    \newglossaryentry{#1}{text={},sort={#1},name={#2},description={#3}}%
+  }
+  
+  % \newnotationcommand[numberOfArgs]{\commandName}{commandDefinition}
+  %   {sortKey}{entrySymbol}{entryText}
+  % adds notation to the glossary and creates a command
+  \newcommand*{\newnotationcommand}[6][0]{%
+    \newcommand*{#2}[#1]{#3}%
+    \makecommandnotation{#2}{#4}{#5}{#6}%
+  }
+  
+  % \makecommandnotation{\commandName}{sortKey}{entrySymbol}{entryText}
+  % adds notation to the glossary and modifies \commandName such that
+  % the glossary entry is referenced on every use of \commandName
+  \newcommand*{\makecommandnotation}[4]{%
+    \newglossaryentry{#2}{text={},sort={#2},name={#3},description={#4}}%
+    \apptocmd{#1}{\gls{#2}}{}{}%
+  }
+  
+  % \usenotation{sortKey}
+  % explicitly "uses" the notation given by sortKey without printing anything
+  \newcommand*{\usenotation}[1]{\glsdisp{#1}{\relax}\ignorespaces}
+  
+  % deprecated
   \newcommand*{\newgsymbol}[3]{%
-    \newglossaryentry{#1}{sort={#1},name={#2},description={#3},text={}}%
+    \newglossaryentry{#1}{sort={#1},name={#2},description={\textcolor{red}{#3}},text={}}%
     % only reference the entry if not in preamble
     \ifx\@onlypreamble\@notprerr\gls{#1}\fi%
   }
