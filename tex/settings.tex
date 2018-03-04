@@ -855,21 +855,30 @@
   % in which the column widths are fixed and space before/after the
   % table is removed
   \newglossarystyle{longraggedfixed}{%
+    % base glossary style
     \setglossarystyle{long}%
+    
     \renewenvironment{theglossary}%
     {%
+      % remove space before/after glossary
       \setlength{\LTpre}{0pt}%
       \setlength{\LTpost}{0pt}%
+      % use single spacing
       \begin{spacing}{1}%
+        % table header
         \begin{longtable}{@{}L{0.15\textwidth}@{}L{0.85\textwidth}@{}}%
           \textbf{Symbol}\vspace{2mm}&%
-          \textbf{Meaning\hfill{}Page(s) with Explanation}\vspace{2mm}%
+          \textbf{Meaning\hfill{}Page with First Occurrence}\vspace{2mm}%
           \endhead%
     }%
     {%
+      % table footer
         \end{longtable}%
       \end{spacing}%
     }%
+    
+    % add dotted leaders between entry description and page number
+    % (called for every row of the table)
     \renewcommand*{\glossentry}[2]{%
       \glsentryitem{##1}\glstarget{##1}{\glossentryname{##1}}&%
       \glossentrydesc{##1}\leavevmode\kern3pt\leaders\hbox{%
