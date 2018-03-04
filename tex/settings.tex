@@ -863,11 +863,16 @@
     % base glossary style
     \setglossarystyle{long}%
     
+    % custom flag to check if we're in the glossary
+    \newif\ifinglossary
+    
     \renewenvironment{theglossary}%
     {%
       % remove space before/after glossary
       \setlength{\LTpre}{0pt}%
       \setlength{\LTpost}{0pt}%
+      % set custom flag that we are now in the glossary
+      \inglossarytrue%
       % use single spacing
       \begin{spacing}{1}%
         % table header
@@ -880,6 +885,8 @@
       % table footer
         \end{longtable}%
       \end{spacing}%
+      % set custom flag that we are now outside the glossary
+      \inglossaryfalse%
     }%
     
     % add dotted leaders between entry description and page number
@@ -933,9 +940,12 @@
   % \makecommandnotation{\commandName}{sortKey}{entrySymbol}{entryText}
   % adds notation to the glossary and modifies \commandName such that
   % the glossary entry is referenced on every use of \commandName
+  % (except if used in the glossary itself)
   \newcommand*{\makecommandnotation}[4]{%
     \newglossaryentry{#2}{text={},sort={#2},name={#3},description={#4}}%
-    \apptocmd{#1}{\gls{#2}}{}{}%
+    % only reference entry if outside glossary
+    % (otherwise, the page number of the glossary would be displayed)
+    \apptocmd{#1}{\ifinglossary\else\gls{#2}\fi}{}{}%
   }
   
   % \usenotation{sortKey}
