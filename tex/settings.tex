@@ -949,7 +949,7 @@
     \newglossaryentry{#2}{text={},sort={#2},name={#3},description={#4}}%
     % only reference entry if outside glossary
     % (otherwise, the page number of the glossary would be displayed)
-    \apptocmd{#1}{\ifinglossary\else\usenotation{#2}\fi}{}{}%
+    \pretocmd{#1}{\ifinglossary\else\usenotation{#2}\fi}{}{}%
   }
   
   % \usenotation{sortKey}
