@@ -1,44 +1,329 @@
-% black-board letters
-% define \bbN and \NN (N = arbitrary letter)
-\newcommand*{\defbb}[1]{%
-  \newnamecommand{bb#1}{\mathbb{#1}}%
-  \newnamecommand{#1#1}{\mathbb{#1}}%
-}
-%\defbb{N}
-\defbb{R}
-\defbb{Z}
-
-\newnotationcommand{\NN}{\mathbb{N}}{N}{$\NN$}{
+\newnotationcommand{\nat}{\mathbb{N}}{N}{$\nat$}{
   Natural numbers without zero ($1, 2, 3, \dotsc$)
 }
-\newnotationcommand{\NNz}{\mathbb{N}_0}{N0}{$\NNz$}{
-  Natural numbers with zero ($\NN \cup \{0\}$)
+
+\newnotationcommand{\natz}{\mathbb{N}_0}{N0}{$\natz$}{
+  Natural numbers with zero ($\nat \cup \{0\}$)
 }
 
-\newnotation{l}{$l$}{Level $\in \NN_0$}
-\newnotation{i}{$i$}{Index $= 0, \dotsc, 2^l$}
-
-\newnotationcommand[1]{\gp}{x_{#1}}{xli}{$x_{l,i}$}{
-  Grid point $:= i \cdot h_l$
+\newnotationcommand{\integer}{\mathbb{Z}}{Z}{$\integer$}{
+  Integer numbers ($\dotsc, -2, -1, 0, 1, 2, \dotsc$)
 }
+
+\newnotationcommand{\real}{\mathbb{R}}{R}{$\real$}{
+  Real numbers
+}
+
+\newnotation{l}{$\ßl$}{
+  Level $\ßl \in \natz^d$
+}
+
+\newnotation{i}{$\ßi$}{
+  Index $\ßi = \ß0, \dotsc, \ß2^\ßl$
+  (i.e., $\ßi \in \natz^d$ with $0 \le i_t \le 2^{l_t}$
+  for all $t = 1, \dotsc, d$)
+}
+
+\newnotation{d}{$d$}{
+  Dimensionality $\in \nat$
+}
+
+\newnotation{n}{$n$}{
+  Level $\in \natz$ of full or sparse grid
+}
+
+\newnotation{0!}{$\ß0$}{
+  $(0, \dotsc, 0) \in \natz^d$
+}
+
+\newnotation{1!}{$\ß1$}{
+  $(1, \dotsc, 1) \in \nat^d$
+}
+
+\newnotationcommand[1]{\vgp}{\ßx_{#1}}{xli}{$\vgp{\ßl,\ßi}$}{
+  Grid point $\vgp{\ßl,\ßi} := \ßi \cdot \vms{\ßl}$
+}
+
+\newcommand*{\gp}[1]{x_{#1}}
+
+\newnotationcommand[1]{\vms}{\ßh_{#1}}{hl}{$\vms{\ßl}$}{
+  Mesh size $\vms{\ßl} := \ß2^{-\ßl}$
+}
+
+\newcommand{\ms}[1]{h_{#1}}
+
+\newnotationcommand[1]{\basis}{\varphi_{#1}}{phili}{$\basis{\ßl,\ßi}$}{
+  Hierarchical basis function of level $\ßl$, index $\ßi$
+}
+
+\newnotation{.1}{$\cdot^1$}{
+  Superscript for ``Piecewise linear
+  (basis function/function space/interpolant)''
+}
+
+\newnotation{.p}{$\cdot^p$}{
+  Superscript for ``B-splines of degree $p$
+  (basis function/function space/interpolant)''
+}
+
+\newnotation{.s}{$\cdot^\sparse$}{
+  Superscript for ``sparse grid (grid point set/function space/interpolant)''
+}
+
+\newnotation{.sb}{$\cdot^{\sparse(b)}$}{
+  Superscript for ``sparse grid with boundary parameter $b$
+  (grid point set/function space/interpolant)''
+}
+
+\newnotation{.mod}{$\cdot^\modified$}{
+  Superscript for ``Modified (basis function/function space/interpolant)
+  for grids without boundary points''
+}
+
+\newnotationcommand[1]{\ns}{V_{#1}}{Vl}{$\ns{\ßl}$}{
+  Nodal space of level $\ßl$
+}
+
+\newnotation{Vnd}{$\ns{n,d}$}{
+  Multivariate nodal space
+  $:= \ns{n \cdot \ß1}$ of level $n$ with dimensionality $d$
+}
+
+\newnotationcommand[1]{\fgintp}{f_{#1}}{fl}{$\fgintp{\ßl}$}{
+  Full grid interpolant of $f$ in $\ns{\ßl}$
+}
+
+\newnotationcommand[1]{\clint}{[#1]}{ab!c}{$\clint{\ßa, \ßb}$}{
+  Closed hyper-rectangle
+  $:= \clint{a_1, b_1} \times \dotsb \times \clint{a_d, b_d}$
+  with $\clint{a_t, b_t} := \{x_t \in \real \mid a_t \le x_t \le b_t\}$
+}
+
+\newnotationcommand[1]{\opint}{\mathopen]#1\mathclose[}{ab!o}%
+{$\opint{\ßa, \ßb}$}{
+  Open hyper-rectangle
+  $:= \opint{a_1, b_1} \times \dotsb \times \opint{a_d, b_d}$
+  with $\opint{a_t, b_t} := \{x_t \in \real \mid a_t < x_t < b_t\}$
+}
+
+\newnotationcommand[1]{\hopint}{\mathopen[#1\mathclose[}{ab!ho}%
+{$\hopint{\ßa, \ßb}$}{
+  Half-open hyper-rectangle
+  $:= \hopint{a_1, b_1} \times \dotsb \times \hopint{a_d, b_d}$
+  with $\hopint{a_t, b_t} := \{x_t \in \real \mid a_t \le x_t < b_t\}$
+}
+
+\newcommand*{\clintscaled}[1]{\left[#1\right]}
+\newcommand*{\opintscaled}[1]{\left]#1\right[}
+\newcommand*{\hopintscaled}[1]{\left[#1\right[}
+
+\newnotationcommand[1]{\normone}{\norm{#1}_1}{||.||1}{$\normone{\cdot}$}{
+  $\ell_1$ norm $\normone{\ßx} := \sum_{t=1}^d x_t$
+}
+
+\newnotationcommand[1]{\normLtwo}{\norm{#1}_{L^2}}{||.||L2}%
+{$\normLtwo{\cdot}$}{%
+  $L^2$ norm $\normLtwo{f} := \sqrt{\int_\Omega f(x)^2 \dx}$
+  of a function $f\colon \Omega \to \real$
+}
+
+\newcommand*{\normLtwoscaled}[1]{\normscaled{#1}_{L^2}}
+
+\let\equivorig\equiv
+\let\equiv\undefined
+\newnotationcommand{\equiv}{\equivorig}{!equiv}{$\equiv$}{
+  Equality of functions everywhere on their domain
+  (e.g., $f \equiv 0$ means $f(x) = 0$ for all feasible $x$)
+}
+
+\newnotationcommand[1]{\fgset}{\Omega_{#1}}{Omegal!}{$\fgset{\ßl}$}{
+  Set of full grid points of level $\ßl$
+}
+
+\newnotationcommand[1]{\landauO}{\mathcal{O}(#1)}{O}{$\landauO{f(x)}$}{
+  Big-$\mathcal{O}$ Landau notation
+}
+
+\makecommandnotation{\dim}{dim}{$\dim$}{
+  Vector space dimension
+}
+
+\newnotationcommand[1]{\abs}{|#1|}{|.|}{$\abs{\cdot}$}{
+  Absolute value of a scalar
+}
+
+\newnotationcommand[1]{\setsize}{|#1|}{|.|!}{$\setsize{\cdot}$}{
+  Number of elements of a set
+}
+
+\newnotationcommand[1]{\hiset}{I_{#1}}{Il}{$\hiset{\ßl}$}{
+  Set of (odd) indices for hierarchical basis functions
+}
+
+\newnotationcommand[1]{\hs}{W_{#1}}{Wl}{$\hs{\ßl}$}{
+  Hierarchical subspace of level $\ßl$
+}
+
+\newnotationcommand{\liset}{K}{K}{$\liset$}{
+  Finite set of level-index pairs $(\ßl, \ßi)$
+}
+
+\newnotationcommand{\levelset}{L}{L}{$\levelset$}{
+  Finite subset $L \subset \natz^d$ of levels
+}
+
+\newnotationcommand[4]{\coarselevelset}{%
+  \levelset_{#1,#2}^{%
+    \sparse(#3)%
+    \if\relax\detokenize{#4}\relax\else,#4\fi%
+  }%
+}{Lndbs}{$\levelset$}{
+  Finite subset $L \subset \natz^d$ of levels for the grid
+  $\coarseregsgset{n}{d}{b}{}$
+}
+
+\let\oplusorig\oplus
+\let\oplus\undefined
+\newnotationcommand{\oplus}{\oplusorig}{oplus}{$\oplus$}{%
+  Direct sum of vector spaces (vector space sum in which the dimension of
+  the sum equals the sum of the summands' dimensions)
+}
+
+\newnotationcommand[1]{\surplus}{\alpha_{#1}}{alphali}{$\surplus{\ßl,\ßi}$}{%
+  Hierarchical surpluses (coefficients of a linear combination of hierarchical
+  basis functions)
+}
+
+\newnotationcommand[1]{\interpcoeff}{c_{#1}}{cli}{$\interpcoeff{\ßl,\ßi}$}{%
+  Full grid interpolation coefficients
+  (coefficients of a linear combination of nodal basis functions)
+}
+
+\newcommand*{\gridspace}[3][]{%
+  \if\relax\detokenize{#1}\relax V\else#1{V}\fi_{#2}^{#3}%
+}
+
+\newcommand*{\gridset}[3][]{%
+  \if\relax\detokenize{#1}\relax\Omega\else#1{\Omega}\fi_{#2}^{#3}%
+}
+
+\newnotationcommand{\sgspace}{\gridspace{}{\sparse}}{Vs}{$\sgspace$}{
+  Arbitrary sparse grid space (possibly spatially adaptive)
+}
+
+\newnotationcommand{\sgset}{\gridset{}{\sparse}}{Omegas}{$\sgset$}{
+  Arbitrary sparse grid (possibly spatially adaptive)
+}
+
+\newnotationcommand[3]{\regsgspace}{%
+  \gridspace{#1,#2}{%
+    \sparse%
+    \if\relax\detokenize{#3}\relax\else,#3\fi%
+  }%
+}{Vnds}{$\regsgspace{n}{d}{}$}{
+  Regular sparse grid space of level $n$ with dimensionality $d$
+}
+
+\newnotationcommand[3]{\regsgset}{%
+  \gridset{#1,#2}{%
+    \sparse%
+    \if\relax\detokenize{#3}\relax\else,#3\fi%
+  }%
+}{Omegands}{$\regsgset{n}{d}{}$}{
+  Set of regular sparse grid points of level $n$ with dimensionality $d$
+}
+
+\newnotationcommand[4]{\coarseregsgset}{%
+  \gridset{#1,#2}{%
+    \sparse(#3)%
+    \if\relax\detokenize{#4}\relax\else,#4\fi%
+  }%
+}{Omegandsb}{$\coarseregsgset{n}{d}{b}{}$}{
+  Set of regular sparse grid points of level $n$ with dimensionality $d$
+  and boundary parameter $b$
+}
+
+\newcommand*{\interiorgrid}[1]{\mathring{#1}}
+\newcommand*{\bndrygrid}[1]{\mathop{}\!\partial#1}
+
+\newcommand*{\interiorsgset}{\gridset[\interiorgrid]{}{\sparse}}
+\newcommand*{\bndrysgset}{\gridset[\bndrygrid]{}{\sparse}}
+
+\makecommandnotation{\interiorgrid}{Omegaso}{$\interiorsgset$}{
+  Set $:= \sgset \cap \opint{\ß0, \ß1}$ of
+  interior grid points
+  for a finite set $\sgset \subset \clint{\ß0, \ß1}$ of grid points
+}
+
+\makecommandnotation{\bndrygrid}{Omegasd}{$\bndrysgset$}{
+  Set $:= \sgset \cap \bndrydomain{\clint{\ß0, \ß1}}
+  = \sgset \setminus \interiorsgset$ of
+  boundary sparse grid points
+  for a finite set $\sgset \subset \clint{\ß0, \ß1}$ of grid points
+}
+
+\newnotationcommand[1]{\bndrydomain}{\mathop{}\!\partial#1}{Omegad}%
+{$\bndrydomain{\Omega}$}{
+  Topological boundary of a set $\Omega \subset \real^d$
+}
+
+\newcommand*{\interiorregsgset}[3]{%
+  \gridset[\interiorgrid]{#1,#2}{%
+    \sparse%
+    \if\relax\detokenize{#3}\relax\else,#3\fi%
+  }%
+}
+
+\newcommand*{\bndryregsgset}[3]{%
+  \gridset[\bndrygrid]{#1,#2}{%
+    \sparse%
+    \if\relax\detokenize{#3}\relax\else,#3\fi%
+  }%
+}
+
+\newcommand*{\interiorcoarseregsgset}[4]{%
+  \gridset[\interiorgrid]{#1,#2}{%
+    \sparse(#3)%
+    \if\relax\detokenize{#4}\relax\else,#4\fi%
+  }%
+}
+
+\newcommand*{\bndrycoarseregsgset}[4]{%
+  \gridset[\bndrygrid]{#1,#2}{%
+    \sparse(#3)%
+    \if\relax\detokenize{#4}\relax\else,#4\fi%
+  }%
+}
+
+%\newgsymbol{ci}{$c_i$}{Coefficients of a linear combination}%
+%\newgsymbol{ci!}{$c_\ßi$}{Coefficients of a linear combination}%
 
 % calligraphic letters
 % define \calC (C = arbitrary letter)
 \newcommand*{\defcal}[1]{\newnamecommand{cal#1}{\mathcal{#1}}}
 \defcal{C}
-\defcal{O}
 
 % defined terms
 \newcommand*{\term}[1]{\emph{#1}}
 
 % mathematic operators
-\DeclareMathOperator{\intsupp}{\interior{\supp}}
-\makecommandnotation{\intsupp}{supp!}{$\intsupp$}{
-  Bla bla blubb
+\DeclareMathOperator{\interiorsupp}{\mathring{\supp}}
+\makecommandnotation{\interiorsupp}{suppo}{$\interiorsupp$}{
+  Interior of the support of a function
+  (i.e., the set where the function does not vanish)
 }
+
 \DeclareMathOperator{\spn}{span}
+\makecommandnotation{\spn}{span}{$\spn$}{
+  Linear span (set of all linear combinations)
+}
+
 \DeclareMathOperator{\supp}{supp}
+
 \DeclareMathOperator{\xor}{xor}
+\makecommandnotation{\xor}{xor}{$\xor$}{
+  Bitwise ``exclusive or''
+}
 
 % subsets
 \renewcommand*{\subset}{\subseteq}
@@ -60,7 +345,7 @@
 
 % norm
 \newcommand*{\norm}[1]{\lVert{#1}\rVert}
-\newcommand*{\bignorm}[1]{\left\lVert{#1}\right\rVert}
+\newcommand*{\normscaled}[1]{\left\lVert{#1}\right\rVert}
 
 % superscripts
 \newcommand*{\clenshawcurtis}{\mathrm{cc}}
@@ -70,14 +355,9 @@
 \newcommand*{\sparse}{\mathrm{s}}
 
 % disjoint union
-\newcommand*{\dotcup}{\mathbin{\dot{\cup}}}
+\newnotationcommand{\dotcup}{\mathbin{\dot{\cup}}}{u!}{$\dotcup$}{
+  Disjoint union of sets (union where the pairwise intersection of
+  the joined sets is empty)
+}%
+
 \DeclareMathOperator*{\bigdotcup}{\dot{\bigcup}}
-
-% interior and boundary
-\newcommand*{\interior}[1]{\mathring{#1}}
-\newcommand*{\bndry}[1]{\mathop{}\!\partial#1}
-
-% open interval
-\newcommand*{\openinterval}[1]{\mathopen]#1\mathclose[}
-\newcommand*{\halfopeninterval}[1]{\mathopen[#1\mathclose[}
-\newcommand*{\openintervalscaled}[1]{\left]#1\right[}
