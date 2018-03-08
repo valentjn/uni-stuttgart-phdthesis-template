@@ -845,11 +845,9 @@
   % define dummy commands that work as if partialCompileMode was disabled
   \newcommand*{\newnotation}[3]{}
   \newcommand*{\newnotationcommand}[6][0]{\newcommand*{#2}[#1]{#3}}
-  % prepend empty brace group to command to simulate same behavior
-  \newcommand*{\makecommandnotation}[4]{\pretocmd{#1}{{}}{}{}}
+  \newcommand*{\makecommandnotation}[4]{}
   \newcommand*{\usenotation}[1]{\ignorespaces}
   
-  \newcommand*{\newgsymbol}[3]{}
   \newcommand*{\newgacronym}[3]{%
     \newnamecommand{#1}{#2\xspace}%
     \newnamecommand{#1s}{#2s\xspace}%
@@ -951,7 +949,7 @@
     \newglossaryentry{#2}{text={},sort={#2},name={#3},description={#4}}%
     % only reference entry if outside glossary
     % (otherwise, the page number of the glossary would be displayed)
-    \pretocmd{#1}{{\ifinglossary\else\usenotation{#2}\fi}}{}{}%
+    \pretocmd{#1}{\ifinglossary\else\usenotation{#2}\fi}{}{}%
   }
   
   % \usenotation{sortKey}
