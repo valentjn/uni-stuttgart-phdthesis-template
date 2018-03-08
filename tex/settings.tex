@@ -959,13 +959,6 @@
     \glsdisp{#1}{\relax}\ignorespaces%
   }
   
-  % deprecated
-  \newcommand*{\newgsymbol}[3]{%
-    \newglossaryentry{#1}{sort={#1},name={#2},description={\textcolor{red}{#3}},text={}}%
-    % only reference the entry if not in preamble
-    \ifx\@onlypreamble\@notprerr\gls{#1}\fi%
-  }
-  
   % shortcut for \newacronym, automatically generating
   % a corresponding shortcut for \gls
   \newcommand*{\newgacronym}[3]{%
