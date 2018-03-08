@@ -842,9 +842,11 @@
 \newcommand*{\new@name@command}[1]{\expandafter\new@command\csname #1\endcsname}
 
 \iftoggle{partialCompileMode}{
+  % define dummy commands that work as if partialCompileMode was disabled
   \newcommand*{\newnotation}[3]{}
   \newcommand*{\newnotationcommand}[6][0]{\newcommand*{#2}[#1]{#3}}
-  \newcommand*{\makecommandnotation}[4]{}
+  % prepend empty brace group to command to simulate same behavior
+  \newcommand*{\makecommandnotation}[4]{\pretocmd{#1}{{}}{}{}}
   \newcommand*{\usenotation}[1]{\ignorespaces}
   
   \newcommand*{\newgsymbol}[3]{}
