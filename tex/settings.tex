@@ -859,64 +859,28 @@
   % define new glossary style based on long (uses longtable)
   % in which the column widths are fixed and space before/after the
   % table is removed
-  \newglossarystyle{longraggedfixed}{%
+  \newglossarystyle{longraggedfixed}{
     % base glossary style
-    \setglossarystyle{long}%
-    
-    % custom flag to check if we're in the glossary
-    \newif\ifinglossary
+    \setglossarystyle{long}
     
     \renewenvironment{theglossary}%
     {%
       % remove space before/after glossary
       \setlength{\LTpre}{0pt}%
       \setlength{\LTpost}{0pt}%
-      % set custom flag that we are now in the glossary
-      \inglossarytrue%
       % use single spacing
       \begin{spacing}{1}%
         % table header
         \begin{longtable}{@{}L{0.15\textwidth}@{}L{0.85\textwidth}@{}}%
           \textbf{Symbol}\vspace{2mm}&%
-          \textbf{Meaning\hfill{}Page with First Occurrence}\vspace{2mm}%
+          \textbf{Meaning}\vspace{2mm}%
           \endhead%
     }%
     {%
       % table footer
         \end{longtable}%
       \end{spacing}%
-      % set custom flag that we are now outside the glossary
-      \inglossaryfalse%
-    }%
-    
-    % add dotted leaders between entry description and page number
-    % (called for every row of the table)
-    \renewcommand*{\glossentry}[2]{%
-      \glsentryitem{##1}\glstarget{##1}{\glossentryname{##1}}&%
-      \glossentrydesc{##1}\leavevmode\kern3pt\leaders\hbox{%
-        \hspace{0.2237em}.\hspace{0.2237em}%
-      }\hfill\kern0pt%
-      ##2%
-      \tabularnewline%
     }
-    
-    % only print number of first occurrence
-    % (we use \glsresetall at the beginning of each chapter and section
-    % to redisplay the full versions of acronyms, but this adds all the
-    % page numbers of an occurrence after a new chapter/section to the
-    % table)
-    \renewcommand*{\glossaryentrynumbers}[1]{%
-      \newif\iffirstpagenumber%
-      \firstpagenumbertrue%
-      ##1\gls@save@numberlist{##1}%
-    }
-    \renewcommand*{\glsnumberformat}[1]{%
-      \iffirstpagenumber%
-        \glshypernumber{##1}%
-        \firstpagenumberfalse%
-      \fi%
-    }
-    \renewcommand*{\delimN}{}%
   }
   
   % use new glossary style
@@ -944,12 +908,9 @@
   % \makecommandnotation{\commandName}{sortKey}{entrySymbol}{entryText}
   % adds notation to the glossary and modifies \commandName such that
   % the glossary entry is referenced on every use of \commandName
-  % (except if used in the glossary itself)
   \newcommand*{\makecommandnotation}[4]{%
     \newglossaryentry{#2}{text={},sort={#2},name={#3},description={#4}}%
-    % only reference entry if outside glossary
-    % (otherwise, the page number of the glossary would be displayed)
-    \pretocmd{#1}{\ifinglossary\else\usenotation{#2}\fi}{}{}%
+    \pretocmd{#1}{\usenotation{#2}}{}{}%
   }
   
   % \usenotation{sortKey}
@@ -977,7 +938,7 @@
   \addtokomafont{chapter}{\glsresetall}
   \addtokomafont{section}{\glsresetall}
   
-  % warn for every symbol that has not been used i
+  % warn for every symbol that has not been used
   \AtEndDocument{%
     \forglsentries{\mysymbolname}{%
       \ifthenelse{\equal{\glsmyused{\mysymbolname}}{false}}{
