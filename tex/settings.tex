@@ -867,23 +867,41 @@
     % base glossary style
     \setglossarystyle{long}
     
+    % custom flag to check if we're in the glossary
+    \newif\ifinglossary
+    
     \renewenvironment{theglossary}%
     {%
       % remove space before/after glossary
       \setlength{\LTpre}{0pt}%
       \setlength{\LTpost}{0pt}%
+      % set custom flag that we are now in the glossary
+      \inglossarytrue%
       % use single spacing
       \begin{spacing}{1}%
         % table header
         \begin{longtable}{@{}L{0.15\textwidth}@{}L{0.85\textwidth}@{}}%
           \textbf{Symbol}\vspace{2mm}&%
-          \textbf{Meaning}\vspace{2mm}%
+          \textbf{Meaning\hfill{}Page with First Occurrence}\vspace{2mm}%
           \endhead%
     }%
     {%
       % table footer
         \end{longtable}%
       \end{spacing}%
+      % set custom flag that we are now outside the glossary
+      \inglossaryfalse%
+    }
+  
+    % add dotted leaders between entry description and page number
+    % (called for every row of the table)
+    \renewcommand*{\glossentry}[2]{%
+      \glsentryitem{##1}\glstarget{##1}{\glossentryname{##1}}&%
+      \glossentrydesc{##1}\leavevmode\kern3pt\leaders\hbox{%
+        \hspace{0.2237em}.\hspace{0.2237em}%
+      }\hfill\kern0pt%
+      ##2%
+      \tabularnewline%
     }
   }
   
@@ -893,6 +911,7 @@
   % add field to glossary entries that stores whether the entry
   % has been used at least once in the document
   \glsaddstoragekey{myused}{false}{\glsmyused}
+  \glsaddstoragekey{myisacronym}{false}{\glsmyisacronym}
   
   % \newnotation{sortKey}{entrySymbol}{entryText}
   % adds notation to the glossary without command,
@@ -912,9 +931,12 @@
   % \makecommandnotation{\commandName}{sortKey}{entrySymbol}{entryText}
   % adds notation to the glossary and modifies \commandName such that
   % the glossary entry is referenced on every use of \commandName
+  % (except if used in the glossary itself)
   \newcommand*{\makecommandnotation}[4]{%
     \newglossaryentry{#2}{text={},sort={#2},name={#3},description={#4}}%
-    \pretocmd{#1}{\usenotation{#2}}{}{}%
+    % only reference entry if outside glossary
+    % (otherwise, the page number of the glossary would be displayed)
+    \pretocmd{#1}{\ifinglossary\else\usenotation{#2}\fi}{}{}%
   }
   
   % \usenotation{sortKey}
@@ -928,6 +950,7 @@
   % a corresponding shortcut for \gls
   \newcommand*{\newgacronym}[3]{%
     \newacronym[sort={#1},description={\makefirstuc{#3}}]{#1}{#2}{#3}%
+    \glsfieldgdef{#1}{myisacronym}{true}%
     \newnamecommand{#1}{\glsfieldgdef{#1}{myused}{true}\gls{#1}\xspace}%
     \newnamecommand{#1s}{\glsfieldgdef{#1}{myused}{true}\glspl{#1}\xspace}%
     \newnamecommand{#1c}{\glsfieldgdef{#1}{myused}{true}\Gls{#1}\xspace}%
@@ -939,8 +962,16 @@
   \newcommand*{\hidegacronym}[1]{\glsmoveentry{#1}{hidden}}
   
   % spell out acronyms at beginning of chapters and sections
-  \addtokomafont{chapter}{\glsresetall}
-  \addtokomafont{section}{\glsresetall}
+  \newcommand*{\resetacronyms}{%
+    \forglsentries{\mysymbolname}{%
+      \ifthenelse{\equal{\glsmyisacronym{\mysymbolname}}{true}}{
+        \glsreset{\mysymbolname}%
+      }{}%
+    }%
+  }
+  
+  \addtokomafont{chapter}{\resetacronyms}
+  \addtokomafont{section}{\resetacronyms}
   
   % warn for every symbol that has not been used
   \AtEndDocument{%
