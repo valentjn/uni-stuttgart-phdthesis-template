@@ -21,11 +21,11 @@ env.Replace(BIBTEXCOM="")
 # quiet Biber output
 env.Append(BIBERFLAGS="-q")
 
-# use makeglossaries instead of directly calling makeindex
-env.Replace(MAKEGLOSSARY="makeglossaries")
-# quiet makeglossaries output
+# use customized makeindex script
+env.Replace(MAKEGLOSSARY="python3 ../../tools/buildGlossary.py")
+# quiet output
 env.Replace(MAKEGLOSSARYFLAGS="-q")
-# reorder arguments for makeglossaries
+# reorder arguments
 # (filename without extension has to be at the end)
 env.Replace(MAKEGLOSSARYCOM=env["MAKEGLOSSARYCOM"].replace(
     "${SOURCE.filebase}.glo $MAKEGLOSSARYFLAGS -o ${SOURCE.filebase}.gls",
