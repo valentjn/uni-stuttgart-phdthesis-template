@@ -954,17 +954,17 @@
   % shortcut for \newacronym, automatically generating
   % a corresponding shortcut for \gls
   \newcommand*{\newgacronym}[3]{%
-    \newacronym[sort={#1},description={\makefirstuc{#3}}]{#1}{#2}{#3}%
-    \glsfieldgdef{#1}{myisacronym}{true}%
-    \newnamecommand{#1}{\glsfieldgdef{#1}{myused}{true}\gls{#1}\xspace}%
-    \newnamecommand{#1s}{\glsfieldgdef{#1}{myused}{true}\glspl{#1}\xspace}%
-    \newnamecommand{#1c}{\glsfieldgdef{#1}{myused}{true}\Gls{#1}\xspace}%
-    \newnamecommand{#1sc}{\glsfieldgdef{#1}{myused}{true}\Glspl{#1}\xspace}%
+    \newacronym[sort={Ü#1},description={\makefirstuc{#3}}]{Ü#1}{#2}{#3}%
+    \glsfieldgdef{Ü#1}{myisacronym}{true}%
+    \newnamecommand{#1}{\glsfieldgdef{Ü#1}{myused}{true}\gls{Ü#1}\xspace}%
+    \newnamecommand{#1s}{\glsfieldgdef{Ü#1}{myused}{true}\glspl{Ü#1}\xspace}%
+    \newnamecommand{#1c}{\glsfieldgdef{Ü#1}{myused}{true}\Gls{Ü#1}\xspace}%
+    \newnamecommand{#1sc}{\glsfieldgdef{Ü#1}{myused}{true}\Glspl{Ü#1}\xspace}%
   }
   
   % hide specific acronyms (that are only used once) in glossary
   \newignoredglossary{hidden}
-  \newcommand*{\hidegacronym}[1]{\glsmoveentry{#1}{hidden}}
+  \newcommand*{\hidegacronym}[1]{\glsmoveentry{Ü#1}{hidden}}
   
   % spell out acronyms at beginning of chapters and sections
   \newcommand*{\resetacronyms}{%
