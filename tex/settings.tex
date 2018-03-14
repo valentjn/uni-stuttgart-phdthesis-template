@@ -534,7 +534,7 @@
   style=mythmshortplainstyle,
 ]{shortcorollary}
 
-% use tcolorbox for dashed rule near proofs
+% use tcolorbox for dashed rule near proofs, reset \parindent for indentation
 \tcolorboxenvironment{proof}{
   blanker,
   before skip=1em plus 1em,
@@ -542,6 +542,7 @@
   borderline west={2pt}{0pt}{anthrazit,dashed},
   breakable,
   left=12pt,
+  before upper={\parindent2em},
 }
 
 % ======================================================================
