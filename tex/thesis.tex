@@ -63,6 +63,11 @@
     postnote=mypostnote,
   ]
   
+  \iftoggle{partialCompileMode}{}{
+    \cleardoublepage
+    \input{tree}
+  }
+  
   % end with even page
   \cleardoublepage
 \end{document}
