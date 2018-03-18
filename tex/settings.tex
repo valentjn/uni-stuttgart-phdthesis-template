@@ -118,6 +118,10 @@
 % Tables of Contents, Figures, Tables, and Algorithms
 % ======================================================================
 
+% remove indentation for lists of figures and algorithms
+\DeclareTOCStyleEntry[indent=0em]{tocline}{figure}
+\DeclareTOCStyleEntry[indent=0em]{tocline}{table}
+
 % declare algorithm float environment, create list of algorithms,
 % use same formatting as for figures and tables
 \DeclareNewTOC[
@@ -127,7 +131,7 @@
   floattype=4,
   counterwithin=chapter,
   tocentrynumwidth=2.3em,
-  tocentryindent=1.5em,
+  tocentryindent=0em,
 ]{loa}
 
 % use single spacing in tables of contents, figures, tables, and algorithms
