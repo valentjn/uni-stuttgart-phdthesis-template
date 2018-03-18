@@ -133,6 +133,12 @@
 % use single spacing in tables of contents, figures, tables, and algorithms
 \AfterTOCHead[toc]{\begin{spacing}{1}}
 \AfterStartingTOC[toc]{\end{spacing}}
+\AfterTOCHead[lof]{\begin{spacing}{1}}
+\AfterStartingTOC[lof]{\end{spacing}}
+\AfterTOCHead[lot]{\begin{spacing}{1}}
+\AfterStartingTOC[lot]{\end{spacing}}
+\AfterTOCHead[loa]{\begin{spacing}{1}}
+\AfterStartingTOC[loa]{\end{spacing}}
 
 % include subsubsections in table of contents, but without numbers
 \setcounter{tocdepth}{\subsubsectionnumdepth}
