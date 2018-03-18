@@ -116,8 +116,8 @@
 % Table of Contents
 % ======================================================================
 
-% use single spacing in table of contents
-\AfterTOCHead[toc]{\singlespacing}
+\AfterTOCHead[toc]{\begin{spacing}{1}}
+\AfterStartingTOC[toc]{\end{spacing}}
 
 % include subsubsections in table of contents, but without numbers
 \setcounter{tocdepth}{\subsubsectionnumdepth}
