@@ -115,9 +115,22 @@
 \newcommand*{\Thmref}[1]{\hyperlink{#1}{\Cref*{#1}~(\nameref*{#1})}}
 
 % ======================================================================
-% Table of Contents
+% Tables of Contents, Figures, Tables, and Algorithms
 % ======================================================================
 
+% declare algorithm float environment, create list of algorithms,
+% use same formatting as for figures and tables
+\DeclareNewTOC[
+  type=algorithm,
+  name=Algorithm,
+  float,
+  floattype=4,
+  counterwithin=chapter,
+  tocentrynumwidth=2.3em,
+  tocentryindent=1.5em,
+]{loa}
+
+% use single spacing in tables of contents, figures, tables, and algorithms
 \AfterTOCHead[toc]{\begin{spacing}{1}}
 \AfterStartingTOC[toc]{\end{spacing}}
 
@@ -386,15 +399,6 @@
 
 % set indentation to two characters
 \algrenewcommand{\algorithmicindent}{\widthof{AB}}
-
-% declare algorithm float environment
-\DeclareNewTOC[
-  type=algorithm,
-  name=Algorithm,
-  float,
-  floattype=4,
-  counterwithin=chapter,
-]{loa}
 
 % ======================================================================
 % Tables
