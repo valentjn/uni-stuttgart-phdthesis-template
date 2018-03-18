@@ -122,6 +122,13 @@
 % include subsubsections in table of contents, but without numbers
 \setcounter{tocdepth}{\subsubsectionnumdepth}
 
+% increase space of page numbers
+% (default values of 1.55em and 2.55em are too small for three-digit numbers)
+\makeatletter
+\renewcommand*{\@pnumwidth}{2em}
+\renewcommand*{\@tocrmarg}{3em}
+\makeatother
+
 % ======================================================================
 % Headings
 % ======================================================================
