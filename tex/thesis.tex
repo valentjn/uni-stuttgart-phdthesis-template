@@ -69,11 +69,12 @@
     postnote=mypostnote,
   ]
   
-  \iftoggle{partialCompileMode}{}{
-    \cleardoublepage
+  \iftoggle{partialCompileMode}{
+    % end with even page
+    \cleardoublepage%
+  }{
+    % academic ancestors on the last even page
+    \cleardoubleevenpage
     \input{tree}
   }
-  
-  % end with even page
-  \cleardoublepage
 \end{document}
