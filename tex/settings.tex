@@ -188,6 +188,19 @@
 % set space before and after chapter heading
 \RedeclareSectionCommand[beforeskip=8em,afterskip=5em]{chapter}
 
+% Commands for long chapter/section titles:
+% If the title is too long, then the mark in the page header will
+% overflow and wrap into the next line, which looks ugly.
+% \chaptermark/\sectionmark is supposed to fix that. However, if you just
+% call it after \chapter/\section, then it will only affect the marks on
+% the following pages, not the one on which the heading is defined.
+% Therefore, we have to call \chaptermark/\sectionmark twice and also
+% supply the optional parameter (otherwise, there will be errors as LaTeX
+% tries to add the marks to the table of contents).
+% Use the commands like \longchapter{heading title}{mark title}.
+\newcommand*{\longchapter}[2]{\chapter[#1]{#1\chaptermark{#2}}\chaptermark{#2}}
+\newcommand*{\longsection}[2]{\section[#1]{#1\sectionmark{#2}}\sectionmark{#2}}
+
 % decrease skip before \paragraph and \subparagraph headings
 \RedeclareSectionCommand[beforeskip=2ex plus 1ex minus .2px]{paragraph}
 \RedeclareSectionCommand[beforeskip=1ex plus 1ex minus .2px]{subparagraph}
