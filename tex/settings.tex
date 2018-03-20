@@ -131,6 +131,7 @@
   name=Algorithm,
   float,
   floattype=4,
+  floatpos=tp,
   counterwithin=chapter,
   tocentrynumwidth=2.3em,
   tocentryindent=0em,
@@ -444,14 +445,16 @@
 % Floats
 % ======================================================================
 
-% automatically center all float and subfigure contents
 \makeatletter
+% make "tp" to default position of figure and table
+\def\fps@figure{tp}
+\def\fps@table{tp}
+
+% automatically center all float and subfigure contents
 \g@addto@macro{\@floatboxreset}{\centering}
 \apptocmd\subcaption@minipage{\centering}{}{}
-\makeatother
 
 % change font size in float environments
-\makeatletter
 \g@addto@macro{\figure}{\small}
 \g@addto@macro{\table}{\small}
 \g@addto@macro{\algorithm}{\small}
