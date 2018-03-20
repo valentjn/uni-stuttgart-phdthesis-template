@@ -695,6 +695,71 @@
 }{}
 
 % ======================================================================
+% Flip Book
+% ======================================================================
+
+% prevent "Label `1' multiply defined" warnings when using
+% KOMA-Script's \ifthispageodd together with \includeonly
+\makeatletter
+\newcounter{scbookpg}
+\renewcommand*{\is@thispageodd}{%
+  \@bsphack
+  \begingroup
+    %\@tempcnta=\scr@tpo
+    %\advance\@tempcnta by\@ne
+    \stepcounter{scbookpg}%
+    \xdef\scr@tpo{\thescbookpg}%
+    \protected@write\@auxout{\let\arabic\relax}{%
+      \string\new@tpo@label{\scr@tpo}{\arabic{page}}}%
+    \expandafter\ifx\csname tpo@\scr@tpo\endcsname\relax
+      \protect\G@refundefinedtrue
+      \ClassWarning{\KOMAClassName}{%
+        odd/even page label number \scr@tpo\space undefined}%
+      \edef\@tempa{\the\value{page}}%
+    \else
+      \edef\@tempa{\csname tpo@\scr@tpo\endcsname}%
+    \fi
+    \ifodd\number\@tempa
+      \aftergroup\thispagewasoddtrue
+    \else
+      \aftergroup\thispagewasoddfalse
+    \fi
+  \endgroup
+  \@esphack
+}
+\makeatletter
+
+% set up flip book
+\iftoggle{flipBookMode}{
+  \newcounter{currentpagenumber}
+  \iftoggle{partialCompileMode}{}{
+    % start flip book after second title page
+    \setcounter{currentpagenumber}{-4}
+  }
+  \newcount\flipbookindex
+  
+  \AddEverypageHook{%
+    \stepcounter{currentpagenumber}%
+    \flipbookindex=\numexpr\thecurrentpagenumber/2\relax%
+    \ifnum\number\flipbookindex>0%
+      \begin{tikzpicture}[remember picture,overlay,scale=1]
+        \ifthispageodd{
+          \node[anchor=south east,inner sep=0pt,xshift=0mm,yshift=-3mm]
+          at (current page.south east) [above left] {%
+            \includegraphics[scale=0.8]{flipBookSG_\number\flipbookindex}%
+          };
+        }{
+          \node[anchor=south west,inner sep=0pt,xshift=-6mm,yshift=2mm]
+          at (current page.south west) [above right] {%
+            \includegraphics{flipBookBSpline_\number\flipbookindex}%
+          };
+        }
+      \end{tikzpicture}%
+    \fi%
+  }
+}{}
+
+% ======================================================================
 % Watermarks
 % ======================================================================
 
