@@ -971,11 +971,18 @@
   \newcommand*{\makecommandnotation}[4]{}
   \newcommand*{\usenotation}[1]{\ignorespaces}
   
-  \newcommand*{\newgacronym}[3]{%
-    \newnamecommand{#1}{#2\xspace}%
-    \newnamecommand{#1s}{#2s\xspace}%
-    \newnamecommand{#1c}{\makefirstuc{#2}\xspace}%
-    \newnamecommand{#1sc}{\makefirstuc{#2}s\xspace}%
+  \newcommand*{\newgacronym}[3][]{%
+    \if\relax\detokenize{#1}\relax%
+      \newnamecommand{#2}{\MakeUppercase{#2}\xspace}%
+      \newnamecommand{#2s}{\MakeUppercase{#2}s\xspace}%
+      \newnamecommand{#2c}{\MakeUppercase{#2}\xspace}%
+      \newnamecommand{#2sc}{\MakeUppercase{#2}s\xspace}%
+    \else%
+      \newnamecommand{#2}{#1\xspace}%
+      \newnamecommand{#2s}{#1s\xspace}%
+      \newnamecommand{#2c}{\makefirstuc{#1}\xspace}%
+      \newnamecommand{#2sc}{\makefirstuc{#1}s\xspace}%
+    \fi%
   }
   \newcommand*{\hidegacronym}[1]{}
 }{
@@ -1072,13 +1079,18 @@
   
   % shortcut for \newacronym, automatically generating
   % a corresponding shortcut for \gls
-  \newcommand*{\newgacronym}[3]{%
-    \newacronym[sort={Ü#1},description={\makefirstuc{#3}}]{Ü#1}{#2}{#3}%
-    \glsfieldgdef{Ü#1}{myisacronym}{true}%
-    \newnamecommand{#1}{\glsfieldgdef{Ü#1}{myused}{true}\gls{Ü#1}\xspace}%
-    \newnamecommand{#1s}{\glsfieldgdef{Ü#1}{myused}{true}\glspl{Ü#1}\xspace}%
-    \newnamecommand{#1c}{\glsfieldgdef{Ü#1}{myused}{true}\Gls{Ü#1}\xspace}%
-    \newnamecommand{#1sc}{\glsfieldgdef{Ü#1}{myused}{true}\Glspl{Ü#1}\xspace}%
+  \newcommand*{\newgacronym}[3][]{%
+    \if\relax\detokenize{#1}\relax%
+      \newacronym[sort={Ü#2},description={\makefirstuc{#3}}]%
+      {Ü#2}{\MakeUppercase{#2}}{#3}%
+    \else%
+      \newacronym[sort={Ü#2},description={\makefirstuc{#3}}]{Ü#2}{#1}{#3}%
+    \fi%
+    \glsfieldgdef{Ü#2}{myisacronym}{true}%
+    \newnamecommand{#2}{\glsfieldgdef{Ü#2}{myused}{true}\gls{Ü#2}\xspace}%
+    \newnamecommand{#2s}{\glsfieldgdef{Ü#2}{myused}{true}\glspl{Ü#2}\xspace}%
+    \newnamecommand{#2c}{\glsfieldgdef{Ü#2}{myused}{true}\Gls{Ü#2}\xspace}%
+    \newnamecommand{#2sc}{\glsfieldgdef{Ü#2}{myused}{true}\Glspl{Ü#2}\xspace}%
   }
   
   % hide specific acronyms (that are only used once) in glossary
