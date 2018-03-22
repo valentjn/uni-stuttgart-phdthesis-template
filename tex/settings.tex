@@ -117,12 +117,16 @@
 \newcommand*{\Thmref}[1]{\hyperlink{#1}{\Cref*{#1}~(\nameref*{#1})}}
 
 % ======================================================================
-% Tables of Contents, Figures, Tables, and Algorithms
+% Tables of Contents, Figures, Tables, Algorithms, and Theorems
 % ======================================================================
 
-% remove indentation for lists of figures and algorithms
+% remove indentation for lists of figures and tables
 \DeclareTOCStyleEntry[indent=0em]{tocline}{figure}
 \DeclareTOCStyleEntry[indent=0em]{tocline}{table}
+
+% remove indentation in list of theorems
+% (unfortunately, this is hard-coded in thmtools...)
+\xpatchcmd{\listoftheorems}{1.5em}{0em}{}{\PatchFailed}
 
 % declare algorithm float environment, create list of algorithms,
 % use same formatting as for figures and tables
@@ -137,7 +141,8 @@
   tocentryindent=0em,
 ]{loa}
 
-% use single spacing in tables of contents, figures, tables, and algorithms
+% use single spacing in
+% tables of contents, figures, tables, algorithms, and theorems
 \AfterTOCHead[toc]{\begin{spacing}{1}}
 \AfterStartingTOC[toc]{\end{spacing}}
 \AfterTOCHead[lof]{\begin{spacing}{1}}
