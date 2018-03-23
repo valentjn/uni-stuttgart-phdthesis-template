@@ -124,15 +124,12 @@
 \DeclareTOCStyleEntry[indent=0em]{tocline}{figure}
 \DeclareTOCStyleEntry[indent=0em]{tocline}{table}
 
-% remove indentation in list of theorems
-% (unfortunately, this is hard-coded in thmtools...)
-\xpatchcmd{\listoftheorems}{1.5em}{0em}{}{\PatchFailed}
-
 % declare algorithm float environment, create list of algorithms,
 % use same formatting as for figures and tables
 \DeclareNewTOC[
   type=algorithm,
   name=Algorithm,
+  listname={List of Algorithms},
   float,
   floattype=4,
   floatpos=tp,
@@ -141,16 +138,31 @@
   tocentryindent=0em,
 ]{loa}
 
+% create list of theorems,
+% use same formatting as for figures, tables, and algorithms,
+% undefine \listoftheorems (thmtools's thm-listof.sty is unfortunately
+% a little buggy, as it causes the flip book images to jump;
+% using KOMA-Script for all lists is more consistent and less error-prone)
+\let\listoftheorems\undefined
+\DeclareNewTOC[
+  type=theorem,
+  name=Theorem,
+  listname={List of Theorems},
+  tocentrynumwidth=2.3em,
+  tocentryindent=0em,
+]{lop}
+
+% add code that adds the theorem to the *.lop file to hook
+\makeatletter
+\addtotheorempostheadhook{%
+  \addxcontentsline{lop}{theorem}{\csname ll@\thmt@envname\endcsname}%
+}
+\makeatother
+
 % use single spacing in
 % tables of contents, figures, tables, algorithms, and theorems
-\AfterTOCHead[toc]{\begin{spacing}{1}}
-\AfterStartingTOC[toc]{\end{spacing}}
-\AfterTOCHead[lof]{\begin{spacing}{1}}
-\AfterStartingTOC[lof]{\end{spacing}}
-\AfterTOCHead[lot]{\begin{spacing}{1}}
-\AfterStartingTOC[lot]{\end{spacing}}
-\AfterTOCHead[loa]{\begin{spacing}{1}}
-\AfterStartingTOC[loa]{\end{spacing}}
+\AfterTOCHead{\begin{spacing}{1}}
+\AfterStartingTOC{\end{spacing}}
 
 % include subsubsections in table of contents, but without numbers
 \setcounter{tocdepth}{\subsubsectionnumdepth}
