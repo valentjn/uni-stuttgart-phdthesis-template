@@ -139,13 +139,12 @@
 ]{loa}
 
 % create list of theorems,
-% use same formatting as for figures, tables, and algorithms,
-% undefine \listoftheorems (thmtools's thm-listof.sty is unfortunately
-% a little buggy, as it causes the flip book images to jump;
-% using KOMA-Script for all lists is more consistent and less error-prone)
-\let\listoftheorems\undefined
+% use same formatting as for figures, tables, and algorithms
+% (thmtools's thm-listof.sty is unfortunately a little buggy,
+% as it causes the flip book images to jump; using KOMA-Script for
+% all lists is more consistent and less error-prone)
 \DeclareNewTOC[
-  type=theorem,
+  type=mytheorem,
   name=Theorem,
   listname={List of Theorems},
   tocentrynumwidth=2.3em,
@@ -155,7 +154,7 @@
 % add code that adds the theorem to the *.lop file to hook
 \makeatletter
 \addtotheorempostheadhook{%
-  \addxcontentsline{lop}{theorem}{\csname ll@\thmt@envname\endcsname}%
+  \addxcontentsline{lop}{mytheorem}{\csname ll@\thmt@envname\endcsname}%
 }
 \makeatother
 
