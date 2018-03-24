@@ -749,8 +749,8 @@
 \makeatletter
 
 % set up flip book
+\newcounter{currentpagenumber}
 \iftoggle{flipBookMode}{
-  \newcounter{currentpagenumber}
   \iftoggle{partialCompileMode}{}{
     % start flip book after second title page
     \setcounter{currentpagenumber}{-4}
