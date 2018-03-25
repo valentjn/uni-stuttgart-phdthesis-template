@@ -366,6 +366,10 @@
 \AtBeginEnvironment{SCfigure}{\captionsetup{format=mysidecaptionformat}}
 \AtBeginEnvironment{SCtable}{\captionsetup{format=mysidecaptionformat}}
 
+% use maximum space for SCfigure captions (sidecap's default is that
+% the caption can only be as wide as the figure itself)
+\renewcommand*{\sidecaptionrelwidth}{50}
+
 % change font size for sub-captions
 \makeatletter
 \DeclareCaptionFormat{mysubcaptionformat}{%
