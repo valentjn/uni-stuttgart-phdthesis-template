@@ -14,13 +14,18 @@ env.Append(PDFLATEXFLAGS="--output-directory={}".format(env["BUILD_DIR"]))
 
 # search for Python scripts
 pys = env.Glob("py/*.py")
-helper_pys = env.Dir("py", "helper")
 pdfs = []
 pgfs = []
+helper_pys = []
 
 # home or Documents directory
 home_dir = (os.environ["HOME"] if sys.platform.startswith("linux") else
             os.path.join(os.environ["HOMEDRIVE"], os.environ["HOMEPATH"], "Documents"))
+
+# search for helper Python scripts
+py_dir = env.Dir(os.path.join("..", "py"))
+for root, dirs, files in os.walk(os.path.join(py_dir.abspath, "helper")):
+  helper_pys.extend([os.path.join(root, x) for x in files if x.endswith(".py")])
 
 # set environment variables
 py_env = env.Clone()
@@ -29,7 +34,6 @@ py_env["ENV"]["BUILD_DIR"]       = env["BUILD_DIR"].abspath
 for py in pys:
   # determine number of generated images by script
   name = os.path.splitext(py.name)[0]
-  
   with open(py.abspath, "r") as f: py_code = f.readlines()
   pdf_count = 1
   
@@ -52,7 +56,7 @@ for py in pys:
 
   pgfs.extend([x[:-4] + ".pgf" for x in cur_pdfs])
 
-# *.pdf files depend on helper scripts
+# *.pdf files depend on helper scripts (local helper *.py files and global tools)
 env.Depends(pdfs, helper_pys)
 
 # don't delete PDFs before calling Python scripts
