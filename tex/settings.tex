@@ -530,6 +530,14 @@
   splitbottomskip=0pt,
 }
 
+% patch mdframed such that it doesn't violate \flushbottom
+% (mdframed produces ragged page bottoms without this)
+\makeatletter
+\xpatchcmd{\mdf@put@frame@i}{\hrule \@height\z@ \@width\hsize\vfill}{}{}{}
+\xpatchcmd{\mdf@put@frame@i}{\hrule \@height\z@ \@width\hsize\vfill}{}{}{}
+\xpatchcmd{\mdf@put@frame@i}{\hrule \@height\z@ \@width\hsize\vfill}{}{}{}
+\makeatother
+
 % define theorem styles (format theorem "head" with sans-serif caps)
 \declaretheoremstyle[
   headfont={\sffamily\bfseries\fontsize{9.5}{12}\selectfont},
