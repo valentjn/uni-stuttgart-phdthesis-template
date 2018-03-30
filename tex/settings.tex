@@ -538,6 +538,11 @@
 \xpatchcmd{\mdf@put@frame@i}{\hrule \@height\z@ \@width\hsize\vfill}{}{}{}
 \makeatother
 
+% ignore "bad break" warnings by mdframed, they don't seem to make sense
+% (they claim that the box after the page break would be empty,
+% even if it isn't)
+\WarningFilter{mdframed}{You got a bad break}
+
 % define theorem styles (format theorem "head" with sans-serif caps)
 \declaretheoremstyle[
   headfont={\sffamily\bfseries\fontsize{9.5}{12}\selectfont},
