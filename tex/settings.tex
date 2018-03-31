@@ -69,8 +69,6 @@
   decorations.pathreplacing,
   % color gradients
   fadings,
-  % ornamental lines
-  patterns.images,
 }
 
 % ======================================================================
@@ -220,6 +218,32 @@
 \newcommand*{\longchapter}[2]{\chapter[#1]{#1\chaptermark{#2}}\chaptermark{#2}}
 \newcommand*{\longsection}[2]{\section[#1]{#1\sectionmark{#2}}\sectionmark{#2}}
 
+% dirty hack to automatically output ornaments before every section heading
+\RedeclareSectionCommand[
+  font={%
+    \hfill%
+    \textcolor{black!30}{\pgfornament[width=100mm]{88}}%
+    \hfill\null\\[1.625ex plus .5ex minus -.1ex]%
+    \Large%
+  },
+  beforeskip=-1.75ex plus -.5ex minus .1ex,
+]{section}
+
+% dirty hack to automatically output ornaments before every subsection heading
+\RedeclareSectionCommand[
+  font={%
+    \hfill%
+    \textcolor{black!30}{%
+      \pgfornament[height=3mm]{2}\quad%
+      \pgfornament[height=3mm]{24}\quad%
+      \pgfornament[height=3mm,symmetry=v]{2}%
+    }%
+    \hfill\null\\[1.3ex plus .5ex minus -.1ex]%
+    \Large%
+  },
+  beforeskip=-1.3ex plus -.5ex minus .1ex,
+]{subsection}
+
 % decrease skip before \paragraph and \subparagraph headings
 \RedeclareSectionCommand[beforeskip=2ex plus 1ex minus .2px]{paragraph}
 \RedeclareSectionCommand[beforeskip=1ex plus 1ex minus .2px]{subparagraph}
@@ -354,30 +378,6 @@
 
 % space between floats and text
 \setlength{\textfloatsep}{40pt}
-
-% height of ornament
-\newcommand*{\myornamentheight}{8pt}
-% center ornament vertically
-\newcommand*{\myornamentmargin}{%
-  \dimexpr\textfloatsep/2-\myornamentheight/2\relax%
-}
-% load ornament image
-\pgfSetupImageAsPattern[height=\myornamentheight]{myornament}{../gfx/ornament}
-
-% separate floats from text with an ornament line
-\newcommand*{\topfigrule}{%
-  {%
-    \color{black}%
-    \vspace{\myornamentmargin}%
-    \noindent%
-    \begin{tikzpicture}[use image as pattern=myornament]
-      \draw[draw=none,image as pattern={center,bottom}]
-      (0,0) rectangle (\textwidth,\myornamentheight);
-    \end{tikzpicture}%
-    \vspace{-\myornamentmargin}%
-    \vspace{-\myornamentheight}%
-  }%
-}
 
 % ======================================================================
 % Float Captions
