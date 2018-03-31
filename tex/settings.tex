@@ -343,14 +343,24 @@
 }
 \makeatother
 
-% special format for unnumbered figures (e.g., cover figure)
-\DeclareCaptionLabelFormat{mycaptionlabelformatunnumbered}{%
-  \sffamily\bfseries\fontsize{9.5}{12}\selectfont\textls*{\MakeUppercase{#1}}%
+\newcommand*{\formatcaption}[1]{%
+  \sffamily\bfseries\fontsize{9.5}{12}\selectfont%
+  \textls*{\textcolor{mittelblau}{\MakeUppercase{#1}}}%
+}
+
+\newcommand*{\formatsubcaption}[1]{%
+  \sffamily\bfseries\fontsize{8.8}{11}\selectfont%
+  \textls*{\textcolor{mittelblau}{\MakeUppercase{#1}}}%
 }
 
 % change appearance of caption label
 \DeclareCaptionLabelFormat{mycaptionlabelformat}{%
-  \sffamily\bfseries\fontsize{9.5}{12}\selectfont\textls*{\MakeUppercase{#1}} #2%
+  \formatcaption{#1 #2}%
+}
+
+% special format for unnumbered figures (e.g., cover figure)
+\DeclareCaptionLabelFormat{mycaptionlabelformatunnumbered}{%
+  \formatcaption{#1}%
 }
 
 % set caption format
@@ -384,7 +394,7 @@
 
 % change appearance of sub-caption label
 \DeclareCaptionLabelFormat{mysubcaptionlabelformat}{%
-  \sffamily\bfseries\fontsize{8.8}{11}\selectfont\textls*{\MakeUppercase{#2}}%
+  \formatsubcaption{#2}%
 }
 
 % set sub-caption format
@@ -551,16 +561,14 @@
 
 % define theorem styles (format theorem "head" with sans-serif caps)
 \declaretheoremstyle[
-  headfont={\sffamily\bfseries\fontsize{9.5}{12}\selectfont},
-  headformat={\textls*{\MakeUppercase{\NAME{} \NUMBER}}\hspace{0.7em}\NOTE\\},
+  headformat={\formatcaption{\NAME{} \NUMBER}\hspace{0.7em}\NOTE\\},
   notefont={\normalfont\normalsize},
   headpunct={},
 ]{mythmdefstyle}
 
 % same as before, but italic body font
 \declaretheoremstyle[
-  headfont={\sffamily\bfseries\fontsize{9.5}{12}\selectfont},
-  headformat={\textls*{\MakeUppercase{\NAME{} \NUMBER}}\hspace{0.7em}\NOTE\\},
+  headformat={\formatcaption{\NAME{} \NUMBER}\hspace{0.7em}\NOTE\\},
   notefont={\normalfont\normalsize},
   headpunct={},
   bodyfont={\itshape},
@@ -568,8 +576,7 @@
 
 % same as before, but no note and line break after head
 \declaretheoremstyle[
-  headfont={\sffamily\bfseries\fontsize{9.5}{12}\selectfont},
-  headformat={\textls*{\MakeUppercase{\NAME{} \NUMBER}}\hspace{0.7em}},
+  headformat={\formatcaption{\NAME{} \NUMBER}\hspace{0.7em}\\},
   notefont={\normalfont\normalsize},
   headpunct={},
   bodyfont={\itshape},
@@ -637,15 +644,11 @@
 \makeatother
 
 % change QED symbol to filled square
-\renewcommand*{\qedsymbol}{\blacksquare}
+\renewcommand*{\qedsymbol}{\textcolor{mittelblau}{\blacksquare}}
 
 % redefine own proof environment (prohibits \qedhere)
 \renewenvironment{proof}[1][Proof]{%
-  \noindent%
-  {%
-    \sffamily\bfseries\fontsize{9.5}{12}\selectfont%
-    \textls*{\MakeUppercase{#1}}\hspace{1em}%
-  }%
+  \noindent{\formatcaption{#1}\hspace{1em}}%
 }{\qed\par}
 
 % ======================================================================
