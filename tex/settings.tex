@@ -330,6 +330,56 @@
 \renewcommand*{\LettrineTextFont}{\normalfont}
 
 % ======================================================================
+% Floats
+% ======================================================================
+
+\makeatletter
+% make "tp" to default position of figure and table
+\def\fps@figure{tp}
+\def\fps@table{tp}
+
+% automatically center all float and subfigure contents
+\g@addto@macro{\@floatboxreset}{\centering}
+\apptocmd\subcaption@minipage{\centering}{}{}
+
+% change font size in float environments
+\g@addto@macro{\figure}{\small}
+\g@addto@macro{\table}{\small}
+\g@addto@macro{\algorithm}{\small}
+\makeatother
+
+% don't move floats to own page (float page) when they are tall,
+% the default value is 0.5, which is a bit small
+\renewcommand*{\floatpagefraction}{0.7}
+
+% space between floats and text
+\setlength{\textfloatsep}{40pt}
+
+% height of ornament
+\newcommand*{\myornamentheight}{8pt}
+% center ornament vertically
+\newcommand*{\myornamentmargin}{%
+  \dimexpr\textfloatsep/2-\myornamentheight/2\relax%
+}
+% load ornament image
+\pgfSetupImageAsPattern[height=\myornamentheight]{myornament}{../gfx/ornament}
+
+% separate floats from text with an ornament line
+\newcommand*{\topfigrule}{%
+  {%
+    \color{black}%
+    \vspace{\myornamentmargin}%
+    \noindent%
+    \begin{tikzpicture}[use image as pattern=myornament]
+      \draw[draw=none,image as pattern={center,bottom}]
+      (0,0) rectangle (\textwidth,\myornamentheight);
+    \end{tikzpicture}%
+    \vspace{-\myornamentmargin}%
+    \vspace{-\myornamentheight}%
+  }%
+}
+
+% ======================================================================
 % Float Captions
 % ======================================================================
 
@@ -408,6 +458,21 @@
 }
 
 % ======================================================================
+% Tables
+% ======================================================================
+
+% fixed-width column types with left, center, and right alignment
+\newcolumntype{L}[1]{%
+  >{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}p{#1}%
+}
+\newcolumntype{C}[1]{%
+  >{\centering\let\newline\\\arraybackslash\hspace{0pt}}p{#1}%
+}
+\newcolumntype{R}[1]{%
+  >{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}p{#1}%
+}
+
+% ======================================================================
 % Algorithms
 % ======================================================================
 
@@ -457,71 +522,6 @@
 
 % set indentation to two characters
 \algrenewcommand{\algorithmicindent}{\widthof{AB}}
-
-% ======================================================================
-% Tables
-% ======================================================================
-
-% fixed-width column types with left, center, and right alignment
-\newcolumntype{L}[1]{%
-  >{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}p{#1}%
-}
-\newcolumntype{C}[1]{%
-  >{\centering\let\newline\\\arraybackslash\hspace{0pt}}p{#1}%
-}
-\newcolumntype{R}[1]{%
-  >{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}p{#1}%
-}
-
-% ======================================================================
-% Floats
-% ======================================================================
-
-\makeatletter
-% make "tp" to default position of figure and table
-\def\fps@figure{tp}
-\def\fps@table{tp}
-
-% automatically center all float and subfigure contents
-\g@addto@macro{\@floatboxreset}{\centering}
-\apptocmd\subcaption@minipage{\centering}{}{}
-
-% change font size in float environments
-\g@addto@macro{\figure}{\small}
-\g@addto@macro{\table}{\small}
-\g@addto@macro{\algorithm}{\small}
-\makeatother
-
-% don't move floats to own page (float page) when they are tall,
-% the default value is 0.5, which is a bit small
-\renewcommand*{\floatpagefraction}{0.7}
-
-% space between floats and text
-\setlength{\textfloatsep}{40pt}
-
-% height of ornament
-\newcommand*{\myornamentheight}{8pt}
-% center ornament vertically
-\newcommand*{\myornamentmargin}{%
-  \dimexpr\textfloatsep/2-\myornamentheight/2\relax%
-}
-% load ornament image
-\pgfSetupImageAsPattern[height=\myornamentheight]{myornament}{../gfx/ornament}
-
-% separate floats from text with an ornament line
-\newcommand*{\topfigrule}{%
-  {%
-    \color{black}%
-    \vspace{\myornamentmargin}%
-    \noindent%
-    \begin{tikzpicture}[use image as pattern=myornament]
-      \draw[draw=none,image as pattern={center,bottom}]
-        (0,0) rectangle (\textwidth,\myornamentheight);
-    \end{tikzpicture}%
-    \vspace{-\myornamentmargin}%
-    \vspace{-\myornamentheight}%
-  }%
-}
 
 % ======================================================================
 % Theorems
