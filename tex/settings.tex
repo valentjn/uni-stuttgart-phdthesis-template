@@ -65,10 +65,14 @@
   arrows.meta,
   % coordinate calculations
   calc,
+  % zig-zag lines
+  decorations.pathmorphing,
   % curly braces
   decorations.pathreplacing,
   % color gradients
   fadings,
+  % drop shadows
+  shadows,
 }
 
 % ======================================================================
@@ -354,6 +358,70 @@
 \renewcommand*{\LettrineTextFont}{\normalfont}
 
 % ======================================================================
+% Framed Boxes
+% ======================================================================
+
+% define mdframed style for floats
+\mdfdefinestyle{floatmdfstyle}{
+  innerleftmargin=7pt,
+  innerrightmargin=7pt,
+  innertopmargin=7pt,
+  innerbottommargin=6pt,
+  roundcorner=10pt,
+  linewidth=1pt,
+  linecolor=mittelblau,
+  backgroundcolor=mittelblau!10,
+  shadow=true,
+  shadowcolor=black!20,
+  % the documentation of mdframed lies about the default values of
+  % splittopskip and splitbottomskip
+  splittopskip=15pt,
+  splitbottomskip=5pt,
+}
+
+% define mdframed style for theorems
+\mdfdefinestyle{thmmdfstyle}{
+  innerleftmargin=12pt,
+  innerrightmargin=7pt,
+  innertopmargin=5pt,
+  innerbottommargin=6pt,
+  linewidth=1pt,
+  linecolor=mittelblau,
+  backgroundcolor=mittelblau!10,
+  % the documentation of mdframed lies about the default values of
+  % splittopskip and splitbottomskip
+  splittopskip=15pt,
+  splitbottomskip=5pt,
+  % thick line on left side
+  extra={%
+    \draw[mittelblau,line width=4pt]
+    ($(O)+(2pt,0pt)$) -- ($(O|-P)+(2pt,0pt)$);%
+  },
+  % "torn page" effect at bottom of the box before page break
+  firstextra={
+    \begin{scope}
+      \clip ($(O)+(-0.5pt,-2pt)$) rectangle ($(P|-O)+(0.5pt,2pt)$);
+      \draw[
+        white,line width=3pt,decorate,
+        decoration={random steps,segment length=2pt,amplitude=1.5pt}
+      ]
+      ($(O)+(-2pt,0pt)$) -- ($(P|-O)+(2pt,0pt)$);
+    \end{scope}
+  },
+  % "torn page" effect at top of the box after page break
+  secondextra={
+    \begin{scope}
+      \clip ($(O|-P)+(-0.5pt,-2pt)$) rectangle ($(P)+(0.5pt,2pt)$);
+      \draw[
+        white,line width=3pt,decorate,
+        decoration={random steps,segment length=2pt,amplitude=1.5pt}
+      ]
+      ($(O|-P)+(-2pt,0pt)$) -- ($(P)+(2pt,0pt)$);
+    \end{scope}
+  },
+}
+
+% ======================================================================
 % Floats
 % ======================================================================
 
@@ -370,6 +438,25 @@
 \g@addto@macro{\figure}{\small}
 \g@addto@macro{\table}{\small}
 \g@addto@macro{\algorithm}{\small}
+\makeatother
+
+% wrap floats in mdframed boxes
+\apptocmd{\figure}{\begin{mdframed}[style=floatmdfstyle]}{}{}
+\pretocmd{\endfigure}{\end{mdframed}}{}{}
+\apptocmd{\table}{\begin{mdframed}[style=floatmdfstyle]}{}{}
+\pretocmd{\endtable}{\end{mdframed}}{}{}
+\apptocmd{\algorithm}{\begin{mdframed}[style=floatmdfstyle]}{}{}
+\pretocmd{\endalgorithm}{\end{mdframed}}{}{}
+
+% wrap SCfigure/SCtable in mdframed boxes
+\makeatletter
+\xpatchcmd{\endSC@float}{\endSC@FLOAT\@tempdima}{%
+  \setlength{\@tempdima}{\@tempdima-17pt}\endSC@FLOAT\@tempdima%
+}{}{}
+\xpatchcmd{\endSC@FLOAT}{\@FLOAT{\SC@captype}}{%
+  \@FLOAT{\SC@captype}\begin{mdframed}[style=floatmdfstyle]%
+}{}{}
+\xpatchcmd{\endSC@FLOAT}{\end@FLOAT}{\end{mdframed}\end@FLOAT}{}{}
 \makeatother
 
 % don't move floats to own page (float page) when they are tall,
@@ -526,25 +613,6 @@
 % ======================================================================
 % Theorems
 % ======================================================================
-
-% define mdframed style for theorems
-\mdfdefinestyle{thmmdfstyle}{
-  innerleftmargin=12pt,
-  innerrightmargin=7pt,
-  innertopmargin=5pt,
-  innerbottommargin=6pt,
-  linewidth=1pt,
-  linecolor=mittelblau,
-  backgroundcolor=mittelblau!20,
-  extra={%
-    \draw[mittelblau,line width=4pt]
-    ($(O)+(2pt,0pt)$) -- ($(O|-P)+(2pt,0pt)$);%
-  },
-  % mdframed documentation lies about the default value of splitbottomskip,
-  % claims it is 0pt when in reality it's 10pt
-  splittopskip=15pt,
-  splitbottomskip=5pt,
-}
 
 % patch mdframed such that it doesn't violate \flushbottom
 % (mdframed produces ragged page bottoms without this)
