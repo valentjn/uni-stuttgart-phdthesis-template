@@ -17,7 +17,7 @@ l = (1, 1)
 i = (1, 1)
 
 b = helper.basis.HierarchicalBSpline(p)
-grid = helper.grid.RegularSparse()
+grid = helper.grid.RegularSparse(n, d)
 
 
 
@@ -26,7 +26,7 @@ ax = fig.add_subplot(111, projection="3d")
 
 
 
-X, Xl, Xi = grid.generate(d, n)
+X, Xl, Xi = grid.generate()
 N = X.shape[0]
 Y = np.zeros((N,))
 
