@@ -222,12 +222,22 @@
 \newcommand*{\longchapter}[2]{\chapter[#1]{#1\chaptermark{#2}}\chaptermark{#2}}
 \newcommand*{\longsection}[2]{\section[#1]{#1\sectionmark{#2}}\sectionmark{#2}}
 
+% flag to print ornaments, disable if desired
+% (in places where you don't want to have ornaments)
+\newif\ifprintornaments
+\printornamentstrue
+
 % dirty hack to automatically output ornaments before every section heading
 \RedeclareSectionCommand[
   font={%
-    \hfill%
-    \textcolor{black!40}{\pgfornament[width=100mm]{88}}%
-    \hfill\null\\[1.625ex plus .5ex minus -.1ex]%
+    \ifprintornaments%
+      \hfill%
+      \textcolor{black!40}{\pgfornament[width=100mm]{88}}%
+      \hfill\null\\[1.625ex plus .5ex minus -.1ex]%
+      \pagebreak[0]%
+    \else%
+      \vspace{1.625ex plus .5ex minus -.1ex}%
+    \fi%
     \Large%
   },
   beforeskip=-1.625ex plus -.5ex minus .1ex,
@@ -236,14 +246,19 @@
 % dirty hack to automatically output ornaments before every subsection heading
 \RedeclareSectionCommand[
   font={%
-    \hfill%
-    \textcolor{black!40}{%
-      \pgfornament[height=3mm]{2}\quad%
-      \pgfornament[height=3mm]{24}\quad%
-      \pgfornament[height=3mm,symmetry=v]{2}%
-    }%
-    \hfill\null\\[1.3ex plus .5ex minus -.1ex]%
-    \Large%
+    \ifprintornaments%
+      \hfill%
+      \textcolor{black!40}{%
+        \pgfornament[height=3mm]{2}\hspace{1mm}%
+        \pgfornament[height=3mm]{24}\hspace{1mm}%
+        \pgfornament[height=3mm,symmetry=v]{2}%
+      }%
+      \hfill\null\\[1.3ex plus .5ex minus -.1ex]%
+      \pagebreak[0]%
+    \else%
+      \vspace{1.3ex plus .5ex minus -.1ex}%
+    \fi%
+    \large%
   },
   beforeskip=-1.3ex plus -.5ex minus .1ex,
 ]{subsection}
