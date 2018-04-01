@@ -1,7 +1,9 @@
 -- https://yingtongli.me/blog/2016/01/08/breaking-urls-anywhere-in-lualatex-even.html
 function breakurl(url, label)
+  oldLabel = label;
+  
   if string.sub(label, 1, 12) == "\\nolinkurl {" then
-    label = string.sub(label, 13, string.len(label) - 1);
+    label = string.sub(label, 13, string.len(label) - 1)
   end
   
   -- label = label:gsub(".", "%1\\allowbreak{}")
@@ -13,5 +15,9 @@ function breakurl(url, label)
   
   -- insert other URL symbols here
   
-  tex.print("\\oldhref{" .. url .. "}{\\texttt{" .. label .. "}}")
+  if oldLabel == url then
+    tex.print("\\oldhref{" .. url .. "}{\\texttt{" .. label .. "}}")
+  else
+    tex.print("\\oldhref{" .. url .. "}{" .. oldLabel .. "}")
+  end
 end
