@@ -489,30 +489,25 @@
 % ======================================================================
 
 \makeatletter
+
 % make "tp" to default position of figure and table
 \def\fps@figure{tp}
 \def\fps@table{tp}
 
-% automatically center all float and subfigure contents
-\g@addto@macro{\@floatboxreset}{\centering}
-\apptocmd\subcaption@minipage{\centering}{}{}
-
+% wrap floats in mdframed boxes,
+% automatically center all float and subfigure contents,
 % change font size in float environments
-\g@addto@macro{\figure}{\small}
-\g@addto@macro{\table}{\small}
-\g@addto@macro{\algorithm}{\small}
-\makeatother
-
-% wrap floats in mdframed boxes
-\apptocmd{\figure}{\begin{mdframed}[style=floatmdfstyle]}{}{}
+\apptocmd{\figure}{\begin{mdframed}[style=floatmdfstyle]\centering\small}{}{}
 \pretocmd{\endfigure}{\end{mdframed}}{}{}
-\apptocmd{\table}{\begin{mdframed}[style=floatmdfstyle]}{}{}
+\apptocmd{\table}{\begin{mdframed}[style=floatmdfstyle]\centering\small}{}{}
 \pretocmd{\endtable}{\end{mdframed}}{}{}
-\apptocmd{\algorithm}{\begin{mdframed}[style=floatmdfstyle]}{}{}
+\apptocmd{\algorithm}{\begin{mdframed}[style=floatmdfstyle]\centering\small}{}{}
 \pretocmd{\endalgorithm}{\end{mdframed}}{}{}
 
+% automatically center all subfigure contents
+\apptocmd{\subcaption@minipage}{\centering}{}{}
+
 % wrap SCfigure/SCtable in mdframed boxes
-\makeatletter
 \xpatchcmd{\endSC@float}{\endSC@FLOAT\@tempdima}{%
   \setlength{\@tempdima}{\@tempdima-17pt}\endSC@FLOAT\@tempdima%
 }{}{}
@@ -520,6 +515,7 @@
   \@FLOAT{\SC@captype}\begin{mdframed}[style=floatmdfstyle]%
 }{}{}
 \xpatchcmd{\endSC@FLOAT}{\end@FLOAT}{\end{mdframed}\end@FLOAT}{}{}
+
 \makeatother
 
 % don't move floats to own page (float page) when they are tall,
