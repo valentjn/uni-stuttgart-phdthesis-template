@@ -1084,12 +1084,10 @@
 \DeclareNameAlias{sortname}{last-first}
 \DeclareNameAlias{default}{last-first}
 
-% define custom heading to fix non-uppercase page header, make URLs smaller
+% define custom heading to fix non-uppercase page header
 \defbibheading{myheading}[\bibname]{%
   \chapter{#1}%
   \markboth{BIBLIOGRAPHY}{BIBLIOGRAPHY}%
-  \let\oldtexttt\texttt%
-  \renewcommand*{\texttt}[1]{\oldtexttt{\scriptsize##1}}%
 }
 
 % add custom bibliography post note (URLs last checked on ...)
@@ -1102,9 +1100,11 @@
 % link DOIs and ISBNs
 \DeclareFieldFormat{url}{\url{#1}}
 \DeclareFieldFormat{doi}{%
+  \scriptsize%
   \ifhyperref{\href{https://doi.org/#1}{\nolinkurl{#1}}}{\nolinkurl{#1}}%
 }
 \DeclareFieldFormat{isbn}{%
+  \scriptsize%
   \ifhyperref{%
     \href{https://www.amazon.com/s/?field-keywords=#1}{\nolinkurl{#1}}%
   }{\nolinkurl{#1}}%
