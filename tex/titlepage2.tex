@@ -91,6 +91,7 @@
 {
   % no indentation of paragraphs
   \setlength{\parindent}{0pt}%
+  \small
   
   % cover figure caption with special name and label format (without number)
   \captionsetup[figure]{
@@ -104,7 +105,7 @@
     with a bicubic B-spline \emph{(mesh, top)}.%
   }
 
-  \vspace{2em}
+  \vspace{1em}
   
   % version information
   \begin{tabular}{@{}l@{}l@{}}
@@ -114,9 +115,25 @@
     \hphantom*{~}&on \gitCommitTimeLong.
   \end{tabular}%
   
-  \vspace{2em}
+  \vspace{1em}
   
-  Copyright \copyright{} \theyear{} \theauthor{}. All rights reserved.
+  \begin{tabular}{%
+    @{}p{0.2\textwidth}@{}p{0.8\textwidth}@{}%
+  }
+    \includegraphics[height=10mm]{licenseBadge}&
+    \raisebox{3.8mm}{%
+      \parbox{\linewidth}{%
+        Copyright \copyright{} \theyear{} \theauthor{}.
+        This work is licensed under the
+        \term{%
+          \href{https://creativecommons.org/licenses/by-sa/4.0/}{%
+            Creative Commons Attribution-ShareAlike 4.0
+            International License%
+          }%
+        }.%
+      }%
+    }
+  \end{tabular}
   
   \vspace{1em}
   
