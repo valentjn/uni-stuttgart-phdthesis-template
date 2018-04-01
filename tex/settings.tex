@@ -71,8 +71,8 @@
   decorations.pathreplacing,
   % color gradients
   fadings,
-  % drop shadows
-  shadows,
+  % blurred shadows
+  shadows.blur,
 }
 
 % ======================================================================
@@ -386,12 +386,14 @@
   linewidth=1pt,
   linecolor=mittelblau,
   backgroundcolor=mittelblau!10,
-  shadow=true,
-  shadowcolor=black!20,
   % the documentation of mdframed lies about the default values of
   % splittopskip and splitbottomskip
   splittopskip=15pt,
   splitbottomskip=5pt,
+  shadow=true,
+  apptotikzsetting={%
+    \tikzset{mdfshadow/.style={blur shadow={shadow blur steps=5}}}%
+  },
 }
 
 % define mdframed style for theorems
