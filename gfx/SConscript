@@ -30,6 +30,8 @@ for root, dirs, files in os.walk(os.path.join(py_dir.abspath, "helper")):
 # set environment variables
 py_env = env.Clone()
 py_env["ENV"]["BUILD_DIR"]       = env["BUILD_DIR"].abspath
+py_env["ENV"]["PYTHONPATH"]      = ":".join([py_env["ENV"].get("PYTHONPATH", ""),
+                                             py_dir.abspath])
 
 for py in pys:
   # determine number of generated images by script
