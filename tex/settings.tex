@@ -1,3 +1,5 @@
+\makeatletter
+
 % ======================================================================
 % Meta-Data
 % ======================================================================
@@ -156,11 +158,9 @@
 ]{lop}
 
 % add code that adds the theorem to the *.lop file to hook
-\makeatletter
 \addtotheorempostheadhook{%
   \addxcontentsline{lop}{mytheorem}{\csname ll@\thmt@envname\endcsname}%
 }
-\makeatother
 
 % use single spacing in
 % tables of contents, figures, tables, algorithms, and theorems
@@ -172,10 +172,8 @@
 
 % increase space of page numbers
 % (default values of 1.55em and 2.55em are too small for three-digit numbers)
-\makeatletter
 \renewcommand*{\@pnumwidth}{2em}
 \renewcommand*{\@tocrmarg}{3em}
-\makeatother
 
 % ======================================================================
 % Headings
@@ -261,8 +259,6 @@
 \RedeclareSectionCommand[beforeskip=2ex plus 1ex minus .2px]{paragraph}
 \RedeclareSectionCommand[beforeskip=1ex plus 1ex minus .2px]{subparagraph}
 
-\makeatletter
-
 % append period to \paragraph headings
 \let\paragraphwithoutperiod\paragraph
 \newcommand*{\paragraphwithperiodwithstar}[1]{\paragraphwithoutperiod*{#1.}}
@@ -278,8 +274,6 @@
 \renewcommand*{\subparagraph}{%
 \@ifstar{\subparagraphwithperiodwithstar}{\subparagraphwithperiod}%
 }
-
-\makeatother
 
 % increase indentation of paragraphs (default: 1em = \quad)
 \setlength{\parindent}{2em}
@@ -421,7 +415,6 @@
 }
 
 % "torn page" effect at bottom of the box before page break
-\makeatletter
 \newcounter{mathseed}
 \setcounter{mathseed}{3}
 \pgfmathsetseed{\arabic{mathseed}}
@@ -462,7 +455,6 @@
     }
   }
 }
-\makeatother
 
 % for the "torn page" effect,
 % derived from the "random steps" decoration, the difference is that
@@ -492,8 +484,6 @@
 % Floats
 % ======================================================================
 
-\makeatletter
-
 % make "tp" to default position of figure and table
 \def\fps@figure{tp}
 \def\fps@table{tp}
@@ -516,8 +506,6 @@
 }{}{}
 \xpatchcmd{\endSC@FLOAT}{\end@FLOAT}{\end{mdframed}\end@FLOAT}{}{}
 
-\makeatother
-
 % don't move floats to own page (float page) when they are tall,
 % the default value is 0.5, which is a bit small
 \renewcommand*{\floatpagefraction}{0.7}
@@ -530,14 +518,12 @@
 % ======================================================================
 
 % change font size for captions, add horizontal rule
-\makeatletter
 \DeclareCaptionFormat{mycaptionformat}{%
   \small\@hangfrom{#1#2}%
   \advance\caption@parindent\hangindent
   \advance\caption@hangindent\hangindent
   \caption@@par#3\par%
 }
-\makeatother
 
 \newcommand*{\formatcaption}[1]{%
   \sffamily\bfseries\fontsize{9.5}{12}\selectfont%
@@ -579,14 +565,12 @@
 \renewcommand*{\sidecaptionrelwidth}{50}
 
 % change font size for sub-captions
-\makeatletter
 \DeclareCaptionFormat{mysubcaptionformat}{%
   \fontsize{10}{12}\selectfont\@hangfrom{#1#2}%
   \advance\caption@parindent\hangindent
   \advance\caption@hangindent\hangindent
   \caption@@par#3\par%
 }
-\makeatother
 
 % change appearance of sub-caption label
 \DeclareCaptionLabelFormat{mysubcaptionlabelformat}{%
@@ -659,9 +643,7 @@
 \algnewcommand{\Goto}[1]{\algorithmicgoto\ \cref*{#1}}
 
 % small monospace font in algorithms
-\makeatletter
 \g@addto@macro\ALG@beginalgorithmic{\small\ttfamily}
-\makeatother
 
 % comment format
 \algrenewcomment[1]{\hfill$\rightsquigarrow$ {\normalfont\emph{#1}}}
@@ -675,11 +657,9 @@
 
 % patch mdframed such that it doesn't violate \flushbottom
 % (mdframed produces ragged page bottoms without this)
-\makeatletter
 \xpatchcmd{\mdf@put@frame@i}{\hrule \@height\z@ \@width\hsize\vfill}{}{}{}
 \xpatchcmd{\mdf@put@frame@i}{\hrule \@height\z@ \@width\hsize\vfill}{}{}{}
 \xpatchcmd{\mdf@put@frame@i}{\hrule \@height\z@ \@width\hsize\vfill}{}{}{}
-\makeatother
 
 % ignore "bad break" warnings by mdframed, they don't seem to make sense
 % (they claim that the box after the page break would be empty,
@@ -762,13 +742,11 @@
 
 % automatically replace "l" with \ell in math mode
 \mathcode`l="8000
-\makeatletter
 \begingroup
 \lccode`\~=`\l
 \DeclareMathSymbol{\lsb@l}{\mathalpha}{letters}{`l}
 \lowercase{\gdef~{\ifnum\the\mathgroup=\m@ne \ell \else \lsb@l \fi}}%
 \endgroup
-\makeatother
 
 % change QED symbol to filled square
 \renewcommand*{\qedsymbol}{\textcolor{mittelblau}{\blacksquare}}
@@ -783,9 +761,7 @@
 % ======================================================================
 
 % get name of current label (chapter, section, subsection, ...)
-\makeatletter
 \newcommand*{\currentname}{\@currentlabelname}
-\makeatother
 
 % insert TODO and warn for every usage of \blindtext
 \let\oldblindtext\blindtext
@@ -822,7 +798,6 @@
 \edef\compileCounter{\luadirect{getAndIncreaseCompileCounter()}}
 
 % command for checking if file is in includeonly or not
-\makeatletter
 \newcommand*{\isincluded}[1]{%
   \@tempswatrue
   \if@partsw
@@ -833,7 +808,6 @@
   \fi
   \if@tempswa\expandafter\@firstoftwo\else\expandafter\@secondoftwo\fi
 }
-\makeatother
 
 % ======================================================================
 % Colors
@@ -875,7 +849,6 @@
 
 % prevent "Label `1' multiply defined" warnings when using
 % KOMA-Script's \ifthispageodd together with \includeonly
-\makeatletter
 \newcounter{scbookpg}
 \renewcommand*{\is@thispageodd}{%
   \@bsphack
@@ -902,7 +875,6 @@
   \endgroup
   \@esphack
 }
-\makeatletter
 
 % set up flip book
 \newcounter{currentpagenumber}
@@ -1008,9 +980,7 @@
 }
 
 % include parentheses of \eqref in hyperlink
-\makeatletter
 \renewcommand*{\eqref}[1]{\hyperref[{#1}]{\textup{\tagform@{\ref*{#1}}}}}
-\makeatother
 
 % ======================================================================
 % Bibliography
@@ -1131,8 +1101,6 @@
 % ======================================================================
 % Glossary
 % ======================================================================
-
-\makeatletter
 
 % \newcommand with variable command names
 \newcommand*{\newnamecommand}{\@star@or@long\new@name@command}
