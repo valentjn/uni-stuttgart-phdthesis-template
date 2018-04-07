@@ -216,9 +216,16 @@
 % Therefore, we have to call \chaptermark/\sectionmark twice and also
 % supply the optional parameter (otherwise, there will be errors as LaTeX
 % tries to add the marks to the table of contents).
-% Use the commands like \longchapter{heading title}{mark title}.
-\newcommand*{\longchapter}[2]{\chapter[#1]{#1\chaptermark{#2}}\chaptermark{#2}}
-\newcommand*{\longsection}[2]{\section[#1]{#1\sectionmark{#2}}\sectionmark{#2}}
+% Use the commands like \longchapter{TOC title}{heading title}{mark title}.
+\newcommand*{\longchapter}[3]{%
+  \chapter[#1]{#2\chaptermark{#3}}\chaptermark{#3}%
+}
+\newcommand*{\longsection}[3]{%
+  \section[#1]{#2\sectionmark{#3}}\sectionmark{#3}%
+}
+\newcommand*{\addlongchap}[3]{%
+  \addchap[#1]{#2\chaptermark{#3}}%
+}
 
 % flag to print ornaments, disable if desired
 % (in places where you don't want to have ornaments)
