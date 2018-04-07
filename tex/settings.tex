@@ -183,29 +183,46 @@
 \setkomafont{disposition}{\normalcolor\bfseries\setstretch{1}}
 
 % format chapter headings with custom commands (below)
-\renewcommand*{\chapterformat}{\chapternumber{\thechapter\autodot}}
-\renewcommand*{\chapterlinesformat}[3]{#2\chaptertitle{#3}}
+\renewcommand*{\chapterformat}{\thechapter\autodot}
+\renewcommand*{\chapterlinesformat}[3]{\mychapterlinesformat{#2}{#3}}
 
-% scale chapter number, bottom alignment
-\newcommand*{\chapternumber}[1]{%
-  \begin{minipage}[b]{0.15\linewidth}%
-    \chapappifchapterprefix{\nobreakspace}%
-    \scalebox{3.2}{#1\vphantom{0123456789}}%
-    \IfUsePrefixLine{}{\enskip}%
-  \end{minipage}%
+% check if chapter with number or without number
+\newcommand*{\mychapterlinesformat}[2]{%
+  \if\relax\detokenize{#1}\relax%
+    \chaptertitlenonumber{#2}%
+  \else%
+    \begin{minipage}{\textwidth}%
+      \centering%
+      \chapternumber{#1}\\[1em]%
+      \chaptertitle{#2}%
+    \end{minipage}%
+  \fi%
 }
 
-% left-align chapter title
-\newcommand*{\chaptertitle}[1]{%
-  \leavevmode\smash{%
-    \begin{minipage}[b]{0.85\linewidth}%
-      \raggedchapter#1%
-    \end{minipage}%
+% put chapter number in circle
+\newcommand*{\chapternumber}[1]{%
+  \scalebox{3.0}{%
+    \tikz[baseline=(char.base)]{
+      \node[
+        shading=axis,
+        circle,
+        white,
+        left color=mittelblau,
+        right color=hellblau,
+        shading angle=135,
+        inner sep=2pt,
+      ] (char) {\textbf{#1\vphantom{0123456789}}};
+    }%
   }%
 }
 
+% if chapter with number: blue chapter title
+\newcommand*{\chaptertitle}[1]{\textcolor{mittelblau}{#1}}
+% if chapter without number: black chapter title
+\newcommand*{\chaptertitlenonumber}[1]{#1}
+
 % set space before and after chapter heading
-\RedeclareSectionCommand[beforeskip=8em,afterskip=5em]{chapter}
+\RedeclareSectionCommand[beforeskip=5em,afterskip=5em]{chapter}
 
 % Commands for long chapter/section titles:
 % If the title is too long, then the mark in the page header will
