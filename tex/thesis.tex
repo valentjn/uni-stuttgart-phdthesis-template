@@ -27,6 +27,11 @@
     % second title page
     \input{titlepage2}
     
+    % progress page
+    \iftoggle{draftMode}{
+      \input{progress}
+    }{}
+    
     % table of contents, create bookmark
     \cleardoublepage
     \pdfbookmark[section]{\contentsname}{toc}
