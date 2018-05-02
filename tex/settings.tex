@@ -495,14 +495,10 @@
 \def\fps@table{tp}
 
 % wrap floats in mdframed boxes,
-% automatically center all float and subfigure contents,
+% automatically center all float contents,
 % change font size in float environments
-\apptocmd{\figure}{\begin{mdframed}[style=floatmdfstyle]\centering\small}{}{}
-\pretocmd{\endfigure}{\end{mdframed}}{}{}
-\apptocmd{\table}{\begin{mdframed}[style=floatmdfstyle]\centering\small}{}{}
-\pretocmd{\endtable}{\end{mdframed}}{}{}
-\apptocmd{\algorithm}{\begin{mdframed}[style=floatmdfstyle]\centering\small}{}{}
-\pretocmd{\endalgorithm}{\end{mdframed}}{}{}
+\apptocmd{\@xfloat}{\begin{mdframed}[style=floatmdfstyle]\centering\small}{}{}
+\pretocmd{\end@float}{\end{mdframed}}{}{}
 
 % automatically center all subfigure contents
 \apptocmd{\subcaption@minipage}{\centering}{}{}
