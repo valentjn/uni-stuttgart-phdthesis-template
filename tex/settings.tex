@@ -518,9 +518,6 @@
 \apptocmd{\@xfloat}{\begin{mdframed}[style=floatmdfstyle]\centering\small}{}{}
 \pretocmd{\end@float}{\end{mdframed}}{}{}
 
-% automatically center all subfigure contents
-\apptocmd{\subcaption@minipage}{\centering}{}{}
-
 % wrap SCfigure/SCtable in mdframed boxes
 \xpatchcmd{\endSC@float}{\endSC@FLOAT\@tempdima}{%
   \setlength{\@tempdima}{\@tempdima-17pt}\endSC@FLOAT\@tempdima%
@@ -529,6 +526,9 @@
   \@FLOAT{\SC@captype}\begin{mdframed}[style=floatmdfstyle]%
 }{}{}
 \xpatchcmd{\endSC@FLOAT}{\end@FLOAT}{\end{mdframed}\end@FLOAT}{}{}
+
+% automatically center all subfigure contents
+\apptocmd{\subcaption@minipage}{\centering}{}{}
 
 % don't move floats to own page (float page) when they are tall,
 % the default value is 0.5, which is a bit small
