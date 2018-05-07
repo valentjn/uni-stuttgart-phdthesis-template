@@ -518,14 +518,11 @@
 \apptocmd{\@xfloat}{\begin{mdframed}[style=floatmdfstyle]\centering\small}{}{}
 \pretocmd{\end@float}{\end{mdframed}}{}{}
 
-% wrap SCfigure/SCtable in mdframed boxes
+% make internal length of sidecap smaller to account for smaller space
+% for floats with side captions
 \xpatchcmd{\endSC@float}{\endSC@FLOAT\@tempdima}{%
   \setlength{\@tempdima}{\@tempdima-17pt}\endSC@FLOAT\@tempdima%
 }{}{}
-\xpatchcmd{\endSC@FLOAT}{\@FLOAT{\SC@captype}}{%
-  \@FLOAT{\SC@captype}\begin{mdframed}[style=floatmdfstyle]%
-}{}{}
-\xpatchcmd{\endSC@FLOAT}{\end@FLOAT}{\end{mdframed}\end@FLOAT}{}{}
 
 % automatically center all subfigure contents
 \apptocmd{\subcaption@minipage}{\centering}{}{}
