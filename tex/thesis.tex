@@ -26,34 +26,36 @@
     
     % second title page
     \input{titlepage2}
-    
-    % progress page
-    \iftoggle{draftMode}{
-      \input{progress}
-    }{}
-    
-    % table of contents, create bookmark
-    \cleardoublepage
-    \pdfbookmark[section]{\contentsname}{toc}
-    \tableofcontents
-    \cleardoublepage
-    
-    % lists of floats and theorems
-    \addlongchap{%
-      Lists of Figures, Tables, Algorithms, and Theorems%
-    }{%
-      Lists of Figures, Tables,\texorpdfstring{\\}{ }Algorithms, and Theorems%
-    }{%
-      Lists of Figures, Tables, Algorithms, and Theorems%
-    }
-    \printornamentsfalse
-    \listoffigures
-    \listoftables
-    \listofalgorithms
-    \listofmytheorems
-    \printornamentstrue
-    \cleardoublepage
-    
+  }
+  
+  % progress page
+  \iftoggle{draftMode}{
+    \input{progress}
+  }{}
+  
+  % table of contents, create bookmark
+  \cleardoublepage
+  \pdfbookmark[section]{\contentsname}{toc}
+  \tableofcontents
+  \cleardoublepage
+  
+  % lists of floats and theorems
+  \addlongchap{%
+    Lists of Figures, Tables, Algorithms, and Theorems%
+  }{%
+    Lists of Figures, Tables,\texorpdfstring{\\}{ }Algorithms, and Theorems%
+  }{%
+    Lists of Figures, Tables, Algorithms, and Theorems%
+  }
+  \printornamentsfalse
+  \listoffigures
+  \listoftables
+  \listofalgorithms
+  \listofmytheorems
+  \printornamentstrue
+  \cleardoublepage
+  
+  \iftoggle{partialCompileMode}{}{
     % list of symbols and acronyms
     \printglossary[title={List of Symbols and Acronyms}]
     \cleardoublepage
