@@ -202,23 +202,23 @@
 % put chapter number in circle
 \newcommand*{\chapternumber}[1]{%
   \scalebox{3.0}{%
-    \tikz[baseline=(char.base)]{
-      \node[
+    \tikz{
+      \fill[
         shading=axis,
-        circle,
-        white,
         left color=mittelblau,
         right color=hellblau,
         shading angle=135,
         inner sep=0mm,
-        text width=8mm,
-        align=center,
-      ] (char) {%
+      ] (0,0) circle (5mm);
+      \node[
+        white,
+        inner sep=0mm,
+      ] at (0,0) {%
         \ifthenelse{\equal{#1}{3}}{\hspace*{0.4mm}}{}%
         \ifthenelse{\equal{#1}{5}}{\hspace*{0.5mm}}{}%
         \ifthenelse{\equal{#1}{7}}{\hspace*{-0.2mm}}{}%
         \ifthenelse{\equal{#1}{B}}{\hspace*{0.5mm}}{}%
-        \ifthenelse{\equal{#1}{C}}{\hspace*{-0.8mm}}{}%
+        \ifthenelse{\equal{#1}{C}}{\hspace*{-0.5mm}}{}%
         \ifthenelse{\equal{#1}{D}}{\hspace*{0.5mm}}{}%
         \ifthenelse{\equal{#1}{E}}{\hspace*{0.2mm}}{}%
         \textbf{#1}%
