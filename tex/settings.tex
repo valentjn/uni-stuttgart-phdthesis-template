@@ -183,7 +183,7 @@
 \setkomafont{disposition}{\normalcolor\bfseries\setstretch{1}}
 
 % format chapter headings with custom commands (below)
-\renewcommand*{\chapterformat}{\thechapter\autodot}
+\renewcommand*{\chapterformat}{\thechapter}
 \renewcommand*{\chapterlinesformat}[3]{\mychapterlinesformat{#2}{#3}}
 
 % check if chapter with number or without number
@@ -210,8 +210,19 @@
         left color=mittelblau,
         right color=hellblau,
         shading angle=135,
-        inner sep=2pt,
-      ] (char) {\textbf{#1\vphantom{0123456789}}};
+        inner sep=0mm,
+        text width=8mm,
+        align=center,
+      ] (char) {%
+        \ifthenelse{\equal{#1}{3}}{\hspace*{0.4mm}}{}%
+        \ifthenelse{\equal{#1}{5}}{\hspace*{0.5mm}}{}%
+        \ifthenelse{\equal{#1}{7}}{\hspace*{-0.2mm}}{}%
+        \ifthenelse{\equal{#1}{B}}{\hspace*{0.5mm}}{}%
+        \ifthenelse{\equal{#1}{C}}{\hspace*{-0.8mm}}{}%
+        \ifthenelse{\equal{#1}{D}}{\hspace*{0.5mm}}{}%
+        \ifthenelse{\equal{#1}{E}}{\hspace*{0.2mm}}{}%
+        \textbf{#1}%
+      };
     }%
   }%
 }
