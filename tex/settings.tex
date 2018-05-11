@@ -73,8 +73,8 @@
   decorations.pathreplacing,
   % color gradients
   fadings,
-  % blurred shadows
-  shadows.blur,
+  % shadows
+  shadows,
 }
 
 % ======================================================================
@@ -425,7 +425,34 @@
   % replace drop shadow with blur shadow
   shadow=true,
   apptotikzsetting={%
-    \tikzset{mdfshadow/.style={blur shadow={shadow blur steps=5}}}%
+    % alternatively, use
+    % \tikzset{mdfshadow/.style={blur shadow={shadow blur steps=5}}}%
+    % from the pgf-blur package;
+    % disadvantage of that is that this uses semi-transparency,
+    % which some printer and printing services cannot handle
+    % ==> recreate pgf-blur shadow effect with opaque drop shadows
+    \tikzset{
+      every shadow/.style={shadow xshift=1mm,shadow yshift=-1mm,opacity=1},
+      mdfshadow/.style={
+        drop shadow={line width=2.4mm,draw=black!03,fill=black!03},
+        drop shadow={line width=2.1mm,draw=black!06,fill=black!06},
+        drop shadow={line width=1.8mm,draw=black!09,fill=black!09},
+        drop shadow={line width=1.5mm,draw=black!12,fill=black!12},
+        drop shadow={line width=1.2mm,draw=black!15,fill=black!15},
+        drop shadow={line width=0.9mm,draw=black!18,fill=black!18},
+        drop shadow={line width=0.6mm,draw=black!21,fill=black!21},
+        drop shadow={line width=0.3mm,draw=black!24,fill=black!24},
+        drop shadow={line width=0.0mm,draw=black!27,fill=black!27},
+        drop shadow={line width=0.0mm,draw=black!30,fill=black!30,
+                     shadow xshift=0.85mm,shadow yshift=-0.85mm,},
+        drop shadow={line width=0.0mm,draw=black!33,fill=black!33,
+                     shadow xshift=0.70mm,shadow yshift=-0.70mm,},
+        drop shadow={line width=0.0mm,draw=black!36,fill=black!36,
+                     shadow xshift=0.35mm,shadow yshift=-0.35mm,},
+        drop shadow={line width=0.0mm,draw=black!39,fill=black!39,
+                     shadow xshift=0.40mm,shadow yshift=-0.40mm,},
+      }
+    }%
   },
 }
 
