@@ -1,0 +1,232 @@
+import os
+import subprocess
+import warnings
+
+coverPrintDPI  = 500
+coverScreenDPI = 100
+
+manuscriptPaperWidth   = 210
+manuscriptPaperHeight  = 297
+manuscriptMarginLeft   = 3
+manuscriptMarginBottom = 3
+manuscriptMarginRight  = 3
+manuscriptMarginTop    = 3
+
+publishedPaperWidth   = 148
+publishedPaperHeight  = 210
+publishedMarginLeft   = 3
+publishedMarginBottom = 3
+publishedMarginRight  = 3
+publishedMarginTop    = 3
+
+def compressPDFs(target, source, env):
+  pdf = target[0].abspath
+  
+  if canCompressPDFs:
+    pdfOptimized = "{}.opt".format(pdf)
+    Helper.runCommand(["pdfsizeopt", "--do-unify-fonts=false", "--v=30",
+                       pdf, pdfOptimized])
+    os.remove(pdf)
+    os.rename(pdfOptimized, pdf)
+  else:
+    print("Skipping compression of \"{}\".".format(pdf))
+
+
+
+Import("env")
+Import("Helper")
+env = env.Clone()
+
+programs = ["convert", "gs", "inkscape", "pdfjam", "pdfsizeopt", "pdftk"]
+programInstalled = {x : Helper.checkProgramInstalled(env, x)
+                    for x in programs}
+canRasterizeCover = all([programInstalled[x]
+                         for x in ["convert", "inkscape", "pdfjam"]])
+canModifyPageLabels = all([programInstalled[x]
+                           for x in ["gs", "pdftk"]])
+hasPDFJam = programInstalled["pdfjam"]
+canCompressPDFs = programInstalled["pdfsizeopt"]
+if not canRasterizeCover:
+  warnings.warn("convert, inkscape, and pdfjam required for "
+                "the rasterization of the cover SVG. "
+                "Skipping this, the output PDFs won't have the book cover "
+                "included.")
+if canRasterizeCover and (not canModifyPageLabels):
+  warnings.warn("gs and pdftk required to modify the PDF page labels "
+                "after inserting the book cover. The PDF page labels "
+                "will be different from the page numbers.")
+if not hasPDFJam:
+  warnings.warn("pdfjam required for producing print versions. "
+                "Skipping production of print versions.")
+if not canCompressPDFs:
+  warnings.warn("pdfsizeopt required for compressing output PDFs. "
+                "Output PDFs won't be compressed.")
+
+pdfsPrint  = []
+pdfsScreen = []
+
+# rasterize cover
+if canRasterizeCover:
+  coverSVG = os.path.join("..", "gfx", "pre", "cover.svgz")
+  coverPrintPNG  = os.path.join(env["BUILD_DIR"].abspath, "coverPrint.png")
+  coverScreenPNG = os.path.join(env["BUILD_DIR"].abspath, "coverScreen.png")
+  coverPrintPDF  = os.path.join("coverPrint.pdf")
+  coverScreenPDF = os.path.join("coverScreen.pdf")
+  coverPrintPDFA4  = os.path.join(env["BUILD_DIR"].abspath,
+                                  "coverPrintA4.pdf")
+  coverScreenPDFA4 = os.path.join(env["BUILD_DIR"].abspath,
+                                  "coverScreenA4.pdf")
+
+  for coverDPI, coverPNG, coverPDF, coverPDFA4 in \
+        [(coverPrintDPI,  coverPrintPNG,  coverPrintPDF,  coverPrintPDFA4),
+        (coverScreenDPI, coverScreenPNG, coverScreenPDF, coverScreenPDFA4)]:
+    env.Command(coverPNG, coverSVG,
+                "inkscape --export-png=$TARGET --export-area-page "
+                "--export-dpi={} $SOURCE".format(coverDPI))
+    env.Command(coverPDF, coverPNG,
+                "convert $SOURCE -density {} "
+                "-units pixelsperinch -rotate 270 $TARGET".format(coverDPI))
+    env.Command(coverPDFA4, coverPDF,
+                "pdfjam --quiet --outfile $TARGET $SOURCE '1,{}'")
+  
+  env.AddPostAction(coverPrintPDF, compressPDFs)
+  env.AddPostAction(coverScreenPDF, compressPDFs)
+  pdfsPrint.append(coverPrintPDF)
+  pdfsScreen.append(coverScreenPDF)
+
+def joinCoverAndThesis(target, source, env):
+  coverScreenPDFA4, buildPDF = source[0].abspath, source[1].abspath
+  thesisManuscriptScreen = target[0].abspath
+  thesisWithCover = os.path.join(env["BUILD_DIR"].abspath,
+                                 "thesisWithCover.pdf")
+  
+  Helper.runCommand(["pdfjam", "--quiet", "--keepinfo",
+                     "--outfile", thesisWithCover,
+                     coverScreenPDFA4, buildPDF])
+  
+  if canModifyPageLabels:
+    metaData = Helper.runCommand(["pdftk", buildPDF, "dump_data"],
+        stdout=subprocess.PIPE).stdout.decode()
+    metaData = metaData.strip("\n").splitlines()
+    # see format at https://tex.stackexchange.com/a/390337
+    pageLabelsContents = """
+[
+  {Catalog} <<
+    /PageLabels <<
+      /Nums [
+        0 << /S /r >>
+"""[1:]
+    
+    if "PageLabelBegin" in metaData:
+      keys = ["PageLabelNewIndex", "PageLabelStart", "PageLabelNumStyle"]
+      styles = {
+        "DecimalArabicNumerals" : "/D",
+        "UppercaseRomanNumerals" : "/R",
+        "LowercaseRomanNumerals" : "/r",
+        "UppercaseLetters" : "/A",
+        "LowercaseLetters" : "/a",
+      }
+      currentPageLabel = {}
+      
+      for line in metaData:
+        if line == "PageLabelBegin":
+          currentPageLabel = {}
+        else:
+          for key in keys:
+            start = "{}: ".format(key)
+            if line.startswith(start):
+              currentPageLabel[key] = line[len(start):]
+          
+          if len(currentPageLabel) == len(keys):
+            # pdftk uses 1-based page numbers,
+            # ghostscript uses 0-based page numbers,
+            # we want to add 2 to all start page numbers
+            # ==> add 1 to PageLabelNewIndex
+            pageLabelsContents += "        {} << /S {} /St {} >>\n".format(
+                int(currentPageLabel["PageLabelNewIndex"]) + 1,
+                styles[currentPageLabel["PageLabelNumStyle"]],
+                currentPageLabel["PageLabelStart"])
+    else:
+      pageLabelsContents += "        2 << /S /D >>\n"
+    
+    pageLabelsContents += """
+      ]
+    >>
+  >>
+/PUT pdfmark
+"""[1:]
+    
+    pageLabels = os.path.join(env["BUILD_DIR"].abspath, "pageLabels.ps")
+    with open(pageLabels, "w") as f: f.write(pageLabelsContents)
+    
+    Helper.runCommand(["gs", "-sDEVICE=pdfwrite",
+                       "-dSAFER", "-dQUIET", "-dBATCH", "-dNOPAUSE",
+                       "-dAutoFilterColorImages=false",
+                       "-dAutoFilterGrayImages=false",
+                       "-dColorImageFilter=/FlateEncode",
+                       "-dGrayImageFilter=/FlateEncode",
+                       "-sOutputFile={}".format(thesisManuscriptScreen),
+                       thesisWithCover, pageLabels])
+  else:
+    env.InstallAs(thesisManuscriptScreen, thesisWithCover)
+
+thesisManuscriptScreen = "thesisManuscriptScreen.pdf"
+if canRasterizeCover:
+  env.Command(thesisManuscriptScreen, [coverScreenPDFA4, env["BUILD_PDF"]],
+              joinCoverAndThesis)
+else:
+  env.InstallAs(thesisManuscriptScreen, env["BUILD_PDF"])
+
+env.AddPostAction(thesisManuscriptScreen, compressPDFs)
+pdfsScreen.append(thesisManuscriptScreen)
+
+if hasPDFJam:
+  thesisManuscriptPrint = "thesisManuscriptPrint.pdf"
+  env.Command(thesisManuscriptPrint, env["BUILD_PDF"],
+      "pdfjam --quiet --keepinfo --papersize '{{{}mm,{}mm}}' "
+      "--trim '{}mm {}mm {}mm {}mm' --clip true "
+      "--outfile $TARGET $SOURCE".format(
+        manuscriptPaperWidth + manuscriptMarginLeft + manuscriptMarginRight,
+        manuscriptPaperHeight + manuscriptMarginTop + manuscriptMarginBottom,
+        -manuscriptMarginLeft, -manuscriptMarginBottom,
+        -manuscriptMarginRight, -manuscriptMarginTop))
+  env.AddPostAction(thesisManuscriptPrint, compressPDFs)
+  pdfsPrint.append(thesisManuscriptPrint)
+  
+  thesisPublishedPrintA5 = "thesisPublishedPrintA5.pdf"
+  env.Command(thesisPublishedPrintA5, env["BUILD_PDF"],
+      "pdfjam --quiet --keepinfo --paper a5paper --papersize '{{{}mm,{}mm}}' "
+      "--trim '{}mm {}mm {}mm {}mm' --clip true "
+      "--outfile $TARGET $SOURCE".format(
+        publishedPaperWidth + publishedMarginLeft + publishedMarginRight,
+        publishedPaperHeight + publishedMarginTop + publishedMarginBottom,
+        -publishedMarginLeft, -publishedMarginBottom,
+        -publishedMarginRight, -publishedMarginTop))
+  env.AddPostAction(thesisPublishedPrintA5, compressPDFs)
+  pdfsPrint.append(thesisPublishedPrintA5)
+  
+  thesisNupRotated = os.path.join(env["BUILD_DIR"].abspath,
+                                  "thesisNupRotated.pdf")
+  thesisNupWithoutCover = os.path.join(env["BUILD_DIR"].abspath,
+                                      "thesisNupWithoutCover.pdf")
+  thesisPublishedPrintA4Nup = "thesisPublishedPrintA4Nup.pdf"
+  env.Command(thesisNupRotated, env["BUILD_PDF"],
+      "pdfjam --quiet --keepinfo --nup 2x1 --landscape --outfile $TARGET "
+      "$SOURCE")
+  env.Command(thesisNupWithoutCover, thesisNupRotated,
+      "pdfjam --quiet --keepinfo --angle 90 --outfile $TARGET $SOURCE")
+  env.Command(thesisPublishedPrintA4Nup,
+      [coverScreenPDFA4, thesisNupWithoutCover],
+      "pdfjam --quiet --keepinfo --outfile $TARGET "
+      "${SOURCES[0]} 1 ${SOURCES[1]}")
+  env.AddPostAction(thesisPublishedPrintA4Nup, compressPDFs)
+  pdfsPrint.append(thesisPublishedPrintA4Nup)
+
+# don't clean PDFs in out directory
+env.NoClean(pdfsPrint + pdfsScreen)
+
+env.Alias("all", ".")
+env.Alias("print", pdfsPrint)
+env.Alias("screen", pdfsScreen)
+
+env.Default("screen")

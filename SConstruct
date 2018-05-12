@@ -40,8 +40,11 @@ env = Environment(ENV=os.environ)
 # (otherwise SCons won't rebuild even if it is necessary)
 env.Decider("timestamp-newer")
 
-sconscripts = {}
-dirs = ["bib", "gfx", "lua", "tex"]
+# iterate over all dependent directories
+# note: "out" has to be behind "tex"
+dirTargets = {}
+dirs = ["bib", "gfx", "lua", "tex", "out"]
+buildPDF = []
 createDirs = (not env.GetOption("help")) and (not env.GetOption("clean"))
 
 for dir_ in dirs:
@@ -51,16 +54,15 @@ for dir_ in dirs:
   # create build directory
   if (dir_ != "lua") and createDirs: env.Execute(Mkdir(env["BUILD_DIR"]))
   # execute SConscript
-  sconscripts[dir_] = env.SConscript(os.path.join(dir_, "SConscript"), exports=["env", "Helper"])
-  # clean up (scons -c)
-  if dir_ != "lua": env.Clean(sconscripts[dir_], env["BUILD_DIR"])
+  dirTargets[dir_] = env.SConscript(os.path.join(dir_, "SConscript"),
+                                    exports=["env", "Helper"])
+  # clean up dir_
+  if dir_ != "lua": env.Clean(dirTargets[dir_], env["BUILD_DIR"])
+  
+  # set BUILD_PDF variable
+  if dir_ == "tex": env["BUILD_PDF"] = dirTargets[dir_]
 
-# dependencies
-env.Depends(sconscripts["tex"], [sconscripts[dir] for dir in dirs if dir != "tex"])
-# install PDF
-pdf_dir = env.Dir("pdf")
-env.Execute(Mkdir(pdf_dir))
-pdf = env.Install(pdf_dir, sconscripts["tex"])
-
-# don't clean final PDF in pdf directory
-env.NoClean(sconscripts["tex"], pdf)
+# the PDF depends on everything that is not in tex (these dependencies are
+# handled by tex/SConscript) and out
+env.Depends(env["BUILD_PDF"], [dirTargets[dir_] for dir_ in dirs
+                               if dir_ not in ["tex", "out"]])
