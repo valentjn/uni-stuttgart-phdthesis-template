@@ -1,4 +1,13 @@
 import os
+import sys
+
+# check SCons version
+EnsureSConsVersion(3, 0)
+
+# we need at least Python 3.5, for example for subprocess.run
+if sys.version_info < (3, 5):
+  raise RuntimeError("These SCons scripts require Python 3.5 or newer. "
+                     "Try running `python3 /usr/bin/scons` or similar.")
 
 # set up environment, export environment variables of the shell
 # (for example needed for custom TeX installations which need PATH)
