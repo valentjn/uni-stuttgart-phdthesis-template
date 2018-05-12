@@ -1,5 +1,4 @@
 import os
-import subprocess
 import sys
 
 Import("env")
@@ -8,9 +7,6 @@ env = env.Clone()
 # install pre-made graphics
 pre = env.Glob(os.path.join("pre", "*.pdf"))
 env.Install(env["BUILD_DIR"], pre)
-
-# set output directory
-env.Append(PDFLATEXFLAGS="--output-directory={}".format(env["BUILD_DIR"]))
 
 # search for Python scripts
 pys = env.Glob(os.path.join("py", "*.py"))
