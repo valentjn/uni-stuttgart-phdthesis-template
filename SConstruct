@@ -41,17 +41,17 @@ env = Environment(ENV=os.environ)
 env.Decider("timestamp-newer")
 
 sconscripts = {}
-dirs = ["bib", "gfx", "tex"]
+dirs = ["bib", "gfx", "lua", "tex"]
 
 for dir in dirs:
   # tell SConscript which its build directory is
   env.Replace(BUILD_DIR=env.Dir("build/{}".format(dir)))
   # create build directory
-  env.Execute(Mkdir(env["BUILD_DIR"]))
+  if dir != "lua": env.Execute(Mkdir(env["BUILD_DIR"]))
   # execute SConscript
   sconscripts[dir] = env.SConscript("{}/SConscript".format(dir), exports="env")
   # clean up (scons -c)
-  env.Clean(sconscripts[dir], env["BUILD_DIR"])
+  if dir != "lua": env.Clean(sconscripts[dir], env["BUILD_DIR"])
 
 # dependencies
 env.Depends(sconscripts["tex"], [sconscripts[dir] for dir in dirs if dir != "tex"])

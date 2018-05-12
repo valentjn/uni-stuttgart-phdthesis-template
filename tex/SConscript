@@ -51,9 +51,6 @@ env.Append(PDFLATEXFLAGS="--output-directory={}".format(env["BUILD_DIR"]))
 # compile PDF
 pdf = env.PDF(target="{}/thesis.pdf".format(env["BUILD_DIR"]), source="thesis.tex")
 
-# execute Lua SConscript
-lua = env.SConscript("../lua/SConscript", exports="env")
-env.Depends(pdf, lua)
 
 # force glossary generation for each run
 # (the glossary does not seem to update if the description of a
