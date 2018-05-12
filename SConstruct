@@ -51,7 +51,7 @@ for dir_ in dirs:
   # create build directory
   if (dir_ != "lua") and createDirs: env.Execute(Mkdir(env["BUILD_DIR"]))
   # execute SConscript
-  sconscripts[dir_] = env.SConscript(os.path.join(dir_, "SConscript"), exports="env")
+  sconscripts[dir_] = env.SConscript(os.path.join(dir_, "SConscript"), exports=["env", "Helper"])
   # clean up (scons -c)
   if dir_ != "lua": env.Clean(sconscripts[dir_], env["BUILD_DIR"])
 
