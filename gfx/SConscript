@@ -16,48 +16,50 @@ env.Append(PDFLATEXFLAGS="--output-directory={}".format(env["BUILD_DIR"]))
 pys = env.Glob(os.path.join("py", "*.py"))
 pdfs = []
 pgfs = []
-helper_pys = []
+helperPys = []
 
 # home or Documents directory
-home_dir = (os.environ["HOME"] if (sys.platform.startswith("linux") or \
+homeDir = (os.environ["HOME"] if (sys.platform.startswith("linux") or \
                                    sys.platform.startswith("darwin")) else
             os.path.join(os.environ["HOMEDRIVE"], os.environ["HOMEPATH"], "Documents"))
 
 # search for helper Python scripts
-py_dir = env.Dir(os.path.join("..", "py"))
-for root, dirs, files in os.walk(os.path.join(py_dir.abspath, "helper")):
-  helper_pys.extend([os.path.join(root, x) for x in files if x.endswith(".py")])
+pyDir = env.Dir(os.path.join("..", "py")).abspath
+for root, dirs, files in os.walk(os.path.join(pyDir, "helper")):
+  helperPys.extend([os.path.join(root, x) for x in files
+                    if x.endswith(".py")])
 
 # set environment variables
-py_env = env.Clone()
-py_env["ENV"]["BUILD_DIR"]       = env["BUILD_DIR"].abspath
-py_env["ENV"]["PYTHONPATH"]      = ":".join([py_env["ENV"].get("PYTHONPATH", ""),
-                                             py_dir.abspath])
+sgppDir = os.path.join(homeDir, "sgpp", "sgopt")
+pyEnv = env.Clone()
+pyEnv["ENV"]["BUILD_DIR"] = env["BUILD_DIR"].abspath
+pyEnv["ENV"]["PYTHONPATH"] = ":".join(
+  [pyEnv["ENV"].get("PYTHONPATH", ""), pyDir])
 
 for py in pys:
   # determine number of generated images by script
   name = os.path.splitext(py.name)[0]
-  with open(py.abspath, "r") as f: py_code = f.readlines()
-  pdf_count = 1
+  with open(py.abspath, "r") as f: pyCode = f.readlines()
+  pdfCount = 1
   
-  for line in py_code:
+  for line in pyCode:
     if "number of output figures" in line.lower():
       number = line.split()[-1]
-      if len(number.strip("0123456789")) == 0: pdf_count = int(number)
+      if len(number.strip("0123456789")) == 0: pdfCount = int(number)
       break
   
   # generate list of *.pdf files
-  cur_pdfs = [os.path.join(env["BUILD_DIR"].abspath, "{}_{}.pdf".format(name, i))
-              for i in range(1, pdf_count + 1)]
+  curPDFs = [os.path.join(env["BUILD_DIR"].abspath, "{}_{}.pdf".format(name, i))
+             for i in range(1, pdfCount + 1)]
   
   # generate *.pdf files
-  py_env.Command(cur_pdfs, py, "python3 $SOURCE")
-  pdfs.extend(cur_pdfs)
-
-  pgfs.extend([x[:-4] + ".pgf" for x in cur_pdfs])
+  pyEnv.Command(curPDFs, py, "python3 $SOURCE")
+  pdfs.extend(curPDFs)
+  
+  pgfs.extend([x[:-4] + ".pgf" for x in curPDFs])
 
 # *.pdf files depend on helper scripts (local helper *.py files and global tools)
-env.Depends(pdfs, helper_pys)
+env.Depends(pdfs, helperPys)
 
 # don't delete PDFs before calling Python scripts
 env.Precious(pdfs)

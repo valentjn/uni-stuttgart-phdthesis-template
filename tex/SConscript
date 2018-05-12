@@ -57,15 +57,15 @@ pdf = env.PDF(target=os.path.join(env["BUILD_DIR"].abspath, "thesis.pdf"),
 # (the glossary does not seem to update if the description of a
 # glossary entry changes; you would have to change the name of the entry
 # to force re-generation...)
-def delete_glossary_files(target, source, env):
+def deleteGlossaryFiles(target, source, env):
   for extension in ["gls", "glsdefs", "glo"]:
     path = os.path.join(env["BUILD_DIR"].abspath, "thesis.{}".format(extension))
     env.Execute(Delete(path))
 
-env.AddPreAction(pdf, delete_glossary_files)
+env.AddPreAction(pdf, deleteGlossaryFiles)
 
 # copy hyphenation whitelist (needed in check mode)
-hyphenation_whitelist = env.Install(env["BUILD_DIR"], "hyphenationWhitelist.txt")
-env.Depends(pdf, hyphenation_whitelist)
+hyphenationWhitelist = env.Install(env["BUILD_DIR"], "hyphenationWhitelist.txt")
+env.Depends(pdf, hyphenationWhitelist)
 
 Return("pdf")
