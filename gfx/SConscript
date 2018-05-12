@@ -6,14 +6,14 @@ Import("env")
 env = env.Clone()
 
 # install pre-made graphics
-pre = [env.Glob("pre/*.pdf"), env.Glob("pre/*.png")]
+pre = env.Glob(os.path.join("pre", "*.pdf"))
 env.Install(env["BUILD_DIR"], pre)
 
 # set output directory
 env.Append(PDFLATEXFLAGS="--output-directory={}".format(env["BUILD_DIR"]))
 
 # search for Python scripts
-pys = env.Glob("py/*.py")
+pys = env.Glob(os.path.join("py", "*.py"))
 pdfs = []
 pgfs = []
 helper_pys = []

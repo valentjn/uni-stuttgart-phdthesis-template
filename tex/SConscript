@@ -22,7 +22,8 @@ env.Replace(BIBTEXCOM="")
 env.Append(BIBERFLAGS="-q")
 
 # use customized makeindex script
-env.Replace(MAKEGLOSSARY="python3 ../../tools/buildGlossary.py")
+env.Replace(MAKEGLOSSARY="python3 {}".format(
+    os.path.join("..", "..", "tools", "buildGlossary.py")))
 # quiet output
 env.Replace(MAKEGLOSSARYFLAGS="-q")
 # reorder arguments
@@ -49,8 +50,8 @@ for path in os.listdir("."):
 env.Append(PDFLATEXFLAGS="--output-directory={}".format(env["BUILD_DIR"]))
 
 # compile PDF
-pdf = env.PDF(target="{}/thesis.pdf".format(env["BUILD_DIR"]), source="thesis.tex")
-
+pdf = env.PDF(target=os.path.join(env["BUILD_DIR"].abspath, "thesis.pdf"),
+              source="thesis.tex")
 
 # force glossary generation for each run
 # (the glossary does not seem to update if the description of a
