@@ -67,7 +67,7 @@ def delete_glossary_files(target, source, env):
 env.AddPreAction(pdf, delete_glossary_files)
 
 # copy hyphenation whitelist (needed in check mode)
-hyphenation_whitelist = env.Install(env["BUILD_DIR"], "hyphenation_whitelist.txt")
+hyphenation_whitelist = env.Install(env["BUILD_DIR"], "hyphenationWhitelist.txt")
 env.Depends(pdf, hyphenation_whitelist)
 
 Return("pdf")
