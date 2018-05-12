@@ -2,6 +2,7 @@ import os
 import sys
 
 Import("env")
+Import("Helper")
 env = env.Clone()
 
 # increase line length of LuaLaTeX error log lines by
@@ -11,7 +12,13 @@ env["ENV"]["error_line"] = "254"
 env["ENV"]["half_error_line"] = "238"
 
 # use LuaLaTeX as compiler (successor of PDFLaTeX)
-env.Replace(PDFLATEX="texfot lualatex")
+Helper.checkProgramInstalled(env, "lualatex", fail=True)
+# filter the output of LuaLaTeX with texfot, if installed
+if Helper.checkProgramInstalled(env, "texfot"):
+  env.Replace(PDFLATEX="texfot lualatex")
+else:
+  env.Replace(PDFLATEX="lualatex")
+
 # enable SyncTeX for GUI editors
 env.Append(PDFLATEXFLAGS="--synctex=1")
 # enable shell commands to display Git version
@@ -20,9 +27,11 @@ env.Append(PDFLATEXFLAGS="--shell-escape")
 # don't call BibTeX on *.aux files of chapters
 env.Replace(BIBTEXCOM="")
 # quiet Biber output
+Helper.checkProgramInstalled(env, "biber", fail=True)
 env.Append(BIBERFLAGS="-q")
 
 # use customized makeindex script
+Helper.checkProgramInstalled(env, "python3", fail=True)
 env.Replace(MAKEGLOSSARY="python3 {}".format(
     os.path.join("..", "..", "tools", "buildGlossary.py")))
 # quiet output
