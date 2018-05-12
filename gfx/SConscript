@@ -38,7 +38,11 @@ Helper.checkProgramInstalled(env, "pdfcrop", fail=True)
 Helper.checkProgramInstalled(env, "python3", fail=True)
 
 for py in pys:
-  # determine number of generated images by script
+  # determine number of generated images for this *.py file
+  # for this, we need a special comment of the form
+  # "# number of output figures: 3" in the Python file
+  # (SCons needs the number for its dependency graph;
+  # however, this is impossible to determine with SCons alone...)
   name = os.path.splitext(py.name)[0]
   with open(py.abspath, "r") as f: pyCode = f.readlines()
   pdfCount = 1
@@ -57,6 +61,7 @@ for py in pys:
   pyEnv.Command(curPDFs, py, "python3 $SOURCE")
   pdfs.extend(curPDFs)
   
+  # save list of *.pgf files
   pgfs.extend([x[:-4] + ".pgf" for x in curPDFs])
 
 # *.pdf files depend on helper scripts (local helper *.py files and global tools)
@@ -65,7 +70,7 @@ env.Depends(pdfs, helperPys)
 # don't delete PDFs before calling Python scripts
 env.Precious(pdfs)
 
-# clean *.xz data files as well
+# clean *.pgf and *.xz files as well
 env.Clean(pdfs,
     [pgfs, env.Glob(os.path.join(env["BUILD_DIR"].abspath, "*.xz"))])
 
