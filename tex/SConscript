@@ -4,7 +4,8 @@ import sys
 Import("env")
 env = env.Clone()
 
-# increase line length of LuaLaTeX error log lines by setting environment variables
+# increase line length of LuaLaTeX error log lines by
+# setting environment variables
 env["ENV"]["max_print_line"] = "1000"
 env["ENV"]["error_line"] = "254"
 env["ENV"]["half_error_line"] = "238"
@@ -41,8 +42,9 @@ for path in os.listdir("."):
   name, ext = os.path.splitext(path)
   
   if ext == ".tex":
-    for extension in ["acn", "aux", "bbl", "bcf", "blg", "glo", "ist", "lof", "log", "lot", "nlo",
-                      "out", "pdf", "run.xml", "synctex.gz", "thm", "toc", "uhy", "upa", "upb"]:
+    for extension in ["acn", "aux", "bbl", "bcf", "blg", "glo", "ist", "lof",
+                      "log", "lot", "nlo", "out", "pdf", "run.xml",
+                      "synctex.gz", "thm", "toc", "uhy", "upa", "upb"]:
       path2 = "{}.{}".format(name, extension)
       if os.path.isfile(path2): os.remove(path2)
 
@@ -65,7 +67,8 @@ def deleteGlossaryFiles(target, source, env):
 env.AddPreAction(pdf, deleteGlossaryFiles)
 
 # copy hyphenation whitelist (needed in check mode)
-hyphenationWhitelist = env.Install(env["BUILD_DIR"], "hyphenationWhitelist.txt")
+hyphenationWhitelist = env.Install(env["BUILD_DIR"],
+                                   "hyphenationWhitelist.txt")
 env.Depends(pdf, hyphenationWhitelist)
 
 Return("pdf")

@@ -65,7 +65,8 @@ env.Depends(pdfs, helperPys)
 env.Precious(pdfs)
 
 # clean *.xz data files as well
-env.Clean(pdfs, [pgfs, env.Glob(os.path.join(env["BUILD_DIR"].abspath, "*.xz"))])
+env.Clean(pdfs,
+    [pgfs, env.Glob(os.path.join(env["BUILD_DIR"].abspath, "*.xz"))])
 
 tex_figs = env.SConscript("tex/SConscript", exports="env")
 
