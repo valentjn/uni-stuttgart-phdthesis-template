@@ -1,4 +1,6 @@
 import os
+import shlex
+import subprocess
 import sys
 
 # check SCons version
@@ -8,6 +10,27 @@ EnsureSConsVersion(3, 0)
 if sys.version_info < (3, 5):
   raise RuntimeError("These SCons scripts require Python 3.5 or newer. "
                      "Try running `python3 /usr/bin/scons` or similar.")
+
+# class with helper methods
+class Helper(object):
+  # check if a dependency is installed, fail if not (if desired)
+  @staticmethod
+  def checkProgramInstalled(env, program, fail=False):
+    if (not env.GetOption("help")) and (not env.GetOption("clean")):
+      conf = Configure(env, log_file=None)
+      result = (conf.CheckProg(program) is not None)
+      if fail and (not result): raise RuntimeError(
+          "Program \"{}\" required, but not found in PATH.".format(program))
+      conf.Finish()
+      return result
+    else:
+      return True
+  
+  # print and run command line, check=True by default
+  @staticmethod
+  def runCommand(args, check=True, **kwargs):
+    print(" ".join([shlex.quote(arg) for arg in args]))
+    return subprocess.run(args, **kwargs)
 
 # set up environment, export environment variables of the shell
 # (for example needed for custom TeX installations which need PATH)
