@@ -6,8 +6,9 @@ Import("Helper")
 env = env.Clone()
 
 # install pre-made graphics
-pre = env.Glob(os.path.join("pre", "*.pdf"))
-env.Install(env["BUILD_DIR"], pre)
+pre = (env.Glob(os.path.join("pre", "*.pdf")) +
+       env.Glob(os.path.join("pre", "*.png")))
+pre = env.Install(env["BUILD_DIR"], pre)
 
 # search for Python scripts
 pys = env.Glob(os.path.join("py", "*.py"))
@@ -73,6 +74,9 @@ env.Precious(pdfs)
 # clean *.pgf and *.xz files as well
 env.Clean(pdfs,
     [pgfs, env.Glob(os.path.join(env["BUILD_DIR"].abspath, "*.xz"))])
+
+# LuaLaTeX depends on pre-made graphics as well
+pdfs.extend(pre)
 
 tex_figs = env.SConscript("tex/SConscript", exports="env")
 
