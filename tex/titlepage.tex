@@ -5,7 +5,7 @@
         % no indentation of paragraphs
         \setlength{\parindent}{0pt}
         
-        \includegraphics[width=60mm]{logoUniversity}
+        \includegraphics[scale=1.0]{logoUniversityGerman}
         
         \vfill
         
@@ -52,5 +52,78 @@
   \end{spacing}
 \end{titlepage}
 
+% don't display page number
+\thispagestyle{empty}
+
+{%
+  % no indentation of paragraphs
+  \setlength{\parindent}{0pt}%
+  \small
+  
+  \begin{center}
+    \includegraphics[scale=1.0]{logoUniversityEnglish}%
+  \end{center}
+  
+  \raisebox{-0.5\height}{%
+    \includegraphics[scale=1.0]{logoSimTech}%
+  }%
+  \hfill\raisebox{-0.3em}{\bullet}\hfill%
+  \raisebox{-0.5\height}{%
+    \includegraphics[scale=1.2]{logoIPVS}%
+  }%
+  \hfill\raisebox{-0.3em}{\bullet}\hfill%
+  \raisebox{-0.3888\height}{%
+    \includegraphics[scale=1.0]{logoSSE}%
+  }
+  \hfill\raisebox{-0.3em}{\bullet}\hfill%
+  \raisebox{-0.5\height}{%
+    \includegraphics[height=19mm]{logoSGS.png}%
+  }
+  
+  Cluster of Excellence in Simulation Technology%
+  \hfill\bullet\hfill%
+  Institute for Parallel and Distributed Systems%
+  \hfill\bullet\\%
+  Department for Simulation Software Engineering%
+  \;\bullet\;%
+  Department for Simulation of Large Systems%
+  
+  \vfill
+  
+  % version information
+  \begin{tabular}{@{}l@{\hphantom*{~}}l@{}}
+    Compiled as version \texttt{v\compileCounter{}}&
+    on \currentTimeLong.\\
+    Committed as \texttt{\gitCommitHash{}}&
+    on \gitCommitTimeLong.
+  \end{tabular}%
+  
+  \vspace{1em}
+  
+  %  \begin{tabular}{%
+  %    @{}p{0.2\textwidth}@{}p{0.8\textwidth}@{}%
+  %  }
+  %    \includegraphics[height=10mm]{licenseBadge}&
+  %    \raisebox{3.8mm}{%
+  %      \parbox{\linewidth}{%
+  %        Copyright \copyright{} \theyear{} \theauthor{}.
+  %        This work is licensed under the
+  %        \term{%
+  %          \href{https://creativecommons.org/licenses/by-sa/4.0/}{%
+  %            Creative Commons Attribution-ShareAlike 4.0
+  %            International License%
+  %          }%
+  %        }.%
+  %      }%
+  %    }
+  %  \end{tabular}
+  %  
+  %  \vspace{1em}
+  
+  Although this thesis was written with uttermost care,
+  it cannot be ruled out that it contains errors.
+  Please send any corrections and mistakes to
+  \href{mailto:thesis@bsplines.org}{\texttt{thesis@bsplines.org}}.
+}
 
 \cleardoublepage
