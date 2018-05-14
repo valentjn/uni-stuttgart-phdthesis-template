@@ -1025,18 +1025,16 @@
   \@esphack
 }
 
-% set up flip book
+% count pages
 \newcounter{currentpagenumber}
+\AddEverypageHook{\stepcounter{currentpagenumber}}
+
+% set up flip book
 \iftoggle{flipBookMode}{
-  \iftoggle{partialCompileMode}{}{
-    % start flip book after second title page
-    \setcounter{currentpagenumber}{-4}
-  }
   \newcount\flipbookindex
   
   \AddEverypageHook{%
-    \stepcounter{currentpagenumber}%
-    \flipbookindex=\numexpr\thecurrentpagenumber/2\relax%
+    \flipbookindex=\numexpr(\thecurrentpagenumber-4)/2\relax%
     \ifnum\number\flipbookindex>0%
       \begin{tikzpicture}[remember picture,overlay,scale=1]
         \ifthispageodd{
