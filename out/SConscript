@@ -19,18 +19,6 @@ publishedMarginBottom = 3
 publishedMarginRight  = 3
 publishedMarginTop    = 3
 
-def compressPDFs(target, source, env):
-  pdf = target[0].abspath
-  
-  if canCompressPDFs:
-    pdfOptimized = "{}.opt".format(pdf)
-    Helper.runCommand(["pdfsizeopt", "--do-unify-fonts=false", "--v=30",
-                       pdf, pdfOptimized])
-    os.remove(pdf)
-    os.rename(pdfOptimized, pdf)
-  else:
-    print("Skipping compression of \"{}\".".format(pdf))
-
 
 
 Import("env")
@@ -89,8 +77,8 @@ if canRasterizeCover:
     env.Command(coverPDFA4, coverPDF,
                 "pdfjam --quiet --outfile $TARGET $SOURCE '1,{}'")
   
-  env.AddPostAction(coverPrintPDF, compressPDFs)
-  env.AddPostAction(coverScreenPDF, compressPDFs)
+  env.AddPostAction(coverPrintPDF, Helper.compressPDFs)
+  env.AddPostAction(coverScreenPDF, Helper.compressPDFs)
   pdfsPrint.append(coverPrintPDF)
   pdfsScreen.append(coverScreenPDF)
 
@@ -177,7 +165,7 @@ if canRasterizeCover:
 else:
   env.InstallAs(thesisManuscriptScreen, env["BUILD_PDF"])
 
-env.AddPostAction(thesisManuscriptScreen, compressPDFs)
+env.AddPostAction(thesisManuscriptScreen, Helper.compressPDFs)
 pdfsScreen.append(thesisManuscriptScreen)
 
 if hasPDFJam:
@@ -190,7 +178,7 @@ if hasPDFJam:
         manuscriptPaperHeight + manuscriptMarginTop + manuscriptMarginBottom,
         -manuscriptMarginLeft, -manuscriptMarginBottom,
         -manuscriptMarginRight, -manuscriptMarginTop))
-  env.AddPostAction(thesisManuscriptPrint, compressPDFs)
+  env.AddPostAction(thesisManuscriptPrint, Helper.compressPDFs)
   pdfsPrint.append(thesisManuscriptPrint)
   
   thesisPublishedPrintA5 = "thesisPublishedPrintA5.pdf"
@@ -202,7 +190,7 @@ if hasPDFJam:
         publishedPaperHeight + publishedMarginTop + publishedMarginBottom,
         -publishedMarginLeft, -publishedMarginBottom,
         -publishedMarginRight, -publishedMarginTop))
-  env.AddPostAction(thesisPublishedPrintA5, compressPDFs)
+  env.AddPostAction(thesisPublishedPrintA5, Helper.compressPDFs)
   pdfsPrint.append(thesisPublishedPrintA5)
   
   thesisNupRotated = os.path.join(env["BUILD_DIR"].abspath,
@@ -219,7 +207,7 @@ if hasPDFJam:
       [coverScreenPDFA4, thesisNupWithoutCover],
       "pdfjam --quiet --keepinfo --outfile $TARGET "
       "${SOURCES[0]} 1 ${SOURCES[1]}")
-  env.AddPostAction(thesisPublishedPrintA4Nup, compressPDFs)
+  env.AddPostAction(thesisPublishedPrintA4Nup, Helper.compressPDFs)
   pdfsPrint.append(thesisPublishedPrintA4Nup)
 
 # don't clean PDFs in out directory

@@ -2,6 +2,7 @@ import os
 import shlex
 import subprocess
 import sys
+import warnings
 
 # check SCons version
 EnsureSConsVersion(3, 0)
@@ -13,6 +14,17 @@ if sys.version_info < (3, 5):
 
 # class with helper methods
 class Helper(object):
+  isPDFSizeOptInstalled = None
+  
+  @staticmethod
+  def checkPDFSizeOptInstalled(env):
+    if Helper.checkProgramInstalled(env, "pdfsizeopt"):
+      Helper.isPDFSizeOptInstalled = True
+    else:
+      warnings.warn("pdfsizeopt required for compressing output PDFs. "
+                    "Output PDFs won't be compressed.")
+      Helper.isPDFSizeOptInstalled = False
+  
   # check if a dependency is installed, fail if not (if desired)
   @staticmethod
   def checkProgramInstalled(env, program, fail=False):
@@ -26,6 +38,19 @@ class Helper(object):
     else:
       return True
   
+  # compress PDF via pdfsizeopt
+  def compressPDFs(target, source, env):
+    pdf = target[0].abspath
+    
+    if Helper.isPDFSizeOptInstalled:
+      pdfOptimized = "{}.opt".format(pdf)
+      Helper.runCommand(["pdfsizeopt", "--do-unify-fonts=false", "--v=30",
+                        pdf, pdfOptimized])
+      os.remove(pdf)
+      os.rename(pdfOptimized, pdf)
+    else:
+      print("Skipping compression of \"{}\".".format(pdf))
+  
   # print and run command line, check=True by default
   @staticmethod
   def runCommand(args, check=True, **kwargs):
@@ -35,6 +60,9 @@ class Helper(object):
 # set up environment, export environment variables of the shell
 # (for example needed for custom TeX installations which need PATH)
 env = Environment(ENV=os.environ)
+
+# check if pdfsizeopt is installed
+Helper.checkPDFSizeOptInstalled(env)
 
 # use timestamp to decide if a file should be rebuilt
 # (otherwise SCons won't rebuild even if it is necessary)
