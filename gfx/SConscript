@@ -78,6 +78,40 @@ env.Clean(pdfs,
 # LuaLaTeX depends on pre-made graphics as well
 pdfs.extend(pre)
 
+# check dependencies for rasterization of book cover
+Helper.checkProgramInstalled(env, "inkscape", fail=True)
+Helper.checkProgramInstalled(env, "convert", fail=True)
+
+# cover DPI settings
+coverPrintDPI  = 500
+coverScreenDPI = 100
+
+# cover file paths
+coverSVG = os.path.join("pre", "cover.svgz")
+coverPrintPNG  = os.path.join(env["BUILD_DIR"].abspath, "coverPrint.png")
+coverScreenPNG = os.path.join(env["BUILD_DIR"].abspath, "coverScreen.png")
+coverPrintPDF  = os.path.join(env["BUILD_DIR"].abspath, "coverPrint.pdf")
+coverScreenPDF = os.path.join(env["BUILD_DIR"].abspath, "coverScreen.pdf")
+
+for coverDPI, coverPNG, coverPDF in \
+      [(coverPrintDPI,  coverPrintPNG,  coverPrintPDF),
+       (coverScreenDPI, coverScreenPNG, coverScreenPDF)]:
+  # rasterize cover
+  env.Command(coverPNG, coverSVG,
+              "inkscape --export-png=$TARGET --export-area-page "
+              "--export-dpi={} $SOURCE".format(coverDPI))
+  # convert from PNG to PDF with ImageMagick
+  env.Command(coverPDF, coverPNG,
+              "convert $SOURCE -density {} "
+              "-units pixelsperinch -rotate 270 $TARGET".format(coverDPI))
+
+# compress resulting PDFs
+env.AddPostAction(coverPrintPDF, Helper.compressPDFs)
+env.AddPostAction(coverScreenPDF, Helper.compressPDFs)
+
+# make LaTeX depend on coverScreenPDF
+pdfs.append(coverScreenPDF)
+
 tex_figs = env.SConscript("tex/SConscript", exports="env")
 
 env.Depends(tex_figs, pdfs)
