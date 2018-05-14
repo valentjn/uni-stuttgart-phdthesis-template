@@ -1034,7 +1034,10 @@
   \newcount\flipbookindex
   
   \AddEverypageHook{%
-    \flipbookindex=\numexpr(\thecurrentpagenumber-4)/2\relax%
+    % start flip book after dedication
+    % (two pages book cover + two pages title page + two pages dedication
+    % = six pages)
+    \flipbookindex=\numexpr(\thecurrentpagenumber-6)/2\relax%
     \ifnum\number\flipbookindex>0%
       \begin{tikzpicture}[remember picture,overlay,scale=1]
         \ifthispageodd{
