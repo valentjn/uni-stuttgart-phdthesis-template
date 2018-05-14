@@ -34,31 +34,14 @@
   }{}
   
   % table of contents, create bookmark
-  \cleardoublepage
-  \pdfbookmark[section]{\contentsname}{toc}
-  \tableofcontents
-  \cleardoublepage
+  \input{contents}
   
   % lists of floats and theorems
-  \addlongchap{%
-    Lists of Figures, Tables, Algorithms, and Theorems%
-  }{%
-    Lists of Figures, Tables,\texorpdfstring{\\}{ }Algorithms, and Theorems%
-  }{%
-    Lists of Figures, Tables, Algorithms, and Theorems%
-  }
-  \printornamentsfalse
-  \listoffigures
-  \listoftables
-  \listofalgorithms
-  \listofmytheorems
-  \printornamentstrue
-  \cleardoublepage
+  \input{floats}
   
   \iftoggle{partialCompileMode}{}{
     % list of symbols and acronyms
-    \printglossary[title={List of Symbols and Acronyms}]
-    \cleardoublepage
+    \input{glossary}
     
     % abstract
     \input{abstract}
@@ -79,21 +62,9 @@
   \include{app1_proofs}
   
   % bibliography
-  \printbibliography[%
-    % change title
-    title=Bibliography,
-    % use custom heading
-    heading=myheading,
-    % print custom note
-    postnote=mypostnote,
-  ]
+  \input{bibliography}
   
-  %\iftoggle{partialCompileMode}{
-    % end with even page
-    \cleardoublepage%
-  %}{
-  %  % academic ancestors on the last even page
-  %  \cleardoubleevenpage
-  %  \input{tree}
-  %}
+  %% academic ancestors on the last even page
+  %\cleardoubleevenpage
+  %\input{tree}
 \end{document}
