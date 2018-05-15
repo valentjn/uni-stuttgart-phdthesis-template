@@ -64,6 +64,22 @@ env.Append(PDFLATEXFLAGS="--output-directory={}".format(env["BUILD_DIR"]))
 pdf = env.PDF(target=os.path.join(env["BUILD_DIR"].abspath, "thesis.pdf"),
               source="thesis.tex")
 
+# draft PDF: directly call LuaLaTeX without Biber or buildGlossary.py;
+# useful when working on the thesis, making small changes,
+# then you don't want SCons to compile three times and have Biber and
+# whatnot ;)
+# (however, it does handle the gfx/ dependencies, so the graphics will
+# be regenerated if something changes in the graphics scripts)
+# call with `scons draft`
+draftEnv = env.Clone()
+draftEnv["ENV"]["TEXINPUTS"] = "{}:{}".format(
+    draftEnv["ENV"].get("TEXINPUTS", ""), Dir(".").abspath)
+draftPDF = draftEnv.Command(
+    os.path.join(env["BUILD_DIR"].abspath, "thesis.pdf.draftTarget"),
+    "thesis.tex",
+    "{} {} {}".format(env["PDFLATEX"], env["PDFLATEXFLAGS"], "thesis.tex"),
+    chdir=env["BUILD_DIR"])
+
 # force glossary generation for each run
 # (the glossary does not seem to update if the description of a
 # glossary entry changes; you would have to change the name of the entry
@@ -80,4 +96,10 @@ hyphenationWhitelist = env.Install(env["BUILD_DIR"],
                                    "hyphenationWhitelist.txt")
 env.Depends(pdf, hyphenationWhitelist)
 
-Return("pdf")
+# return PDFs to let SConstruct manage dependencies
+pdfs = [pdf, draftPDF]
+
+# create draft alias
+env.Alias("draft", draftPDF)
+
+Return("pdfs")

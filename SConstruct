@@ -88,7 +88,7 @@ for dir_ in dirs:
   if dir_ != "lua": env.Clean(dirTargets[dir_], env["BUILD_DIR"])
   
   # set BUILD_PDF variable
-  if dir_ == "tex": env["BUILD_PDF"] = dirTargets[dir_]
+  if dir_ == "tex": env["BUILD_PDF"] = dirTargets[dir_][0]
 
 # the PDF depends on everything that is not in tex (these dependencies are
 # handled by tex/SConscript) and out
