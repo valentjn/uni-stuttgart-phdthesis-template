@@ -959,6 +959,48 @@
 }
 
 % ======================================================================
+% Commands for Text Alignment
+% ======================================================================
+
+% \halfhphantom works like \hphantom, except that it creates a box
+% that is only half as wide as that of \hphantom
+\newlength{\halfhphantomlength}
+\newcommand*{\halfhphantom}[1]{%
+  \ifmmode%
+    \settowidth{\halfhphantomlength}{$#1$}%
+  \else%
+    \settowidth{\halfhphantomlength}{#1}%
+  \fi%
+  \setlength{\halfhphantomlength}{\halfhphantomlength/2}%
+  \hspace{\halfhphantomlength}%
+}
+
+% \lefthphantom{abc}{defghij} positions the text "abc" as follows:
+% |abc    |
+%  defghij
+\newcommand*{\lefthphantom}[2]{%
+  \ifmmode\mathrlap{#1}\else\rlap{#1}\fi%
+  \hphantom{#2}%
+}
+
+% \centerhphantom{abc}{defghij} positions the text "abc" as follows:
+% |  abc  |
+%  defghij
+\newcommand*{\centerhphantom}[2]{%
+  \halfhphantom{#2}%
+  \ifmmode\mathclap{#1}\else\clap{#1}\fi%
+  \halfhphantom{#2}%
+}
+
+% \righthphantom{abc}{defghij} positions the text "abc" as follows:
+% |    abc|
+%  defghij
+\newcommand*{\righthphantom}[2]{%
+  \hphantom{#2}%
+  \ifmmode\mathllap{#1}\else\llap{#1}\fi%
+}
+
+% ======================================================================
 % Colors
 % ======================================================================
 
