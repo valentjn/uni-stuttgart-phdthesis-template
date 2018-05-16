@@ -80,6 +80,23 @@ draftPDF = draftEnv.Command(
     "{} {} {}".format(env["PDFLATEX"], env["PDFLATEXFLAGS"], "thesis.tex"),
     chdir=env["BUILD_DIR"])
 
+# set mtime of output thesis.pdf before mtime of input thesis.tex
+# to force regeneration if called first with
+# `scons draft` and then with `scons` (otherwise Biber and glossary
+# generation might not be run despite needed)
+def makeDraftPDFOld(target, source, env):
+  tex, pdf = source[0].abspath, target[0].abspath
+  # strip ".draftTarget" extension
+  pdf = ".".join(pdf.split(".")[:-1])
+  stat = os.stat(tex)
+  aTimeNs, mTimeNs = stat.st_atime_ns, stat.st_mtime_ns
+  # set *.pdf mtime one second before *.tex mtime
+  aTimeNs -= 1000000000
+  mTimeNs -= 1000000000
+  os.utime(pdf, ns=(aTimeNs, mTimeNs))
+
+env.AddPostAction(draftPDF, makeDraftPDFOld)
+
 # force glossary generation for each run
 # (the glossary does not seem to update if the description of a
 # glossary entry changes; you would have to change the name of the entry
