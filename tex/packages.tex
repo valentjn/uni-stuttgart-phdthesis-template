@@ -96,6 +96,9 @@
 \usepackage{booktabs}
 
 % consistent style of units and numbers
+% disable "Column type for cellspace package moved to 'C'." warning
+% (this is due to the cellspace package)
+\csname msg_redirect_name:nnn\endcsname{siunitx}{moved-cellspace-column}{none}
 \usepackage[binary-units=true]{siunitx}
 
 % watermarks
