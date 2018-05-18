@@ -7,7 +7,7 @@ env = env.Clone()
 
 # increase line length of LuaLaTeX error log lines by
 # setting environment variables
-env["ENV"]["max_print_line"] = "1000"
+env["ENV"]["max_print_line"] = "10000"
 env["ENV"]["error_line"] = "254"
 env["ENV"]["half_error_line"] = "238"
 
