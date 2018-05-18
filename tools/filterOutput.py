@@ -13,7 +13,7 @@ FILTER_REGEXS = [
   r"^Document Class: ",
   r"^Package scrlfile, .* \(loading files\)$",
   r"^ *Copyright \(C\) Markus Kohm$",
-  r"^Package hyperref Message: Driver: ",
+  r"^Package hyperref Message: Driver \(autodetected\): ",
   r"^For additional information on amsmath, use the `\?' option.$",
   r"^Document Style algorithmicx .* - a greatly improved "
       r"`algorithmic' style$",
