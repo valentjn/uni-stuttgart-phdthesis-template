@@ -13,11 +13,8 @@ env["ENV"]["half_error_line"] = "238"
 
 # use LuaLaTeX as compiler (successor of PDFLaTeX)
 Helper.checkProgramInstalled(env, "lualatex", fail=True)
-# filter the output of LuaLaTeX with texfot, if installed
-if Helper.checkProgramInstalled(env, "texfot"):
-  env.Replace(PDFLATEX="texfot lualatex")
-else:
-  env.Replace(PDFLATEX="lualatex")
+# filter the output of LuaLaTeX with custom script
+env.Replace(PDFLATEX="python3 ../../tools/filterOutput.py lualatex")
 
 # enable SyncTeX for GUI editors
 env.Append(PDFLATEXFLAGS="--synctex=1")
