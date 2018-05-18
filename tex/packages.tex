@@ -95,10 +95,15 @@
 % more beautiful tables
 \usepackage{booktabs}
 
-% consistent style of units and numbers
 % disable "Column type for cellspace package moved to 'C'." warning
-% (this is due to the cellspace package)
-\csname msg_redirect_name:nnn\endcsname{siunitx}{moved-cellspace-column}{none}
+% when loading siunitx
+% (this is due to the cellspace package loaded above)
+\usepackage{expl3}
+\ExplSyntaxOn
+\msg_redirect_name:nnn{siunitx}{moved-cellspace-column}{none}
+\ExplSyntaxOff
+
+% consistent style of units and numbers
 \usepackage[binary-units=true]{siunitx}
 
 % watermarks
