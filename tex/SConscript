@@ -16,6 +16,8 @@ Helper.checkProgramInstalled(env, "lualatex", fail=True)
 # filter the output of LuaLaTeX with custom script
 env.Replace(PDFLATEX="python3 ../../tools/filterOutput.py lualatex")
 
+# show file and line number for errors
+env.Append(PDFLATEXFLAGS="--file-line-error")
 # enable SyncTeX for GUI editors
 env.Append(PDFLATEXFLAGS="--synctex=1")
 # enable shell commands to display Git version
