@@ -71,7 +71,7 @@ env.Decider("timestamp-newer")
 # iterate over all dependent directories
 # note: "out" has to be behind "tex"
 dirTargets = {}
-dirs = ["bib", "gfx", "lua", "tex", "out"]
+dirs = ["bib", "gfx", "lua", "misc", "tex", "out"]
 buildPDF = []
 createDirs = (not env.GetOption("help")) and (not env.GetOption("clean"))
 
@@ -80,12 +80,17 @@ for dir_ in dirs:
   env.Replace(BUILD_DIR=env.Dir(os.path.join("build", dir_)))
   
   # create build directory
-  if (dir_ != "lua") and createDirs: env.Execute(Mkdir(env["BUILD_DIR"]))
+  if (dir_ not in ["lua", "misc"]) and createDirs:
+    dirCreated = True
+    env.Execute(Mkdir(env["BUILD_DIR"]))
+  else:
+    dirCreated = False
+  
   # execute SConscript
   dirTargets[dir_] = env.SConscript(os.path.join(dir_, "SConscript"),
                                     exports=["env", "Helper"])
   # clean up dir_
-  if dir_ != "lua": env.Clean(dirTargets[dir_], env["BUILD_DIR"])
+  if dirCreated: env.Clean(dirTargets[dir_], env["BUILD_DIR"])
   
   # set BUILD_PDF variable
   if dir_ == "tex": env["BUILD_PDF"] = dirTargets[dir_][0]

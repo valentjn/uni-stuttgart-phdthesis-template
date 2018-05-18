@@ -107,11 +107,6 @@ def deleteGlossaryFiles(target, source, env):
 
 env.AddPreAction(pdf, deleteGlossaryFiles)
 
-# copy hyphenation whitelist (needed in check mode)
-hyphenationWhitelist = env.Install(env["BUILD_DIR"],
-                                   "hyphenationWhitelist.txt")
-env.Depends(pdf, hyphenationWhitelist)
-
 # return PDFs to let SConstruct manage dependencies
 pdfs = [pdf, draftPDF]
 

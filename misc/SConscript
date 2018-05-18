@@ -1,0 +1,14 @@
+import os
+
+Import("env")
+env = env.Clone()
+
+files = []
+
+# install hyphenationWhitelist.txt in tex directory
+hyphenationWhitelist = env.Install(
+    os.path.join(env["BUILD_DIR"].abspath, "..", "tex"),
+    "hyphenationWhitelist.txt")
+files.append(hyphenationWhitelist)
+
+Return("files")
