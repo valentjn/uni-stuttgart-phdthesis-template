@@ -800,6 +800,15 @@
 % set indentation to two characters
 \algrenewcommand{\algorithmicindent}{\widthof{AB}}
 
+% make ALG@line.XX counters unique,
+% otherwise hyperlinks to algorithm lines won't work
+% (they will always point to the line with the same number,
+% but in the first algorithm of the thesis)
+\newcounter{algorithmicH}
+\let\oldalgorithmic\algorithmic
+\renewcommand*{\algorithmic}{\stepcounter{algorithmicH}\oldalgorithmic}
+\renewcommand*{\theHALG@line}{ALG@line.\thealgorithmicH.\arabic{ALG@line}}
+
 % ======================================================================
 % Theorems
 % ======================================================================
