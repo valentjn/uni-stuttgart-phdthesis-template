@@ -102,8 +102,8 @@ for coverDPI, coverPNG, coverPDF in \
               "--export-dpi={} $SOURCE".format(coverDPI))
   # convert from PNG to PDF with ImageMagick
   env.Command(coverPDF, coverPNG,
-              "convert $SOURCE -density {} "
-              "-units pixelsperinch -rotate 270 $TARGET".format(coverDPI))
+              "convert $SOURCE -density {} -units pixelsperinch "
+              "-rotate 270 -flatten $TARGET".format(coverDPI))
 
 # compress resulting PDFs
 env.AddPostAction(coverPrintPDF, Helper.compressPDFs)
