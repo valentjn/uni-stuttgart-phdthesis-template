@@ -44,8 +44,8 @@ class Helper(object):
     
     if Helper.isPDFSizeOptInstalled:
       pdfOptimized = "{}.opt".format(pdf)
-      Helper.runCommand(["pdfsizeopt", "--do-unify-fonts=false", "--v=30",
-                        pdf, pdfOptimized])
+      Helper.runCommand(["pdfsizeopt", "--do-unify-fonts=no",
+                         "--use-pngout=no", "--v=30", pdf, pdfOptimized])
       os.remove(pdf)
       os.rename(pdfOptimized, pdf)
     else:
