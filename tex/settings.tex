@@ -1121,11 +1121,11 @@
     \ifnum\number\thecurrentpagenumber>1%
       \begin{tikzpicture}[remember picture,overlay,scale=1]
         \node[
-          opacity=0.5,anchor=center,xshift=0mm,yshift=7mm,inner sep=0pt,
+          anchor=center,xshift=0mm,yshift=7mm,inner sep=0pt,
         ] at (current page.south) [above] {
           \parbox{100mm}{%
             \begin{center}%
-              \onehalfspacing\bfseries\color{black}%
+              \onehalfspacing\bfseries\color{gray}%
               Draft \texttt{\normalsize{}v\compileCounter{}}
               (\currentTimeShort)\\%
               Commit \texttt{\normalsize{}\gitCommitHash{}}
@@ -1135,7 +1135,7 @@
         };
         \ifthispageodd{
           \node[
-            opacity=0.5,anchor=north east,xshift=-15mm,yshift=-38.5mm,
+            anchor=north east,xshift=-15mm,yshift=-38.5mm,color=gray,
             inner sep=0pt,text width=4.51mm,align=right,
           ] at (current page.north east) [below left] {%
             \ttfamily\onehalfspacing%
@@ -1146,7 +1146,7 @@
           };
         }{
           \node[
-            opacity=0.5,anchor=north west,xshift=15mm,yshift=-38.5mm,color=black,
+            anchor=north west,xshift=15mm,yshift=-38.5mm,color=gray,
             inner sep=0pt,text width=4.51mm,align=right,
           ] at (current page.north west) [below right] {%
             \ttfamily\onehalfspacing%
