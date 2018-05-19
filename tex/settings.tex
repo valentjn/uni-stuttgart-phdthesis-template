@@ -1092,14 +1092,18 @@
     \ifnum\number\flipbookindex>0%
       \begin{tikzpicture}[remember picture,overlay,scale=1]
         \ifthispageodd{
-          \node[anchor=south east,inner sep=0pt,xshift=0mm,yshift=-3mm]
+          \node[anchor=south east,inner sep=0pt,xshift=-7mm,yshift=7mm]
           at (current page.south east) [above left] {%
-            \includegraphics[scale=0.8]{flipBookSG_\number\flipbookindex}%
+            \includegraphics[scale=0.8,trim={7mm 10mm 7mm 10mm},clip]{%
+              flipBookSG_\number\flipbookindex%
+            }%
           };
         }{
-          \node[anchor=south west,inner sep=0pt,xshift=-6mm,yshift=2mm]
+          \node[anchor=south west,inner sep=0pt,xshift=7mm,yshift=7mm]
           at (current page.south west) [above right] {%
-            \includegraphics{flipBookBSpline_\number\flipbookindex}%
+            \includegraphics[trim={13mm 5mm 10mm 0mm},clip]{%
+              flipBookBSpline_\number\flipbookindex%
+            }%
           };
         }
       \end{tikzpicture}%
