@@ -104,10 +104,8 @@ for coverDPI, coverPNG, coverPDF in \
   env.Command(coverPDF, coverPNG,
               "convert $SOURCE -density {} -units pixelsperinch "
               "-rotate 270 -flatten $TARGET".format(coverDPI))
-
-# compress resulting PDFs
-env.AddPostAction(coverPrintPDF, Helper.compressPDFs)
-env.AddPostAction(coverScreenPDF, Helper.compressPDFs)
+  # compress resulting PDF
+  env.AddPostAction(coverPDF, Helper.compressPDFs)
 
 # make LaTeX depend on coverScreenPDF
 pdfs.append(coverScreenPDF)
