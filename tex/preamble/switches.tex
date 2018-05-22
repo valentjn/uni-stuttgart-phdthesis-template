@@ -34,14 +34,14 @@
 % partialCompile switches:
 % only compile a single chapter to save compilation time
 \newtoggle{partialCompileMode}
-\togglefalse{partialCompileMode}
+\toggletrue{partialCompileMode}
 
 % select chapters to compile for partialCompileMode = true
 \includeonly{%
-  %1_introduction,
-  2_flux_capacitor,
-  %3_conclusion,
-  %app1_proofs,
+  %document/1_introduction,
+  document/2_flux_capacitor,
+  %document/3_conclusion,
+  %document/app1_proofs,
 }
 
 % ======================================================================

@@ -1,5 +1,5 @@
 % create and set switches
-\input{switches}
+\input{preamble/switches}
 
 % set main document class (KOMA-Script's scrbook)
 \documentclass[
@@ -8,66 +8,66 @@
 ]{scrbook}
 
 % include packages
-\input{packages}
+\input{preamble/packages}
 
 % set packages options
-\input{settings}
+\input{preamble/settings}
 
 % define notation
-\input{notation}
+\input{preamble/notation}
 
 % define acronyms
-\input{acronyms}
+\input{preamble/acronyms}
 
 \begin{document}
   % book cover
-  \input{cover}
+  \input{document/cover}
   
   \iftoggle{partialCompileMode}{}{
     % title page
-    \input{titlepage}
+    \input{document/titlepage}
     
     % dedication
-    \input{dedication}
+    \input{document/dedication}
   }
   
   % progress page
   \iftoggle{draftMode}{
-    \input{progress}
+    \input{document/progress}
   }{}
   
   \iftoggle{partialCompileMode}{}{
     % table of contents, create bookmark
-    \input{contents}
+    \input{document/contents}
     
     % lists of floats and theorems
-    \input{floats}
+    \input{document/floats}
     
     % list of symbols and acronyms
-    \input{glossary}
+    \input{document/glossary}
     
     % abstract
-    \input{abstract}
+    \input{document/abstract}
     
     % preface
-    \input{preface}
+    \input{document/preface}
   }
   
   % chapters
-  \include{1_introduction}
-  \include{2_flux_capacitor}
-  \include{3_conclusion}
+  \include{document/1_introduction}
+  \include{document/2_flux_capacitor}
+  \include{document/3_conclusion}
   
   % start appendix
   \appendix
   
   % appendix chapters
-  \include{app1_proofs}
+  \include{document/app1_proofs}
   
   % bibliography
-  \input{bibliography}
+  \input{document/bibliography}
   
   %% academic ancestors on the last even page
   %\cleardoubleevenpage
-  %\input{tree}
+  %\input{document/tree}
 \end{document}
