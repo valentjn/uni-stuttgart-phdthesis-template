@@ -1,0 +1,77 @@
+% ======================================================================
+% Floats
+% ======================================================================
+
+% define mdframed style for floats
+\mdfdefinestyle{floatmdfstyle}{
+  innerleftmargin=7pt,
+  innerrightmargin=7pt,
+  innertopmargin=7pt,
+  innerbottommargin=6pt,
+  roundcorner=10pt,
+  linewidth=1pt,
+  linecolor=mittelblau,
+  backgroundcolor=mittelblau!10,
+  % the documentation of mdframed lies about the default values of
+  % splittopskip and splitbottomskip
+  splittopskip=15pt,
+  splitbottomskip=5pt,
+  % replace drop shadow with blur shadow
+  shadow=true,
+  apptotikzsetting={%
+    % alternatively, use
+    % \tikzset{mdfshadow/.style={blur shadow={shadow blur steps=5}}}%
+    % from the pgf-blur package;
+    % disadvantage of that is that this uses semi-transparency,
+    % which some printer and printing services cannot handle
+    % ==> recreate pgf-blur shadow effect with opaque drop shadows
+    \tikzset{
+      every shadow/.style={shadow xshift=1mm,shadow yshift=-1mm,opacity=1},
+      mdfshadow/.style={
+        drop shadow={line width=2.4mm,draw=black!03,fill=black!03},
+        drop shadow={line width=2.1mm,draw=black!06,fill=black!06},
+        drop shadow={line width=1.8mm,draw=black!09,fill=black!09},
+        drop shadow={line width=1.5mm,draw=black!12,fill=black!12},
+        drop shadow={line width=1.2mm,draw=black!15,fill=black!15},
+        drop shadow={line width=0.9mm,draw=black!18,fill=black!18},
+        drop shadow={line width=0.6mm,draw=black!21,fill=black!21},
+        drop shadow={line width=0.3mm,draw=black!24,fill=black!24},
+        drop shadow={draw=none,fill=black!27},
+        drop shadow={draw=none,fill=black!30,
+                     shadow xshift=0.85mm,shadow yshift=-0.85mm,},
+        drop shadow={draw=none,fill=black!33,
+                     shadow xshift=0.70mm,shadow yshift=-0.70mm,},
+        drop shadow={draw=none,fill=black!36,
+                     shadow xshift=0.35mm,shadow yshift=-0.35mm,},
+        drop shadow={draw=none,fill=black!39,
+                     shadow xshift=0.40mm,shadow yshift=-0.40mm,},
+      }
+    }%
+  },
+}
+
+% make "tp" to default position of figure and table
+\def\fps@figure{tp}
+\def\fps@table{tp}
+
+% wrap floats in mdframed boxes,
+% automatically center all float contents,
+% change font size in float environments
+\apptocmd{\@xfloat}{\begin{mdframed}[style=floatmdfstyle]\centering\small}{}{}
+\pretocmd{\end@float}{\end{mdframed}}{}{}
+
+% make internal length of sidecap smaller to account for smaller space
+% for floats with side captions
+\xpatchcmd{\endSC@float}{\endSC@FLOAT\@tempdima}{%
+  \setlength{\@tempdima}{\@tempdima-17pt}\endSC@FLOAT\@tempdima%
+}{}{}
+
+% automatically center all subfigure contents
+\apptocmd{\subcaption@minipage}{\centering}{}{}
+
+% don't move floats to own page (float page) when they are tall,
+% the default value is 0.5, which is a bit small
+\renewcommand*{\floatpagefraction}{0.7}
+
+% space between floats and text
+\setlength{\textfloatsep}{20pt}

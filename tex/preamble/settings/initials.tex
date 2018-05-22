@@ -1,0 +1,25 @@
+% ======================================================================
+% Initials
+% ======================================================================
+
+% indent right of initial
+\setlength{\DefaultNindent}{0.5em}
+% use height of upper-case letters for height of initial
+\renewcommand*{\LettrineSecondString}{X}
+% enlarge initial (grows to the top, aligned on baseline of bottom line)
+\renewcommand*{\DefaultLoversize}{0.07}
+% make initial bold
+\renewcommand*{\LettrineFontHook}{\bfseries}
+% don't use small caps for rest of first word, make bold
+\renewcommand*{\LettrineTextFont}{\normalfont\bfseries}
+
+% custom command: \initial[options]{0.5em}{L}{etter}
+% is like \lettrine[options]{L}{etter}, except that the first line
+% is moved to the left by 0.5em
+\newcommand*{\initial}[4][]{%
+  \lettrine[%
+    findent=\dimexpr-#2\relax,%
+    nindent=\dimexpr#2+\DefaultNindent\relax,%
+    #1%
+  ]{#3}{#4}%
+}

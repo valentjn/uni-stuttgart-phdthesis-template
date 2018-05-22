@@ -1,0 +1,22 @@
+% ======================================================================
+% Page Headers and Footers
+% ======================================================================
+
+% all-caps sans-serif page header
+\setkomafont{pageheadfoot}{%
+  \normalfont\normalcolor\sffamily%
+  \fontsize{9.5}{12}\selectfont\lsstyle%
+}
+\setkomafont{pagenumber}{\usekomafont{pageheadfoot}\bfseries}
+
+% move page number to page header
+\clearscrheadfoot
+\lehead[\pagemark]{\pagemark}
+\rehead[]{\headmark}
+\lohead[]{\headmark}
+\rohead[\pagemark]{\pagemark}
+\lefoot[]{}
+\rofoot[]{}
+
+% prepend "Chapter X: " in front of the chapter name in page headers
+\renewcommand*{\chaptermarkformat}{Chapter \thechapter: }

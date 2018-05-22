@@ -1,0 +1,38 @@
+% ======================================================================
+% Dynamic Commands
+% ======================================================================
+
+% calculate difference between page numbers
+\newcommand*{\pagedifference}[2]{%
+  \number\numexpr\getpagerefnumber{#2}-\getpagerefnumber{#1}\relax%
+}
+
+% custom TODO command with warning
+% (all packages that were tried produced problems)
+\newcommand*{\todo}[1]{%
+  \GenericWarning{}{%
+    LaTeX Warning (\thesubsection\space\currentname): TODO "#1"%
+  }%
+  \textcolor{red}{TODO: #1}%
+}
+
+% set up versioning information
+\luaexec{require("version")}
+\edef\gitCommitHash{\luadirect{getGitCommitHash()}}
+\edef\gitCommitTimeShort{\luadirect{getGitCommitTimeShort()}}
+\edef\gitCommitTimeLong{\luadirect{getGitCommitTimeLong()}}
+\edef\currentTimeShort{\luadirect{getCurrentTimeShort()}}
+\edef\currentTimeLong{\luadirect{getCurrentTimeLong()}}
+\edef\compileCounter{\luadirect{getAndIncreaseCompileCounter()}}
+
+% command for checking if file is in includeonly or not
+\newcommand*{\isincluded}[1]{%
+  \@tempswatrue
+  \if@partsw
+    \@tempswafalse
+    \edef\reserved@b{#1}%
+    \@for\reserved@a:=\@partlist\do
+    {\ifx\reserved@a\reserved@b\@tempswatrue\fi}%
+  \fi
+  \if@tempswa\expandafter\@firstoftwo\else\expandafter\@secondoftwo\fi
+}

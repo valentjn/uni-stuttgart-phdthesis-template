@@ -1,0 +1,27 @@
+% ======================================================================
+% PDF Meta-Data and Links
+% ======================================================================
+
+% set up hyperref
+\hypersetup{
+  % set metadata
+  pdftitle={\thetitle},
+  pdfauthor={\theauthor},
+  pdfcreator={LaTeX, KOMA-Script, hyperref},
+  % underline links instead of putting a framed box around them
+  pdfborderstyle={/S/U/W 1},
+  % set link colors
+  citebordercolor=C1,
+  filebordercolor=C1,
+  linkbordercolor=C1,
+  menubordercolor=C1,
+  runbordercolor=C1,
+  urlbordercolor=C0,
+  % prepend bookmarks with section number
+  bookmarksnumbered,
+  % open bookmark tree on start
+  bookmarksopen,
+}
+
+% include parentheses of \eqref in hyperlink
+\renewcommand*{\eqref}[1]{\hyperref[{#1}]{\textup{\tagform@{\ref*{#1}}}}}

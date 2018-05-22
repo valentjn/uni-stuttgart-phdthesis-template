@@ -1,0 +1,104 @@
+% ======================================================================
+% Tables
+% ======================================================================
+
+% fixed-width column types with left, center, and right alignment
+\newcolumntype{L}[1]{%
+  >{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}p{#1}%
+}
+\newcolumntype{D}[1]{%
+  >{\centering\let\newline\\\arraybackslash\hspace{0pt}}p{#1}%
+}
+\newcolumntype{R}[1]{%
+  >{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}p{#1}%
+}
+
+% colors of table lines and rows
+\newcommand*{\tablelinecolor}{mittelblau}
+\newcommand*{\headerrowcolor}{mittelblau!40}
+\newcommand*{\headerrowtextcolor}{black}
+\newcommand*{\oddrowcolor}{mittelblau!10}
+\newcommand*{\evenrowcolor}{mittelblau!20}
+
+% \setnumberoftableheaderrows has to be put before every tabular environment,
+% sets the \rownum counter such that the 1st content row has row number 1
+\newcommand*{\setnumberoftableheaderrows}[1]{%
+  \rowcolors{1}{\oddrowcolor}{\evenrowcolor}%
+  \global\rownum=\numexpr-#1\relax%
+}
+
+% set text color per row, use it like this: \begin{tabular}{=l+l+l+l} ...
+% (a single \color command wouldn't suffice, as tabular cells have
+% their own boxes, i.e., the font color is reset after every cell)
+\newcommand*{\@rowstyle}{}
+\newcommand*{\rowstyle}[1]{\gdef\@rowstyle{#1}\@rowstyle\ignorespaces}
+\newcolumntype{=}{>{\gdef\@rowstyle{}}C}
+\newcolumntype{+}{>{\@rowstyle}C}
+
+% \headerrow has to be put before every tabular header row,
+% sets background and text color
+\newcommand*{\headerrow}{%
+  \rowcolor{\headerrowcolor}%
+  \rowstyle{\color{\headerrowtextcolor}}%
+}
+
+% automatically select header or odd/even row color
+% for the current tabular row
+\newcommand*{\autorowcolor}{%
+  \ifnum\rownum<1%
+    \headerrowcolor%
+  \else%
+    \ifodd\rownum\oddrowcolor\else\evenrowcolor\fi%
+  \fi%
+}
+
+% automatically select header or odd/even row color
+% for the previous tabular row
+\newcommand*{\prevautorowcolor}{%
+  \ifnum\rownum<2%
+    \headerrowcolor%
+  \else%
+    \ifodd\rownum\evenrowcolor\else\oddrowcolor\fi%
+  \fi%
+}
+
+% like \toprule, except that the space below the rule has the color
+% given in the argument
+\newcommand*{\toprulecustom}[1]{%
+  \arrayrulecolor{\tablelinecolor}%
+  \specialrule{\heavyrulewidth}{\abovetopsep}{0pt}%
+  \arrayrulecolor{#1}%
+  \specialrule{\belowrulesep}{0pt}{0pt}%
+  \arrayrulecolor{black}%
+}
+
+% like \midrule, except that the space above and below the rule has the colors
+% given in the arguments
+\newcommand*{\midrulecustom}[2]{%
+  \arrayrulecolor{#1}%
+  \specialrule{\aboverulesep}{0pt}{0pt}%
+  \arrayrulecolor{\tablelinecolor}%
+  \specialrule{\lightrulewidth}{0pt}{0pt}%
+  \arrayrulecolor{#2}%
+  \specialrule{\belowrulesep}{0pt}{0pt}%
+  \arrayrulecolor{black}%
+}
+
+% like \bottomrule, except that the space above the rule has the color
+% given in the argument
+\newcommand*{\bottomrulecustom}[1]{%
+  \arrayrulecolor{#1}%
+  \specialrule{\aboverulesep}{0pt}{0pt}%
+  \arrayrulecolor{\tablelinecolor}%
+  \specialrule{\heavyrulewidth}{\belowbottomsep}{0pt}%
+  \arrayrulecolor{black}%
+}
+
+% commands like \toprule, \midrule, and \bottomrule,
+% but automatically guessing the right background colors
+% for the spaces above/below the rules
+\newcommand*{\toprulec}{\toprulecustom{\autorowcolor}}
+\newcommand*{\midrulec}{%
+  \midrulecustom{\prevautorowcolor}{\autorowcolor}%
+}
+\newcommand*{\bottomrulec}{\bottomrulecustom{\prevautorowcolor}}

@@ -1,0 +1,137 @@
+% ======================================================================
+% Headings
+% ======================================================================
+
+% don't use sans-serif font for headings, use single spacing
+\setkomafont{disposition}{\normalcolor\bfseries\setstretch{1}}
+
+% format chapter headings with custom commands (below)
+\renewcommand*{\chapterformat}{\thechapter}
+\renewcommand*{\chapterlinesformat}[3]{\mychapterlinesformat{#2}{#3}}
+
+% check if chapter with number or without number
+\newcommand*{\mychapterlinesformat}[2]{%
+  \if\relax\detokenize{#1}\relax%
+    \chaptertitlenonumber{#2}%
+  \else%
+    \begin{minipage}{\textwidth}%
+      \centering%
+      \chapternumber{#1}\\[1em]%
+      \chaptertitle{#2}%
+    \end{minipage}%
+  \fi%
+}
+
+% put chapter number in circle
+\newcommand*{\chapternumber}[1]{%
+  \scalebox{3.0}{%
+    \tikz{
+      \fill[
+        shading=axis,
+        left color=mittelblau,
+        right color=hellblau,
+        shading angle=135,
+        inner sep=0mm,
+      ] (0,0) circle (5mm);
+      \node[
+        white,
+        inner sep=0mm,
+      ] at (0,0) {%
+        \ifthenelse{\equal{#1}{3}}{\hspace*{0.4mm}}{}%
+        \ifthenelse{\equal{#1}{5}}{\hspace*{0.5mm}}{}%
+        \ifthenelse{\equal{#1}{7}}{\hspace*{-0.2mm}}{}%
+        \ifthenelse{\equal{#1}{B}}{\hspace*{0.5mm}}{}%
+        \ifthenelse{\equal{#1}{C}}{\hspace*{-0.5mm}}{}%
+        \ifthenelse{\equal{#1}{D}}{\hspace*{0.5mm}}{}%
+        \ifthenelse{\equal{#1}{E}}{\hspace*{0.2mm}}{}%
+        \textbf{#1}%
+      };
+    }%
+  }%
+}
+
+% if chapter with number: blue chapter title
+\newcommand*{\chaptertitle}[1]{\textcolor{mittelblau}{#1}}
+% if chapter without number: black chapter title
+\newcommand*{\chaptertitlenonumber}[1]{#1}
+
+% set space before and after chapter heading
+\RedeclareSectionCommand[beforeskip=5em,afterskip=5em]{chapter}
+
+% Commands for long chapter/section titles:
+% If the title is too long, then the mark in the page header will
+% overflow and wrap into the next line, which looks ugly.
+% \chaptermark/\sectionmark is supposed to fix that. However, if you just
+% call it after \chapter/\section, then it will only affect the marks on
+% the following pages, not the one on which the heading is defined.
+% Therefore, we have to call \chaptermark/\sectionmark twice and also
+% supply the optional parameter (otherwise, there will be errors as LaTeX
+% tries to add the marks to the table of contents).
+% Use the commands like \longchapter{TOC title}{heading title}{mark title}.
+\newcommand*{\longchapter}[3]{%
+  \chapter[#1]{#2\chaptermark{#3}}\chaptermark{#3}%
+}
+\newcommand*{\longsection}[3]{%
+  \section[#1]{#2\sectionmark{#3}}\sectionmark{#3}%
+}
+\newcommand*{\addlongchap}[3]{%
+  \addchap[#1]{#2\chaptermark{#3}}%
+}
+
+% flag to print ornaments, disable if desired
+% (in places where you don't want to have ornaments)
+\newif\ifprintornaments
+\printornamentstrue
+
+% dirty hack to automatically output ornaments before every section heading
+\RedeclareSectionCommand[
+  font={%
+    \ifprintornaments%
+      \includegraphics[width=\textwidth]{ornament_1}%
+      \\[1.625ex plus .5ex minus -.1ex]%
+      \pagebreak[0]%
+    \else%
+      \vspace{1.625ex plus .5ex minus -.1ex}%
+    \fi%
+    \Large%
+  },
+  beforeskip=-1.625ex plus -.5ex minus .1ex,
+]{section}
+
+% dirty hack to automatically output ornaments before every subsection heading
+\RedeclareSectionCommand[
+  font={%
+    \ifprintornaments%
+      \hfill\includegraphics{ornament_2}%
+      \hfill\null\\[1.3ex plus .5ex minus -.1ex]%
+      \pagebreak[0]%
+    \else%
+      \vspace{1.3ex plus .5ex minus -.1ex}%
+    \fi%
+    \large%
+  },
+  beforeskip=-1.3ex plus -.5ex minus .1ex,
+]{subsection}
+
+% decrease skip before \paragraph and \subparagraph headings
+\RedeclareSectionCommand[beforeskip=2ex plus 1ex minus .2px]{paragraph}
+\RedeclareSectionCommand[beforeskip=1ex plus 1ex minus .2px]{subparagraph}
+
+% append period to \paragraph headings
+\let\paragraphwithoutperiod\paragraph
+\newcommand*{\paragraphwithperiodwithstar}[1]{\paragraphwithoutperiod*{#1.}}
+\newcommand*{\paragraphwithperiod}[1]{\paragraphwithoutperiod{#1.}}
+\renewcommand*{\paragraph}{%
+  \@ifstar{\paragraphwithperiodwithstar}{\paragraphwithperiod}%
+}
+
+% append period to \subparagraph headings
+\let\subparagraphwithoutperiod\subparagraph
+\newcommand*{\subparagraphwithperiodwithstar}[1]{\subparagraphwithoutperiod*{#1.}}
+\newcommand*{\subparagraphwithperiod}[1]{\subparagraphwithoutperiod{#1.}}
+\renewcommand*{\subparagraph}{%
+  \@ifstar{\subparagraphwithperiodwithstar}{\subparagraphwithperiod}%
+}
+
+% increase indentation of paragraphs (default: 1em = \quad)
+\setlength{\parindent}{2em}

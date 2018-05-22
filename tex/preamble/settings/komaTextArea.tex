@@ -1,0 +1,32 @@
+% ======================================================================
+% KOMA-Script and Text Area
+% ======================================================================
+
+% options for KOMA-Script
+\KOMAoptions{
+  % choose font size (PO: should be between 12pt and 14pt)
+  fontsize=12pt,
+  % suppress "very small head height detected" warning
+  DIV=12,
+  % don't end section numbers with period despite appendices
+  numbers=noendperiod,
+  % set linespacing of header and footer to 1.5
+  % (otherwise, the header will "jump" back and forth from normal
+  % pages and pages with single line spacing, e.g., table of contents)
+  onpsinit=\onehalfspacing,
+  % use \section for headings of list of figures/tables/algorithms
+  listof=leveldown,
+}
+
+% binding offset that will be substracted from inner margins
+\newcommand*{\bindingoffset}{10mm}
+
+% set page margins
+\geometry{
+  bindingoffset=\bindingoffset,
+  inner=15mm,
+  outer=30mm,
+  top=20mm,
+  bottom=30mm,
+  includehead=true,
+}

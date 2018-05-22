@@ -1,0 +1,13 @@
+% ======================================================================
+% Check Mode
+% ======================================================================
+
+% check mode
+\iftoggle{checkMode}{
+  % show overfull boxes
+  \overfullrule=1mm
+  % whitelist is in hyphenationWhitelist.txt:
+  % one word per line (all lowercase) with dashes (-) indicating the
+  % places where hyphenation is permitted
+  \LuaCheckHyphen{whitelist=hyphenationWhitelist.txt}
+}{}

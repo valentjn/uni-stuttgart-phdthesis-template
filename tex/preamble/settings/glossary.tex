@@ -1,0 +1,188 @@
+% ======================================================================
+% Glossary
+% ======================================================================
+
+% \newcommand with variable command names
+\newcommand*{\newnamecommand}{\@star@or@long\new@name@command}
+\newcommand*{\new@name@command}[1]{\expandafter\new@command\csname #1\endcsname}
+
+\iftoggle{partialCompileMode}{
+  % define dummy commands that work as if partialCompileMode was disabled
+  \newcommand*{\newnotation}[3]{}
+  \newcommand*{\newnotationcommand}[6][0]{\newcommand*{#2}[#1]{#3}}
+  \newcommand*{\newnotationcommandoptarg}[7][]{\newcommand*{#3}[#2][#1]{#4}}
+  \newcommand*{\makecommandnotation}[4]{}
+  \newcommand*{\usenotation}[1]{\ignorespaces}
+  
+  \newcommand*{\newgacronym}[3][]{%
+    \if\relax\detokenize{#1}\relax%
+      \newnamecommand{#2}{\MakeUppercase{#2}\xspace}%
+      \newnamecommand{#2s}{\MakeUppercase{#2}s\xspace}%
+      \newnamecommand{#2c}{\MakeUppercase{#2}\xspace}%
+      \newnamecommand{#2sc}{\MakeUppercase{#2}s\xspace}%
+    \else%
+      \newnamecommand{#2}{#1\xspace}%
+      \newnamecommand{#2s}{#1s\xspace}%
+      \newnamecommand{#2c}{\makefirstuc{#1}\xspace}%
+      \newnamecommand{#2sc}{\makefirstuc{#1}s\xspace}%
+    \fi%
+  }
+  \newcommand*{\hidegacronym}[1]{}
+}{
+  % define new glossary style based on long (uses longtable)
+  % in which the column widths are fixed and space before/after the
+  % table is removed
+  \newglossarystyle{longraggedfixed}{
+    % base glossary style
+    \setglossarystyle{long}
+    
+    % custom flag to check if we're in the glossary
+    \newif\ifinglossary
+    
+    \renewenvironment{theglossary}%
+    {%
+      % remove space before/after glossary
+      \setlength{\LTpre}{0pt}%
+      \setlength{\LTpost}{0pt}%
+      %
+      % set custom flag that we are now in the glossary
+      \inglossarytrue%
+      %
+      % set font size
+      \small%
+      %
+      % use single spacing
+      \begin{spacing}{1}%
+        % table header
+        \begin{longtable}{@{}L{0.15\textwidth}@{}L{0.85\textwidth}@{}}%
+          \textbf{Symbol}\vspace{2mm}&%
+          \textbf{Meaning\hfill{}Page with First Occurrence}\vspace{2mm}%
+          \endhead%
+    }%
+    {%
+      % table footer
+        \end{longtable}%
+      \end{spacing}%
+      % set custom flag that we are now outside the glossary
+      \inglossaryfalse%
+    }
+  
+    % add dotted leaders between entry description and page number
+    % (called for every row of the table)
+    \renewcommand*{\glossentry}[2]{%
+      \glsentryitem{##1}\glstarget{##1}{\glossentryname{##1}}&%
+      \glossentrydesc{##1}\leavevmode\kern3pt\leaders\hbox{%
+        \hspace{0.2237em}.\hspace{0.2237em}%
+      }\hfill\kern0pt%
+      ##2%
+      \tabularnewline%
+    }
+  }
+  
+  % use new glossary style
+  \setglossarystyle{longraggedfixed}
+  
+  % add field to glossary entries that stores whether the entry
+  % has been used at least once in the document
+  \glsaddstoragekey{myused}{false}{\glsmyused}
+  \glsaddstoragekey{myisacronym}{false}{\glsmyisacronym}
+  
+  % \newnotation{sortKey}{entrySymbol}{entryText}
+  % adds notation to the glossary without command,
+  % only to be used with \usenotation
+  \newcommand*{\newnotation}[3]{%
+    \newglossaryentry{#1}{text={},sort={#1},name={#2},description={#3}}%
+  }
+  
+  % \newnotationcommand[numberOfArgs]{\commandName}
+  %   {commandDefinition}{sortKey}{entrySymbol}{entryText}
+  % adds notation to the glossary and creates a command
+  \newcommand*{\newnotationcommand}[6][0]{%
+    \newcommand*{#2}[#1]{#3}%
+    \makecommandnotation{#2}{#4}{#5}{#6}%
+  }
+  
+  % \newnotationcommandoptarg[defaultValue]{numberOfArgs}{\commandName}
+  %   {commandDefinition}{sortKey}{entrySymbol}{entryText}
+  % is like \newnotationcommand, but with an optional argument for
+  % the command to be created
+  \newcommand*{\newnotationcommandoptarg}[7][]{%
+    \newcommand*{#3}[#2][#1]{#4}%
+    \makecommandnotation{#3}{#5}{#6}{#7}%
+  }
+  
+  % \makecommandnotation{\commandName}{sortKey}{entrySymbol}{entryText}
+  % adds notation to the glossary and modifies \commandName such that
+  % the glossary entry is referenced on every use of \commandName
+  % (except if used in the glossary itself)
+  \newcommand*{\makecommandnotation}[4]{%
+    \newglossaryentry{#2}{text={},sort={#2},name={#3},description={#4}}%
+    % only reference entry if outside glossary
+    % (otherwise, the page number of the glossary would be displayed)
+    \pretocmd{#1}{\ifinglossary\else\usenotation{#2}\fi}{}{}%
+  }
+  
+  % \usenotation{sortKey}
+  % explicitly "uses" the notation given by sortKey without printing anything
+  \newcommand*{\usenotation}[1]{%
+    \glsfieldgdef{#1}{myused}{true}%
+    \glsdisp{#1}{\relax}\ignorespaces%
+  }
+  
+  % shortcut for \newacronym, automatically generating
+  % a corresponding shortcut for \gls
+  \newcommand*{\newgacronym}[3][]{%
+    \if\relax\detokenize{#1}\relax%
+      \newacronym[sort={Ü#2},description={\makefirstuc{#3}}]%
+      {Ü#2}{\MakeUppercase{#2}}{#3}%
+    \else%
+      \newacronym[sort={Ü#2},description={\makefirstuc{#3}}]{Ü#2}{#1}{#3}%
+    \fi%
+    \glsfieldgdef{Ü#2}{myisacronym}{true}%
+    \newnamecommand{#2}{\glsfieldgdef{Ü#2}{myused}{true}\gls{Ü#2}\xspace}%
+    \newnamecommand{#2s}{\glsfieldgdef{Ü#2}{myused}{true}\glspl{Ü#2}\xspace}%
+    \newnamecommand{#2c}{\glsfieldgdef{Ü#2}{myused}{true}\Gls{Ü#2}\xspace}%
+    \newnamecommand{#2sc}{\glsfieldgdef{Ü#2}{myused}{true}\Glspl{Ü#2}\xspace}%
+  }
+  
+  % hide specific acronyms (that are only used once) in glossary
+  \newignoredglossary{hidden}
+  \newcommand*{\hidegacronym}[1]{\glsmoveentry{Ü#1}{hidden}}
+  
+  % spell out acronyms at beginning of chapters and sections
+  \newcommand*{\resetacronyms}{%
+    \forglsentries{\mysymbolname}{%
+      \ifthenelse{\equal{\glsmyisacronym{\mysymbolname}}{true}}{
+        \glsreset{\mysymbolname}%
+      }{}%
+    }%
+  }
+  
+  \addtokomafont{chapter}{\resetacronyms}
+  \addtokomafont{section}{\resetacronyms}
+  
+  % warn for every symbol that has not been used
+  \AtEndDocument{%
+    \forglsentries{\mysymbolname}{%
+      \ifthenelse{\equal{\glsmyused{\mysymbolname}}{false}}{
+        \GenericWarning{}{%
+          LaTeX Warning: Symbol ``\mysymbolname'' defined, but unused%
+        }%
+      }{}%
+    }%
+  }
+  
+  % generate table of symbols and acronyms
+  \makeglossaries
+}
+
+% add debug info about definitions of glossary entries
+\iftoggle{showGlossaryDefinitionsMode}{
+  \let\oldnewgsymbol\newgsymbol
+  \renewcommand*{\newgsymbol}[3]{%
+    \ifx\@onlypreamble\@notprerr%
+      \textcolor{C1}{Defining ``#2'' as ``#3''. }%
+    \fi%
+    \oldnewgsymbol{#1}{#2}{#3}%
+  }
+}{}

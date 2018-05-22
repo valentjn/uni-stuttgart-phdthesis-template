@@ -1,0 +1,167 @@
+% ======================================================================
+% Theorems
+% ======================================================================
+
+% define mdframed style for theorems
+\mdfdefinestyle{thmmdfstyle}{
+  innerleftmargin=13pt,
+  innerrightmargin=7pt,
+  innertopmargin=5pt,
+  innerbottommargin=6pt,
+  linewidth=1pt,
+  linecolor=mittelblau,
+  backgroundcolor=mittelblau!10,
+  % the documentation of mdframed lies about the default values of
+  % splittopskip and splitbottomskip
+  splittopskip=19pt,
+  splitbottomskip=5pt,
+  % thick line on left side
+  extra={
+    \draw[mittelblau,line width=5pt]
+    ($(O)+(2.5pt,0pt)$) -- ($(O|-P)+(2.5pt,0pt)$);
+  },
+}
+
+% "torn page" effect at bottom of the box before page break
+\newcounter{mathseed}
+\setcounter{mathseed}{3}
+\pgfmathsetseed{\arabic{mathseed}}
+
+\tikzset{
+  every picture/.append style={
+    execute at begin picture={
+      \ifboolexpr{
+        bool{mdffirstframe} or bool{mdfmiddleframe} or bool{mdflastframe}
+      }{
+        \mdf@innertikzcalc
+        \coordinate (O) at (\mdf@Ox,\mdf@Oy);
+        \coordinate (P) at (\mdf@Px,\mdf@Py);
+        \ifboolexpr{bool{mdffirstframe} or bool{mdfmiddleframe}}{
+          \clip ($(O)+(-0.5pt,2pt)$)
+          \pgfextra{
+            \addtocounter{mathseed}{1}
+            \pgfmathsetseed{\arabic{mathseed}}
+          }
+          decorate[
+            decoration={my random steps,segment length=2pt,amplitude=2pt}
+          ]{-- ($(P|-O)+(0.5pt,2pt)$)}
+          -- ($(P)+(0.5pt,0.5pt)$)
+          -- ($(O|-P)+(-0.5pt,0.5pt)$)
+          -- cycle;
+        }{}
+        \ifboolexpr{bool{mdflastframe} or bool{mdfmiddleframe}}{
+          \clip ($(O)+(-0.5pt,-0.5pt)$)
+          -- ($(O|-P)+(-0.5pt,-2pt)$)
+          \pgfextra{\pgfmathsetseed{\arabic{mathseed}}}
+          decorate[
+            decoration={my random steps,segment length=2pt,amplitude=2pt}
+          ]{-- ($(P)+(0.5pt,-2pt)$)}
+          -- ($(P|-O)+(0.5pt,-0.5pt)$)
+          -- cycle;
+        }{}
+      }{}
+    }
+  }
+}
+
+% for the "torn page" effect,
+% derived from the "random steps" decoration, the difference is that
+% it only add random pertubations in y-direction, not in x-direction
+\pgfdeclaredecoration{my random steps}{start}{
+  \state{start}[
+    width=+0pt,next state=step,
+    persistent precomputation=\pgfdecoratepathhascornerstrue
+  ]{}
+  \state{step}[
+    auto end on length=1.5\pgfdecorationsegmentlength,
+    auto corner on length=1.5\pgfdecorationsegmentlength,
+    width=+\pgfdecorationsegmentlength
+  ]{
+    \pgfpathlineto{
+      \pgfpointadd{
+        \pgfpoint{\pgfdecorationsegmentlength}{0pt}
+      }{
+        \pgfpoint{0pt}{rand*\pgfdecorationsegmentamplitude}
+      }
+    }
+  }
+  \state{final}{}
+}
+
+% patch mdframed such that it doesn't violate \flushbottom
+% (mdframed produces ragged page bottoms without this)
+\xpatchcmd{\mdf@put@frame@i}{\hrule \@height\z@ \@width\hsize\vfill}{}{}{}
+\xpatchcmd{\mdf@put@frame@i}{\hrule \@height\z@ \@width\hsize\vfill}{}{}{}
+\xpatchcmd{\mdf@put@frame@i}{\hrule \@height\z@ \@width\hsize\vfill}{}{}{}
+
+% ignore "bad break" warnings by mdframed, they don't seem to make sense
+% (they claim that the box after the page break would be empty,
+% even if it isn't)
+\WarningFilter{mdframed}{You got a bad break}
+
+% define theorem styles (format theorem "head" with sans-serif caps)
+\declaretheoremstyle[
+  headformat={\formatcaption{\NAME{} \NUMBER}\hspace{0.7em}\NOTE\\},
+  notefont={\normalfont\normalsize},
+  headpunct={},
+]{mythmdefstyle}
+
+% same as before, but italic body font
+\declaretheoremstyle[
+  headformat={\formatcaption{\NAME{} \NUMBER}\hspace{0.7em}\NOTE\\},
+  notefont={\normalfont\normalsize},
+  headpunct={},
+  bodyfont={\itshape},
+]{mythmplainstyle}
+
+% same as before, but no note and line break after head
+\declaretheoremstyle[
+  headformat={\formatcaption{\NAME{} \NUMBER}\hspace{0.7em}},
+  notefont={\normalfont\normalsize},
+  headpunct={},
+  bodyfont={\itshape},
+]{mythmshortplainstyle}
+
+% theorem environments
+\declaretheorem[
+  name={Definition},
+  numberwithin=chapter,
+  mdframed={style=thmmdfstyle},
+  style=mythmdefstyle,
+]{definition}
+\declaretheorem[
+  name={Theorem},
+  numberlike=definition,
+  mdframed={style=thmmdfstyle},
+  style=mythmplainstyle,
+]{theorem}
+\declaretheorem[
+  name={Proposition},
+  numberlike=definition,
+  mdframed={style=thmmdfstyle},
+  style=mythmplainstyle,
+]{proposition}
+\declaretheorem[
+  name={Lemma},
+  numberlike=definition,
+  mdframed={style=thmmdfstyle},
+  style=mythmplainstyle,
+]{lemma}
+\declaretheorem[
+  name={Lemma},
+  numberlike=definition,
+  mdframed={style=thmmdfstyle},
+  style=mythmshortplainstyle,
+]{shortlemma}
+\declaretheorem[
+  name={Corollary},
+  numberlike=definition,
+  mdframed={style=thmmdfstyle},
+  style=mythmplainstyle,
+]{corollary}
+\declaretheorem[
+  name={Corollary},
+  numberlike=definition,
+  mdframed={style=thmmdfstyle},
+  style=mythmshortplainstyle,
+]{shortcorollary}

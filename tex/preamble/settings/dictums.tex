@@ -1,0 +1,41 @@
+% ======================================================================
+% Dictums
+% ======================================================================
+
+% don't use sans-serif font for dictums
+\addtokomafont{dictum}{\rmfamily}
+
+% format dictums with custom command
+\renewcommand*{\dictum}[2][]{\cleanchapterquote{#2}{#1}}
+
+% shortcut for setting the dictum for a chapter
+\newcommand*{\setdictum}[2]{%
+  \setchapterpreamble{%
+    \dictum[#2]{#1}%
+    \chapterheadendvskip%
+  }%
+}
+
+% fancy quotes (taken from cleanthesis.sty, slightly adapted)
+\newcommand*{\hugequote}{%
+  \fontsize{75}{80}\selectfont%
+  \hspace*{-0.6em}\color{lightgray}%
+  \textit{``}%
+  \vskip -0.8em%
+}
+
+\newcommand*{\cleanchapterquote}[2]{%
+  \begin{minipage}{\textwidth}%
+    \begin{flushright}
+      \begin{minipage}{0.54\textwidth}%
+        \begin{flushleft}
+          {\hugequote}\textit{#1}
+        \end{flushleft}
+        \begin{flushright}
+          \small--- #2
+        \end{flushright}
+      \end{minipage}%
+    \end{flushright}
+  \end{minipage}%
+  \bigskip
+}

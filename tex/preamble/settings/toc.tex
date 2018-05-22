@@ -1,0 +1,52 @@
+% ======================================================================
+% Tables of Contents, Figures, Tables, Algorithms, and Theorems
+% ======================================================================
+
+% remove indentation for lists of figures and tables
+\DeclareTOCStyleEntry[indent=0em]{tocline}{figure}
+\DeclareTOCStyleEntry[indent=0em]{tocline}{table}
+
+% declare algorithm float environment, create list of algorithms,
+% use same formatting as for figures and tables
+\DeclareNewTOC[
+  type=algorithm,
+  name=Algorithm,
+  listname={List of Algorithms},
+  float,
+  floattype=4,
+  floatpos=tp,
+  counterwithin=chapter,
+  tocentrynumwidth=2.3em,
+  tocentryindent=0em,
+]{loa}
+
+% create list of theorems,
+% use same formatting as for figures, tables, and algorithms
+% (thmtools's thm-listof.sty is unfortunately a little buggy,
+% as it causes the flip book images to jump; using KOMA-Script for
+% all lists is more consistent and less error-prone)
+\DeclareNewTOC[
+  type=mytheorem,
+  name=Theorem,
+  listname={List of Theorems},
+  tocentrynumwidth=2.3em,
+  tocentryindent=0em,
+]{lop}
+
+% add code that adds the theorem to the *.lop file to hook
+\addtotheorempostheadhook{%
+  \addxcontentsline{lop}{mytheorem}{\csname ll@\thmt@envname\endcsname}%
+}
+
+% use single spacing in
+% tables of contents, figures, tables, algorithms, and theorems
+\AfterTOCHead{\begin{spacing}{1}}
+\AfterStartingTOC{\end{spacing}}
+
+% include subsubsections in table of contents, but without numbers
+\setcounter{tocdepth}{\subsubsectionnumdepth}
+
+% increase space of page numbers
+% (default values of 1.55em and 2.55em are too small for three-digit numbers)
+\renewcommand*{\@pnumwidth}{2em}
+\renewcommand*{\@tocrmarg}{3em}

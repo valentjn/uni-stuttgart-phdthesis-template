@@ -1,0 +1,49 @@
+% ======================================================================
+% Watermarks
+% ======================================================================
+
+% set up watermarks
+\iftoggle{draftMode}{
+  \AddEverypageHook{%
+    \ifnum\number\thecurrentpagenumber>1%
+      \begin{tikzpicture}[remember picture,overlay,scale=1]
+        \node[
+          anchor=center,xshift=0mm,yshift=7mm,inner sep=0pt,
+        ] at (current page.south) [above] {
+          \parbox{100mm}{%
+            \begin{center}%
+              \onehalfspacing\bfseries\color{gray}%
+              Draft \texttt{\normalsize{}v\compileCounter{}}
+              (\currentTimeShort)\\%
+              Commit \texttt{\normalsize{}\gitCommitHash{}}
+              (\gitCommitTimeShort)%
+            \end{center}%
+          }%
+        };
+        \ifthispageodd{
+          \node[
+            anchor=north east,xshift=-15mm,yshift=-38.5mm,color=gray,
+            inner sep=0pt,text width=4.51mm,align=right,
+          ] at (current page.north east) [below left] {%
+            \ttfamily\onehalfspacing%
+            1\\2\\3\\4\\5\\6\\7\\8\\9\\10\\%
+            11\\12\\13\\14\\15\\16\\17\\18\\19\\20\\%
+            21\\22\\23\\24\\25\\26\\27\\28\\29\\30\\%
+            31\\32\\33\\34\\35\\36\\37\\%
+          };
+        }{
+          \node[
+            anchor=north west,xshift=15mm,yshift=-38.5mm,color=gray,
+            inner sep=0pt,text width=4.51mm,align=right,
+          ] at (current page.north west) [below right] {%
+            \ttfamily\onehalfspacing%
+            1\\2\\3\\4\\5\\6\\7\\8\\9\\10\\%
+            11\\12\\13\\14\\15\\16\\17\\18\\19\\20\\%
+            21\\22\\23\\24\\25\\26\\27\\28\\29\\30\\%
+            31\\32\\33\\34\\35\\36\\37\\%
+          };
+        }
+      \end{tikzpicture}%
+    \fi%
+  }
+}{}
