@@ -59,6 +59,11 @@ for path in os.listdir("."):
 # set output directory
 env.Append(PDFLATEXFLAGS="--output-directory={}".format(env["BUILD_DIR"]))
 
+# create build/tex/document/ directory
+createDirs = (not env.GetOption("help")) and (not env.GetOption("clean"))
+if createDirs:
+  env.Execute(Mkdir(os.path.join(env["BUILD_DIR"].abspath, "document")))
+
 # compile PDF
 pdf = env.PDF(target=os.path.join(env["BUILD_DIR"].abspath, "thesis.pdf"),
               source="thesis.tex")
