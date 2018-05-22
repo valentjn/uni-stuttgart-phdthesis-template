@@ -1,5 +1,5 @@
 function generateTotalRow()
-  progressTexPath = "../../tex/progress.tex"
+  progressTexPath = "../../tex/document/progress.tex"
   sum = {}
   nRows = 0
   
