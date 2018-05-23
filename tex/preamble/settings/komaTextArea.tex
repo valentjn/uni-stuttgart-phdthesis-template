@@ -30,3 +30,12 @@
   bottom=30mm,
   includehead=true,
 }
+
+% mathdesign's Charter font has some questionable kerning between some
+% capital letters such as F, P, and V and a period (the space between those
+% is far too small); one solution would be to use the charter package for
+% the main text, but that leads a number of other issues (the text size is
+% then larger, and doesn't match the math font size anymore...)
+\newcommand*{\periodafterFspace}{\hspace{-0.35em}}
+\newcommand*{\periodafterPspace}{\hspace{-0.35em}}
+\newcommand*{\periodafterVspace}{\hspace{-0.35em}}
