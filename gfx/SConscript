@@ -71,10 +71,6 @@ env.Depends(pdfs, helperPys)
 # don't delete PDFs before calling Python scripts
 env.Precious(pdfs)
 
-# clean *.pgf and *.xz files as well
-env.Clean(pdfs,
-    [pgfs, env.Glob(os.path.join(env["BUILD_DIR"].abspath, "*.xz"))])
-
 # LuaLaTeX depends on pre-made graphics as well
 pdfs.extend(pre)
 
