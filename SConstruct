@@ -96,3 +96,10 @@ for dir_ in dirs:
 # handled by tex/SConscript) and out
 env.Depends(env["BUILD_PDF"], [dirTargets[dir_] for dir_ in dirs
                                if dir_ not in ["tex", "out"]])
+
+# dirty fix for Debian bug #893740
+# (https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=893740),
+# they seem to have reintroduced the Python-2-only syntax "dict.has_key"
+# (instead of "in") in SCons/Script/Main.py, line 1111,
+# occurs when cleaning, i.e., `scons -c`
+os.environ.has_key = (lambda x: x in os.environ)
