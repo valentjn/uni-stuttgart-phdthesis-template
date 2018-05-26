@@ -50,9 +50,10 @@ for path in os.listdir("."):
   name, ext = os.path.splitext(path)
   
   if ext == ".tex":
-    for extension in ["acn", "aux", "bbl", "bcf", "blg", "glo", "ist", "lof",
-                      "log", "lot", "nlo", "out", "pdf", "run.xml",
-                      "synctex.gz", "thm", "toc", "uhy", "upa", "upb"]:
+    for extension in ["acn", "aux", "bbl", "bcf", "blg", "glo", "ist", "loa",
+                      "lof", "log", "lop", "lot", "nlo", "out", "pdf",
+                      "run.xml", "synctex.gz", "thm", "toc", "uhy", "upa",
+                      "upb"]:
       path2 = "{}.{}".format(name, extension)
       if os.path.isfile(path2): os.remove(path2)
 
