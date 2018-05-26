@@ -81,16 +81,13 @@ for dir_ in dirs:
   
   # create build directory
   if (dir_ not in ["lua", "misc"]) and createDirs:
-    dirCreated = True
     env.Execute(Mkdir(env["BUILD_DIR"]))
-  else:
-    dirCreated = False
   
   # execute SConscript
   dirTargets[dir_] = env.SConscript(os.path.join(dir_, "SConscript"),
                                     exports=["env", "Helper"])
   # clean up dir_
-  if dirCreated: env.Clean(dirTargets[dir_], env["BUILD_DIR"])
+  env.Clean(dirTargets[dir_], env["BUILD_DIR"])
   
   # set BUILD_PDF variable
   if dir_ == "tex": env["BUILD_PDF"] = dirTargets[dir_][0]
