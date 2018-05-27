@@ -2,6 +2,16 @@
 % Text Body
 % ======================================================================
 
+% prohibit inserting page breaks in footnotes
+\interfootnotelinepenalty=10000
+
+% mathdesign's Charter font has some questionable kerning between some
+% capital letters such as F, P, and V and a period (the space between those
+% is far too small); one solution would be to use the charter package for
+% the main text, but that leads a number of other issues (the text size is
+% then larger, and doesn't match the math font size anymore...)
+\newcommand*{\punctfix}[1]{{\hspace{-0.05em}#1}}
+
 % \halfhphantom works like \hphantom, except that it creates a box
 % that is only half as wide as that of \hphantom
 \newlength{\halfhphantomlength}
