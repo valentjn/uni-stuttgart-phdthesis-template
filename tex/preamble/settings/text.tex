@@ -12,6 +12,16 @@
 % then larger, and doesn't match the math font size anymore...)
 \newcommand*{\punctfix}[1]{{\hspace{-0.05em}#1}}
 
+% enumerate and itemize spaces
+\setlist{
+  % space between left edge of text area and left edge of paragraphs
+  leftmargin=\parindent,
+  % space between item paragraphs (in addition to \parskip)
+  itemsep=0pt,
+  % space above and below lists
+  topsep=0.5em,
+}
+
 % \halfhphantom works like \hphantom, except that it creates a box
 % that is only half as wide as that of \hphantom
 \newlength{\halfhphantomlength}
