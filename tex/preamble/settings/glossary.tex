@@ -111,15 +111,24 @@
     \makecommandnotation{#3}{#5}{#6}{#7}%
   }
   
+  % custom flag to hide the entry defined by the next \newnotationcommand
+  % (or similar) from the glossary
+  \newif\ifhidenextnotation
+  \newcommand*{\hidenextnotation}{\hidenextnotationtrue}
+  
   % \makecommandnotation{\commandName}{sortKey}{entrySymbol}{entryText}
   % adds notation to the glossary and modifies \commandName such that
   % the glossary entry is referenced on every use of \commandName
   % (except if used in the glossary itself)
   \newcommand*{\makecommandnotation}[4]{%
-    \newglossaryentry{#2}{text={},sort={#2},name={#3},description={#4}}%
-    % only reference entry if outside glossary
-    % (otherwise, the page number of the glossary would be displayed)
-    \pretocmd{#1}{\ifinglossary\else\usenotation{#2}\fi}{}{}%
+    \ifhidenextnotation%
+      \hidenextnotationfalse%
+    \else%
+      \newglossaryentry{#2}{text={},sort={#2},name={#3},description={#4}}%
+      % only reference entry if outside glossary
+      % (otherwise, the page number of the glossary would be displayed)
+      \pretocmd{#1}{\ifinglossary\else\usenotation{#2}\fi}{}{}%
+    \fi%
   }
   
   % \usenotation{sortKey}
