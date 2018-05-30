@@ -61,8 +61,10 @@
   final,
   % increase letter spacing in small-caps
   tracking=smallcaps,
-  % smaller amount of letter spacing (default: 100)
-  %letterspace=120,
+  % font expansion: don't stretch/shrink lines by more than 1%,
+  % default of 2% looks a bit weird
+  stretch=10,
+  shrink=10,
 ]{microtype}
 
 % reference last page of document
