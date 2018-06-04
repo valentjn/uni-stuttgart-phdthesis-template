@@ -101,18 +101,19 @@
 % suppress "In:" before journal names
 \renewbibmacro*{in:}{}
 
-% omit "URL:", "DOI:", and "ISBN:" separators to save space,
-% link DOIs and ISBNs
+% reformat and link URLs, DOIs, and ISBNs
 \DeclareFieldFormat{url}{\url{#1}}
 \DeclareFieldFormat{doi}{%
   \scriptsize%
-  \ifhyperref{\href{https://doi.org/#1}{\nolinkurl{#1}}}{\nolinkurl{#1}}%
+  \ifhyperref{%
+    \href{https://doi.org/#1}{\nolinkurl{doi:#1}}%
+  }{\nolinkurl{doi:#1}}%
 }
 \DeclareFieldFormat{isbn}{%
   \scriptsize%
   \ifhyperref{%
-    \href{https://www.amazon.com/s/?field-keywords=#1}{\nolinkurl{#1}}%
-  }{\nolinkurl{#1}}%
+    \href{https://www.amazon.com/s/?field-keywords=#1}{\nolinkurl{isbn:#1}}%
+  }{\nolinkurl{isbn:#1}}%
 }
 
 % hide urldate field
