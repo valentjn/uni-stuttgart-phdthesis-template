@@ -38,6 +38,7 @@
   \renewcommand*{\texttt}[1]{\oldtexttt{##1}}%
 }
 
+% order entries by last names
 \DeclareNameAlias{sortname}{last-first}
 \DeclareNameAlias{default}{last-first}
 
@@ -69,7 +70,7 @@
 \DeclareFieldFormat[inproceedings]{booktitle}{#1}
 \DeclareFieldFormat[unpublished]{title}{\mkbibemph{#1}}
 
-% fix title capitalization to sentence case (all lowercase),
+% fix title capitalization to sentence case (all lowercase)
 \DeclareFieldFormat{titlecase}{\MakeTitleCase{#1}}
 
 % .. but don't change journal titles, book titles, and so on
