@@ -101,6 +101,17 @@
 % suppress "In:" before journal names
 \renewbibmacro*{in:}{}
 
+% don't put parentheses around year for journals
+\renewbibmacro*{issue+date}{%
+  \setunit{\addcomma\space}%
+  \iffieldundef{issue}{%
+    \usebibmacro{date}%
+  }{%
+    \printfield{issue}\setunit*{\addspace}\usebibmacro{date}%
+  }%
+  \newunit%
+}
+
 % reformat and link URLs, DOIs, and ISBNs
 \DeclareFieldFormat{url}{\url{#1}}
 \DeclareFieldFormat{doi}{%
