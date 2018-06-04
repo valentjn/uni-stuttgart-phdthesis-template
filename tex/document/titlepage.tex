@@ -100,13 +100,14 @@
   
   \vfill
   
-  % version information
-  \begin{tabular}{@{}l@{\hphantom*{~}}l@{}}
-    Compiled as version \texttt{v\compileCounter{}}&
-    on \currentTimeLong.\\
-    Committed as \texttt{\gitCommitHash{}}&
-    on \gitCommitTimeLong.
-  \end{tabular}%
+  Compiled as version \texttt{v\compileCounter{}}
+  on \currentTimeLong.\\
+  \lefthphantom{%
+    Committed as \texttt{\gitCommitHash{}}%
+  }{%
+    Compiled as version \texttt{v\compileCounter{}}%
+  }
+  on \gitCommitTimeLong.
   
   \vspace{1em}
   
