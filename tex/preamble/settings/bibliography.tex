@@ -58,6 +58,9 @@
 % insert colon after author names in bibliography
 \renewcommand*{\labelnamepunct}{\addcolon\space}
 
+% separate BibLaTeX units with commas instead of periods
+\renewcommand*{\newunitpunct}{\addcomma\space}
+
 % make paper titles italic, remove quotation marks
 \DeclareFieldFormat[article]{title}{\mkbibemph{#1}}
 \DeclareFieldFormat[article]{journaltitle}{#1}
