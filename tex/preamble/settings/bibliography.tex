@@ -11,14 +11,51 @@
 % location of *.bib file
 \addbibresource{../bib/bibliography.bib}
 
+% include brackets in \cite hyperlink
+\DeclareCiteCommand{\cite}{\usebibmacro{prenote}}{%
+  \usebibmacro{citeindex}%
+  \printtext[bibhyperref]{\mkbibbrackets{\usebibmacro{cite}}}%
+}{\multicitedelim}{\usebibmacro{postnote}}
+
+% declare special \multicite command which produce [Abc01; Def02]
+% (instead of [Abc01]; [Def02])
+\DeclareCiteCommand{\multicite}[\mkbibbrackets]{\usebibmacro{prenote}}{%
+  \usebibmacro{citeindex}\usebibmacro{cite}%
+}{\multicitedelim}{\usebibmacro{postnote}}
+
 % don't append "+" sign to BibLaTeX citations in alphabetic style
 \renewcommand*{\labelalphaothers}{}
 
+% define custom heading to fix non-uppercase page header
+\defbibheading{myheading}[\bibname]{%
+  \chapter{#1}%
+  \markboth{BIBLIOGRAPHY}{BIBLIOGRAPHY}%
+}
+
+% add custom bibliography post note (URLs last checked on ...)
+\defbibnote{mypostnote}{%
+  All URLs have last been checked on \thedate.%
+  \renewcommand*{\texttt}[1]{\oldtexttt{##1}}%
+}
+
+\DeclareNameAlias{sortname}{last-first}
+\DeclareNameAlias{default}{last-first}
+
+% change font size of bibliography
+\renewcommand*{\bibfont}{\small}
+
+% set single line spacing for bibliography
+\renewcommand*{\bibsetup}{\singlespacing}
+
+% separate authors with semicolon, suppress "and" in author names
+\renewcommand{\multinamedelim}{\addsemicolon\space}
+\renewcommand*{\finalnamedelim}{\addsemicolon\space}
+
+% make names bold
+\renewcommand*{\mkbibnamefamily}[1]{\textbf{#1}}
+
 % insert colon after author names in bibliography
 \renewcommand*{\labelnamepunct}{: }
-
-% hide urldate field
-\AtEveryBibitem{\clearfield{urlyear}}
 
 % make paper titles italic, remove quotation marks
 \DeclareFieldFormat[article]{title}{\mkbibemph{#1}}
@@ -60,28 +97,6 @@
 % suppress "In:" before journal names
 \renewbibmacro*{in:}{}
 
-% separate authors with semicolon, suppress "and" in author names
-\renewcommand{\multinamedelim}{\addsemicolon\space}
-\renewcommand*{\finalnamedelim}{\addsemicolon\space}
-
-% make names bold
-\renewcommand*{\mkbibnamefamily}[1]{\textbf{#1}}
-
-\DeclareNameAlias{sortname}{last-first}
-\DeclareNameAlias{default}{last-first}
-
-% define custom heading to fix non-uppercase page header
-\defbibheading{myheading}[\bibname]{%
-  \chapter{#1}%
-  \markboth{BIBLIOGRAPHY}{BIBLIOGRAPHY}%
-}
-
-% add custom bibliography post note (URLs last checked on ...)
-\defbibnote{mypostnote}{%
-  All URLs have last been checked on \thedate.%
-  \renewcommand*{\texttt}[1]{\oldtexttt{##1}}%
-}
-
 % omit "URL:", "DOI:", and "ISBN:" separators to save space,
 % link DOIs and ISBNs
 \DeclareFieldFormat{url}{\url{#1}}
@@ -96,23 +111,8 @@
   }{\nolinkurl{#1}}%
 }
 
+% hide urldate field
+\AtEveryBibitem{\clearfield{urlyear}}
+
 % remove period at end of entries
 \renewcommand*{\finentrypunct}{}
-
-% change font size of bibliography
-\renewcommand*{\bibfont}{\small}
-
-% set single line spacing for bibliography
-\renewcommand*{\bibsetup}{\singlespacing}
-
-% include brackets in \cite hyperlink
-\DeclareCiteCommand{\cite}{\usebibmacro{prenote}}{%
-  \usebibmacro{citeindex}%
-  \printtext[bibhyperref]{\mkbibbrackets{\usebibmacro{cite}}}%
-}{\multicitedelim}{\usebibmacro{postnote}}
-
-% declare special \multicite command which produce [Abc01; Def02]
-% (instead of [Abc01]; [Def02])
-\DeclareCiteCommand{\multicite}[\mkbibbrackets]{\usebibmacro{prenote}}{%
-  \usebibmacro{citeindex}\usebibmacro{cite}%
-}{\multicitedelim}{\usebibmacro{postnote}}
