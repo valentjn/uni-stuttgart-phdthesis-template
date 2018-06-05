@@ -5,13 +5,10 @@
 % don't use sans-serif font for dictums
 \addtokomafont{dictum}{\rmfamily}
 
-% format dictums with custom command
-\renewcommand*{\dictum}[2][]{\cleanchapterquote{#2}{#1}}
-
 % shortcut for setting the dictum for a chapter
-\newcommand*{\setdictum}[2]{%
+\newcommand*{\setdictum}[3][0.54\textwidth]{%
   \setchapterpreamble{%
-    \dictum[#2]{#1}%
+    \cleanchapterquote{#1}{#2}{#3}%
     \chapterheadendvskip%
   }%
 }
@@ -24,15 +21,15 @@
   \vskip -0.8em%
 }
 
-\newcommand*{\cleanchapterquote}[2]{%
+\newcommand*{\cleanchapterquote}[3]{%
   \begin{minipage}{\textwidth}%
     \begin{flushright}
-      \begin{minipage}{0.54\textwidth}%
+      \begin{minipage}{#1}%
         \begin{flushleft}
-          {\hugequote}\textit{#1}
+          {\hugequote}\textit{#2}
         \end{flushleft}
         \begin{flushright}
-          \small--- #2
+          \small--- #3
         \end{flushright}
       \end{minipage}%
     \end{flushright}
