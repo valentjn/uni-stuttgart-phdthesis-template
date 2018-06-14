@@ -25,12 +25,20 @@
   topsep=0.5em,
 }
 
+% math version of \settowidth, automatically choosing the right style
+% (textstyle, displaystyle, ...)
+\def\mathsettowidth#1#2{%
+  \setbox\@tempboxa\hbox{$\m@th\mathpalette{}{#2}$}%
+  #1=\wd\@tempboxa%
+  \setbox\@tempboxa\box\voidb@x%
+}
+
 % \halfhphantom works like \hphantom, except that it creates a box
 % that is only half as wide as that of \hphantom
 \newlength{\halfhphantomlength}
 \newcommand*{\halfhphantom}[1]{%
   \ifmmode%
-    \settowidth{\halfhphantomlength}{$#1$}%
+    \mathsettowidth{\halfhphantomlength}{#1}%
   \else%
     \settowidth{\halfhphantomlength}{#1}%
   \fi%
