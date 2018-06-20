@@ -55,6 +55,7 @@ class Helper(object):
   @staticmethod
   def runCommand(args, check=True, **kwargs):
     print(" ".join([shlex.quote(arg) for arg in args]))
+    kwargs["check"] = check
     return subprocess.run(args, **kwargs)
 
 # set up environment, export environment variables of the shell
