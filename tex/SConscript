@@ -1,4 +1,5 @@
 import os
+import subprocess
 import sys
 
 Import("env")
@@ -79,6 +80,21 @@ def deleteGlossaryFiles(target, source, env):
     env.Execute(Delete(path))
 
 env.AddPreAction(pdf, deleteGlossaryFiles)
+
+# run checkcites after compiling the PDF, checking for unused
+# or undefined *.bib entries (if installed, see CTAN)
+def runCheckCites(target, source, env):
+  process = Helper.runCommand(
+      ["checkcites", "-b", "biber", "thesis"],
+      cwd=env["BUILD_DIR"].abspath, check=False, stdout=subprocess.PIPE)
+  output = process.stdout.decode()
+  print(output)
+  if ((process.returncode != 0) and
+      ("The script will end now" in output.replace("\n", " "))):
+    raise subprocess.CalledProcessError(process.returncode, process.args)
+
+if Helper.checkProgramInstalled(env, "checkcites"):
+  env.AddPostAction(pdf, runCheckCites)
 
 # draft PDF: directly call LuaLaTeX without Biber or buildGlossary.py;
 # useful when working on the thesis, making small changes,
