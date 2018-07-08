@@ -41,13 +41,15 @@ function getCurrentTimeLong()
 end
 
 function getAndIncreaseCompileCounter()
-  f = io.open("../../compile_counter.txt", "r")
+  path = "../../compileCounter.txt"
+  
+  f = io.open(path, "r")
   local counter = f:read("*n")
   f:close()
   
   counter = tostring(counter + 1)
   
-  f = io.open("../../compile_counter.txt", "w+")
+  f = io.open(path, "w+")
   f:write(counter .. "\n")
   f:close()
   
