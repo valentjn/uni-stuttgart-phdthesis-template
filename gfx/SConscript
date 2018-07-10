@@ -46,11 +46,24 @@ for py in pys:
   name = os.path.splitext(py.name)[0]
   with open(py.abspath, "r") as f: pyCode = f.readlines()
   pdfCount = 1
+  dependencies = []
   
   for line in pyCode:
-    if "number of output figures" in line.lower():
-      number = line.split()[-1]
+    if line.startswith("# number of output figures = "):
+      number = line.split("=")[-1].strip()
       if len(number.strip("0123456789")) == 0: pdfCount = int(number)
+    elif line.startswith("# dependencies = "):
+      dependencyNames = line.split("=")[-1].strip().split(",")
+      
+      for dependencyName in dependencyNames:
+        dependencyName = dependencyName.strip()
+        
+        if dependencyName == "SG++":
+          dependencies.extend(env["SGPP_FILES"])
+        else:
+          raise ValueError("Unknown dependency \"{}\".".format(
+              dependencyName))
+    elif not line.startswith("#"):
       break
   
   # generate list of *.pdf files
@@ -60,6 +73,7 @@ for py in pys:
   # generate *.pdf files
   pyEnv.Command(curPDFs, py, "python3 $SOURCE")
   pdfs.extend(curPDFs)
+  env.Depends(curPDFs, dependencies)
   
   # save list of *.pgf files
   pgfs.extend([x[:-4] + ".pgf" for x in curPDFs])
