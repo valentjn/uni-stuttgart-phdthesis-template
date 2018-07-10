@@ -72,7 +72,7 @@ env.Decider("timestamp-newer")
 # iterate over all dependent directories
 # note: "out" has to be behind "tex"
 dirTargets = {}
-dirs = ["bib", "gfx", "lua", "misc", "tex", "out"]
+dirs = ["bib", "cpp", "gfx", "lua", "misc", "tex", "out"]
 buildPDF = []
 createDirs = (not env.GetOption("help")) and (not env.GetOption("clean"))
 
