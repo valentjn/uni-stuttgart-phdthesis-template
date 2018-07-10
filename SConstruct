@@ -70,7 +70,7 @@ Helper.checkPDFSizeOptInstalled(env)
 env.Decider("timestamp-newer")
 
 # iterate over all dependent directories
-# note: "out" has to be behind "tex"
+# note: "tex" has to be before "out"; "cpp" has to be before "gfx"
 dirTargets = {}
 dirs = ["bib", "cpp", "gfx", "lua", "misc", "tex", "out"]
 buildPDF = []
@@ -78,7 +78,7 @@ createDirs = (not env.GetOption("help")) and (not env.GetOption("clean"))
 
 for dir_ in dirs:
   # tell SConscript which its build directory is
-  env.Replace(BUILD_DIR=env.Dir(os.path.join("build", dir_)))
+  env["BUILD_DIR"] = env.Dir(os.path.join("build", dir_))
   
   # create build directory
   if (dir_ not in ["lua", "misc"]) and createDirs:
