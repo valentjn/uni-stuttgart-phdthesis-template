@@ -90,8 +90,10 @@ for dir_ in dirs:
   # clean up dir_
   env.Clean(dirTargets[dir_], env["BUILD_DIR"])
   
-  # set BUILD_PDF variable
-  if dir_ == "tex": env["BUILD_PDF"] = dirTargets[dir_][0]
+  # set SGPP_FILES variable (list of files in build/cpp/sgpp)
+  if dir_ == "cpp": env["SGPP_FILES"] = dirTargets[dir_][0]
+  # set BUILD_PDF variable (build/tex/thesis.pdf)
+  if dir_ == "tex": env["BUILD_PDF"]  = dirTargets[dir_][0]
 
 # the PDF depends on everything that is not in tex (these dependencies are
 # handled by tex/SConscript) and out
