@@ -28,7 +28,6 @@ for root, dirs, files in os.walk(os.path.join(pyDir, "helper")):
                     if x.endswith(".py")])
 
 # set environment variables
-sgppDir = os.path.join(homeDir, "sgpp", "sgopt")
 pyEnv = env.Clone()
 pyEnv["ENV"]["BUILD_DIR"] = env["BUILD_DIR"].abspath
 pyEnv["ENV"]["PYTHONPATH"] = ":".join(
