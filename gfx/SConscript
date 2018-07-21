@@ -16,11 +16,6 @@ pdfs = []
 pgfs = []
 helperPys = []
 
-# home or Documents directory
-homeDir = (os.environ["HOME"] if (sys.platform.startswith("linux") or \
-                                   sys.platform.startswith("darwin")) else
-            os.path.join(os.environ["HOMEDRIVE"], os.environ["HOMEPATH"], "Documents"))
-
 # search for helper Python scripts
 pyDir = env.Dir(os.path.join("..", "py")).abspath
 for root, dirs, files in os.walk(os.path.join(pyDir, "helper")):
@@ -28,10 +23,9 @@ for root, dirs, files in os.walk(os.path.join(pyDir, "helper")):
                     if x.endswith(".py")])
 
 # set environment variables
-pyEnv = env.Clone()
-pyEnv["ENV"]["BUILD_DIR"] = env["BUILD_DIR"].abspath
-pyEnv["ENV"]["PYTHONPATH"] = ":".join(
-  [pyEnv["ENV"].get("PYTHONPATH", ""), pyDir])
+env["ENV"]["BUILD_DIR"] = env["BUILD_DIR"].abspath
+env["ENV"]["PYTHONPATH"] = ":".join(
+  [env["ENV"].get("PYTHONPATH", ""), pyDir])
 
 # check for dependencies
 Helper.checkProgramInstalled(env, "pdfcrop", fail=True)
@@ -71,7 +65,7 @@ for py in pys:
              for i in range(1, pdfCount + 1)]
   
   # generate *.pdf files
-  pyEnv.Command(curPDFs, py, "python3 $SOURCE")
+  env.Command(curPDFs, py, "python3 $SOURCE")
   pdfs.extend(curPDFs)
   env.Depends(curPDFs, dependencies)
   
