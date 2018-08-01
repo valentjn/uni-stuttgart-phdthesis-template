@@ -40,7 +40,9 @@ for py in pys:
   name = os.path.splitext(py.name)[0]
   with open(py.abspath, "r") as f: pyCode = f.readlines()
   pdfCount = 1
-  dependencies = []
+  
+  # graphics scripts depend on notation
+  dependencies = [os.path.join("..", "tex", "preamble", "notation.tex")]
   
   for line in pyCode:
     if line.startswith("# number of output figures = "):
