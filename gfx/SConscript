@@ -38,6 +38,7 @@ for py in pys:
   # (SCons needs the number for its dependency graph;
   # however, this is impossible to determine with SCons alone...)
   name = os.path.splitext(py.name)[0]
+  if name.startswith("helper"): continue
   with open(py.abspath, "r") as f: pyCode = f.readlines()
   pdfCount = 1
   
