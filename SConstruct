@@ -31,8 +31,13 @@ class Helper(object):
     if (not env.GetOption("help")) and (not env.GetOption("clean")):
       conf = Configure(env, log_file=None)
       result = (conf.CheckProg(program) is not None)
-      if fail and (not result): raise RuntimeError(
-          "Program \"{}\" required, but not found in PATH.".format(program))
+      
+      if (not result) and fail:
+        message = "Program \"{}\" required, but not found in PATH.".format(
+            program)
+        if env["REQUIRE_PROGRAMS"]: raise RuntimeError(message)
+        else: warnings.warn(message)
+      
       conf.Finish()
       return result
     else:
@@ -58,9 +63,17 @@ class Helper(object):
     kwargs["check"] = check
     return subprocess.run(args, **kwargs)
 
+# build flags
+variables = Variables(None, ARGUMENTS)
+variables.Add(BoolVariable("REQUIRE_PROGRAMS",
+    "Fail if a required program is not installed.", True))
+
 # set up environment, export environment variables of the shell
 # (for example needed for custom TeX installations which need PATH)
-env = Environment(ENV=os.environ)
+env = Environment(variables=variables, ENV=os.environ)
+
+# display help about build flags when called with -h
+Help(variables.GenerateHelpText(env))
 
 # check if pdfsizeopt is installed
 Helper.checkPDFSizeOptInstalled(env)
