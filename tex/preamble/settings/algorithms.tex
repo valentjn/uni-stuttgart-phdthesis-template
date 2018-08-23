@@ -37,6 +37,9 @@
 \algdef{S}[FOR]{ForEver}{\algorithmicforever\ \algorithmicdo}
 \algnewcommand{\algorithmicgoto}{\textbf{go to}}
 \algnewcommand{\Goto}[1]{\algorithmicgoto\ \cref*{#1}}
+\algnewcommand{\ForOneLine}[2]{%
+  \State\algorithmicfor\ #1\ \algorithmicdo\ #2\ \algorithmicend%
+}
 
 % small monospace font in algorithms
 \g@addto@macro\ALG@beginalgorithmic{\small\ttfamily}
