@@ -25,11 +25,13 @@ function getGitCommitHash()
 end
 
 function getGitCommitTimeShort()
-  executePrint("LC_ALL=en_US git log -1 --pretty=format:%cd '--date=format:%b %d, %l:%M%P'")
+  executePrint("LC_ALL=en_US git log -1 --pretty=format:%cd " ...
+               "'--date=format:%b %d, %l:%M%P'")
 end
 
 function getGitCommitTimeLong()
-  executePrint("LC_ALL=en_US git log -1 --pretty=format:%cd '--date=format:%B %e, %Y at %l:%M%P'")
+  executePrint("LC_ALL=en_US git log -1 --pretty=format:%cd " ..
+               "'--date=format:%B %e, %Y at %l:%M%P'")
 end
 
 function getCurrentTimeShort()
