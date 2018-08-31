@@ -15,7 +15,7 @@ end
 
 function getGitCommitHash()
   local gitHash = execute("git log -1 --pretty=format:%h")
-  local gitTag = execute("git describe --tags --exact-match "
+  local gitTag = execute("git describe --tags --exact-match " ..
                          "2> /dev/null | tr -d '\n'")
   if gitTag:len() > 0 then gitHash = gitTag end
   local gitStatus = execute("git status --porcelain")
@@ -26,7 +26,7 @@ function getGitCommitHash()
 end
 
 function getGitCommitTimeShort()
-  executePrint("LC_ALL=en_US git log -1 --pretty=format:%cd " ...
+  executePrint("LC_ALL=en_US git log -1 --pretty=format:%cd " ..
                "'--date=format:%b %d, %l:%M%P'")
 end
 
