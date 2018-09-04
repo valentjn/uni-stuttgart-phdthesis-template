@@ -40,6 +40,12 @@
 \algnewcommand{\ForOneLine}[2]{%
   \State\algorithmicfor\ #1\ \algorithmicdo\ #2%
 }
+\algnewcommand{\IfOneLine}[2]{%
+  \State\algorithmicif\ #1\ \algorithmicthen\ #2%
+}
+\algnewcommand{\ElseOneLine}[1]{%
+  \State\algorithmicelse\ #1%
+}
 
 % small monospace font in algorithms
 \g@addto@macro\ALG@beginalgorithmic{\small\ttfamily}
