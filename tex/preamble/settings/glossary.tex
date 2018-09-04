@@ -8,12 +8,30 @@
 
 \iftoggle{partialCompileMode}{
   % define dummy commands that work as if partialCompileMode was disabled
-  \newcommand*{\newnotation}[3]{}
-  \newcommand*{\newnotationcommand}[6][0]{\newcommand*{#2}[#1]{#3}}
-  \newcommand*{\newnotationcommandoptarg}[7][]{\newcommand*{#3}[#2][#1]{#4}}
+  \newcommand*{\newnotation}[3]{%
+    \expandafter\newcommand\csname notationsymbol\string#1\endcsname{#2}%
+    \expandafter\newcommand\csname notationtext\string#1\endcsname{#3}%
+  }
+  \newcommand*{\newnotationcommand}[6][0]{%
+    \newcommand*{#2}[#1]{#3}%
+    \makecommandnotation{#2}{#4}{#5}{#6}%
+  }
+  \newcommand*{\newnotationcommandoptarg}[7][]{%
+    \newcommand*{#3}[#2][#1]{#4}%
+    \makecommandnotation{#3}{#5}{#6}{#7}%
+  }
   \newcommand*{\hidenextnotation}{}
-  \newcommand*{\makecommandnotation}[4]{}
+  \newcommand*{\makecommandnotation}[4]{%
+    \expandafter\newcommand\csname notationsymbol\string#1\endcsname{#3}%
+    \expandafter\newcommand\csname notationtext\string#1\endcsname{#4}%
+  }
   \newcommand*{\usenotation}[1]{\ignorespaces}
+  \newcommand*{\printnotationsymbol}[1]{%
+    \csname notationsymbol\string#1\endcsname%
+  }
+  \newcommand*{\printnotationtext}[1]{%
+    \csname notationtext\string#1\endcsname%
+  }
   
   \newcommand*{\newgacronym}[3][]{%
     \if\relax\detokenize{#1}\relax%
@@ -93,6 +111,8 @@
   % only to be used with \usenotation
   \newcommand*{\newnotation}[3]{%
     \newglossaryentry{#1}{text={},sort={#1},name={#2},description={#3}}%
+    \expandafter\newcommand\csname notationsymbol\string#1\endcsname{#2}%
+    \expandafter\newcommand\csname notationtext\string#1\endcsname{#3}%
   }
   
   % \newnotationcommand[numberOfArgs]{\commandName}
@@ -123,6 +143,8 @@
   % (except if used in the glossary itself)
   \newcommand*{\makecommandnotation}[4]{%
     \newglossaryentry{#2}{text={},sort={#2},name={#3},description={#4}}%
+    \expandafter\newcommand\csname notationsymbol\string#1\endcsname{#3}%
+    \expandafter\newcommand\csname notationtext\string#1\endcsname{#4}%
     \ifhidenextnotation%
       \hidenextnotationfalse%
     \else%
@@ -137,6 +159,20 @@
   \newcommand*{\usenotation}[1]{%
     \glsfieldgdef{#1}{myused}{true}%
     \glsdisp{#1}{\relax}\ignorespaces%
+  }
+  
+  % \printnotationsymbol{\commandName}
+  % \printnotationtext{\commandName}
+  % print the symbol and the text of the notation given by \commandName
+  % if the symbol was created with \makecommandnotation
+  % (i.e., \newnotationcommand or \newnotationcommandoptarg);
+  % if it was created with \newnotation, use sortKey as argument
+  % for \printnotationsymbol and \printnotationtext
+  \newcommand*{\printnotationsymbol}[1]{%
+    \csname notationsymbol\string#1\endcsname%
+  }
+  \newcommand*{\printnotationtext}[1]{%
+    \csname notationtext\string#1\endcsname%
   }
   
   % shortcut for \newacronym, automatically generating
