@@ -122,10 +122,10 @@
   % the glossary entry is referenced on every use of \commandName
   % (except if used in the glossary itself)
   \newcommand*{\makecommandnotation}[4]{%
+    \newglossaryentry{#2}{text={},sort={#2},name={#3},description={#4}}%
     \ifhidenextnotation%
       \hidenextnotationfalse%
     \else%
-      \newglossaryentry{#2}{text={},sort={#2},name={#3},description={#4}}%
       % only reference entry if outside glossary
       % (otherwise, the page number of the glossary would be displayed)
       \pretocmd{#1}{\ifinglossary\else\usenotation{#2}\fi}{}{}%
