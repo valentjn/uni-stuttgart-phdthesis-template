@@ -2,6 +2,9 @@
 % Dynamic Commands
 % ======================================================================
 
+% get name of current label (chapter, section, subsection, ...)
+\newcommand*{\currentname}{\@currentlabelname}
+
 % calculate difference between page numbers
 \newcommand*{\pagedifference}[2]{%
   \number\numexpr\getpagerefnumber{#2}-\getpagerefnumber{#1}\relax%
