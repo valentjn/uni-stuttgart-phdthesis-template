@@ -39,11 +39,18 @@
 \iftoggle{flipBookMode}{
   \newcount\flipbookindex
   
+  % start flip book after dedication
+  % (two pages book cover + two pages title page + two pages dedication
+  % = six pages);
+  % if in draft mode, add another two pages for the progress table
+  \newcounter{flipbookstartpagenumber}
+  \setcounter{flipbookstartpagenumber}{6}
+  \iftoggle{draftMode}{\addtocounter{flipbookstartpagenumber}{2}}
+  
   \AddEverypageHook{%
-    % start flip book after dedication
-    % (two pages book cover + two pages title page + two pages dedication
-    % = six pages)
-    \flipbookindex=\numexpr(\thecurrentpagenumber-6)/2\relax%
+    \flipbookindex=\numexpr(%
+      \thecurrentpagenumber-\theflipbookstartpagenumber%
+    )/2\relax%
     \ifnum\number\flipbookindex>0%
       \begin{tikzpicture}[remember picture,overlay,scale=1]
         \ifthispageodd{
