@@ -43,8 +43,8 @@
 \AfterTOCHead{\begin{spacing}{1}}
 \AfterStartingTOC{\end{spacing}}
 
-% include subsubsections in table of contents, but without numbers
-\setcounter{tocdepth}{\subsubsectionnumdepth}
+% exclude subsections from table of contents
+\setcounter{tocdepth}{\sectionnumdepth}
 
 % increase space of page numbers
 % (default values of 1.55em and 2.55em are too small for three-digit numbers)
