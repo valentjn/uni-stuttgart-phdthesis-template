@@ -1,10 +1,9 @@
 % ======================================================================
-% Blindtext
+% Dummy Text
 % ======================================================================
 
-% insert TODO and warn for every usage of \blindtext
-\let\oldblindtext\blindtext
-\renewcommand*{\blindtext}{%
+% insert dummy text with TODO, warn for every usage
+\newcommand*{\dummytext}[1][\value{blindtext}]{%
   \todo{write}
-  \textcolor{gray}{\oldblindtext}%
+  \textcolor{gray}{\blindtext[#1]}%
 }
