@@ -195,7 +195,7 @@
   \newignoredglossary{hidden}
   \newcommand*{\hidegacronym}[1]{\glsmoveentry{Ü#1}{hidden}}
   
-  % spell out acronyms at beginning of chapters and sections
+  % spell out acronyms at beginning of chapters
   \newcommand*{\resetacronyms}{%
     \forglsentries{\mysymbolname}{%
       \ifthenelse{\equal{\glsmyisacronym{\mysymbolname}}{true}}{
@@ -205,7 +205,6 @@
   }
   
   \addtokomafont{chapter}{\resetacronyms}
-  \addtokomafont{section}{\resetacronyms}
   
   % warn for every symbol that has not been used
   \AtEndDocument{%
