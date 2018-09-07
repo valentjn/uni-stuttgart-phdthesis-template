@@ -1,0 +1,81 @@
+% ======================================================================
+% Mini Table of Contents
+% ======================================================================
+
+% define mdframed style for floats
+\mdfdefinestyle{minitocmdfstyle}{
+  innerleftmargin=7pt,
+  innerrightmargin=7pt,
+  innertopmargin=7pt,
+  innerbottommargin=6pt,
+  roundcorner=10pt,
+  linewidth=1pt,
+  linecolor=mittelblau,
+  backgroundcolor=mittelblau!10,
+  % the documentation of mdframed lies about the default values of
+  % splittopskip and splitbottomskip
+  %splittopskip=15pt,
+  %splitbottomskip=5pt,
+  % replace drop shadow with blur shadow
+  shadow=true,
+  apptotikzsetting={%
+    % alternatively, use
+    % \tikzset{mdfshadow/.style={blur shadow={shadow blur steps=5}}}%
+    % from the pgf-blur package;
+    % disadvantage of that is that this uses semi-transparency,
+    % which some printers/printing services cannot handle
+    % ==> recreate pgf-blur shadow effect with opaque drop shadows
+    \tikzset{
+      every shadow/.style={shadow xshift=1mm,shadow yshift=-1mm,opacity=1},
+      mdfshadow/.style={
+        drop shadow={line width=2.4mm,draw=black!03,fill=black!03},
+        drop shadow={line width=2.1mm,draw=black!06,fill=black!06},
+        drop shadow={line width=1.8mm,draw=black!09,fill=black!09},
+        drop shadow={line width=1.5mm,draw=black!12,fill=black!12},
+        drop shadow={line width=1.2mm,draw=black!15,fill=black!15},
+        drop shadow={line width=0.9mm,draw=black!18,fill=black!18},
+        drop shadow={line width=0.6mm,draw=black!21,fill=black!21},
+        drop shadow={line width=0.3mm,draw=black!24,fill=black!24},
+        drop shadow={draw=none,fill=black!27},
+        drop shadow={draw=none,fill=black!30,
+          shadow xshift=0.85mm,shadow yshift=-0.85mm,},
+        drop shadow={draw=none,fill=black!33,
+          shadow xshift=0.70mm,shadow yshift=-0.70mm,},
+        drop shadow={draw=none,fill=black!36,
+          shadow xshift=0.35mm,shadow yshift=-0.35mm,},
+        drop shadow={draw=none,fill=black!39,
+          shadow xshift=0.40mm,shadow yshift=-0.40mm,},
+      }
+    }%
+  },
+}
+
+
+%\newlength\intextseptemp
+%\begingroup
+%\setlength\intextseptemp{\intextsep}
+%\setlength{\intextsep}{0pt}
+\newcommand*{\minitocpagenumberbox}[1]{\small{} (p. #1)}
+
+\newcommand*{\minitoc}[3][0mm]{%
+  \begin{wrapfigure}[#3]{r}[15mm]{#2}
+    \vspace{-10.5mm}\vspace{#1}%
+    \begin{mdframed}[style=minitocmdfstyle]
+      {\formatcaption{In this section}}\vspace{0.3em}%
+      \small%
+      \etocsettocstyle{}{}%
+      \etocsetnexttocdepth{subsection}%
+      \RedeclareSectionCommands[
+        tocraggedpagenumber,
+        tocraggedentrytext,
+        toclinefill={},
+        tocentryindent=0em,
+        tocpagenumberbox=\minitocpagenumberbox,
+      ]{subsection}%
+      \linespread{1}\selectfont%
+      \localtableofcontents%
+    \end{mdframed}
+  \end{wrapfigure}
+}
+%\setlength\intextsep{\intextseptemp}
+%\endgroup
