@@ -83,13 +83,22 @@
 \newif\ifprintornaments
 \printornamentstrue
 
+% flag to break before the next heading, but after the ornament
+\newif\ifbreakpagebeforenextheading
+\breakpagebeforenextheadingfalse
+
 % dirty hack to automatically output ornaments before every section heading
 \RedeclareSectionCommand[
   font={%
     \ifprintornaments%
       \includegraphics[width=\textwidth]{ornament_1}%
       \\[1.625ex plus .5ex minus -.1ex]%
-      \pagebreak[0]%
+      \ifbreakpagebeforenextheading%
+        \pagebreak%
+        \global\breakpagebeforenextheadingfalse%
+      \else%
+        \pagebreak[0]%
+      \fi%
     \else%
       \vspace{1.625ex plus .5ex minus -.1ex}%
     \fi%
