@@ -199,7 +199,7 @@
   % spell out acronyms at beginning of chapters
   \newcommand*{\resetacronyms}{%
     \forglsentries{\mysymbolname}{%
-      \ifthenelse{\equal{\glsmyisacronym{\mysymbolname}}{true}}{
+      \ifthenelse{\equal{\glsmyisacronym{\mysymbolname}}{true}}{%
         \glsreset{\mysymbolname}%
       }{}%
     }%
@@ -210,7 +210,7 @@
   % warn for every symbol that has not been used
   \AtEndDocument{%
     \forglsentries{\mysymbolname}{%
-      \ifthenelse{\equal{\glsmyused{\mysymbolname}}{false}}{
+      \ifthenelse{\equal{\glsmyused{\mysymbolname}}{false}}{%
         \GenericWarning{}{%
           LaTeX Warning: Symbol ``\mysymbolname'' defined, but unused%
         }%
