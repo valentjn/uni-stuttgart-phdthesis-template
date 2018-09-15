@@ -10,12 +10,12 @@
         \node[
           anchor=center,xshift=0mm,yshift=7mm,inner sep=0pt,
         ] at (current page.south) [above] {
-          \parbox{100mm}{%
+          \parbox{180mm}{%
             \begin{center}%
               \onehalfspacing\bfseries\color{gray}%
-              Draft \texttt{\normalsize{}v\compileCounter{}}
+              Draft \compileCounterText[\normalsize{}]
               (\currentTimeShort)\\%
-              Commit \texttt{\normalsize{}\gitCommitHash{}}
+              Commit \gitCommitText[\normalsize{}]
               (\gitCommitTimeShort)%
             \end{center}%
           }%
