@@ -147,6 +147,7 @@
     \expandafter\newcommand\csname notationtext\string#1\endcsname{#4}%
     \ifhidenextnotation%
       \hidenextnotationfalse%
+      \pretocmd{#1}{\glsfieldgdef{#2}{myused}{true}}{}{}%
     \else%
       % only reference entry if outside glossary
       % (otherwise, the page number of the glossary would be displayed)
