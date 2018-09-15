@@ -6,15 +6,15 @@ import sys
 
 # list of custom filter regexs
 FILTER_REGEXS = [
-  r"^ system commands enabled.$",
+  r"^ system commands enabled\.$",
   r"^LaTeX2e <[0-9\-]+>$",
   r"^luaotfload | main : initialization completed in ",
-  r"^Babel <.*> and hyphenation patterns for .* language\(s\) loaded.$",
+  r"^Babel <.*> and hyphenation patterns for .* language\(s\) loaded\.$",
   r"^Document Class: ",
   r"^Package scrlfile, .* \(loading files\)$",
   r"^ *Copyright \(C\) Markus Kohm$",
   r"^Package hyperref Message: Driver \(autodetected\): ",
-  r"^For additional information on amsmath, use the `\?' option.$",
+  r"^For additional information on amsmath, use the `\?' option\.$",
   r"^Document Style algorithmicx .* - a greatly improved "
       r"`algorithmic' style$",
   r"^Document Style - pseudocode environments for use with the "
