@@ -36,3 +36,6 @@
 \def\centerarc[#1](#2)(#3:#4:#5){
   \draw[#1] ($(#2)+({(#5)*cos(#3)},{(#5)*sin(#3)})$) arc (#3:#4:#5);
 }
+
+% width of contours around text with \contour
+\contourlength{1.5pt}
