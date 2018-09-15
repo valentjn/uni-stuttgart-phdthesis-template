@@ -22,11 +22,22 @@
 % set up versioning information
 \luaexec{require("version")}
 \edef\gitCommitHash{\luadirect{getGitCommitHash()}}
+\edef\gitTag{\luadirect{getGitTag()}}
 \edef\gitCommitTimeShort{\luadirect{getGitCommitTimeShort()}}
 \edef\gitCommitTimeLong{\luadirect{getGitCommitTimeLong()}}
 \edef\currentTimeShort{\luadirect{getCurrentTimeShort()}}
 \edef\currentTimeLong{\luadirect{getCurrentTimeLong()}}
 \edef\compileCounter{\luadirect{getAndIncreaseCompileCounter()}}
+
+% convenience commands for title page and watermarks
+\newcommand*{\gitCommitText}[1][]{%
+  \texttt{#1\gitCommitHash}%
+  \ifx\gitTag\empty\else{} (\texttt{#1\gitTag})\fi%
+}
+
+\newcommand*{\compileCounterText}[1][]{%
+  \texttt{#1v\compileCounter}%
+}
 
 % command for checking if file is in includeonly or not
 \newcommand*{\isincluded}[1]{%
