@@ -13,16 +13,24 @@ function executePrint(command)
   tex.print(execute(command))
 end
 
-function getGitCommitHash()
-  local gitHash = execute("git log -1 --pretty=format:%h")
-  local gitTag = execute("git describe --tags --exact-match " ..
-                         "2> /dev/null | tr -d '\n'")
-  if gitTag:len() > 0 then gitHash = gitTag end
+function isGitDirty()
   local gitStatus = execute("git status --porcelain")
   local n = 0
   for i in gitStatus:gmatch("\n") do n = n + 1 end
-  if n > 1 then gitHash = gitHash .. "*" end
+  return (n > 1)
+end
+
+function getGitCommitHash()
+  local gitHash = execute("git log -1 --pretty=format:%h")
+  if isGitDirty() then gitHash = gitHash .. "*" end
   tex.print(gitHash)
+end
+
+function getGitTag()
+  local gitTag = execute("git describe --tags --exact-match " ..
+                         "2> /dev/null | tr -d '\n'")
+  if (gitTag:len() > 0) and isGitDirty() then gitTag = gitTag .. "*" end
+  tex.print(gitTag)
 end
 
 function getGitCommitTimeShort()
