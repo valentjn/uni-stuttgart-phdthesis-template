@@ -28,7 +28,7 @@ FILTER_REGEXS = [
   r"^ *avail lists: ",
   r"^SyncTeX written on ",
   r"^Transcript written on ",
-  r"^Loading configuration file `contour\.cfg'\.",
+  r"^Loading configuration file `contour\.cfg'\.$",
   r"^contour: Using driver file `.*'\.",
   r"^contour: Using [0-9]+ copies for ",
 ]
