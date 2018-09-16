@@ -44,28 +44,26 @@ while process.poll() is None:
   line = process.stdout.readline().decode()
   if len(line) == 0: continue
   line = line[:-1]
-  printLine = True
   
   if len(line) == 0:
     # skip if line is empty
-    printLine = False
+    continue
   elif line[0] in "(":
     # skip if line starts with "(" and doesn't have the form
     # "(blabla)   ", these are usually warning lines and blabla is
     # the package that emits the warning
-    printLine = (re.match(r"\([A-Za-z0-9]+\)  ", line) is not None)
+    if re.match(r"\([A-Za-z0-9]+\)  ", line) is None: continue
   elif line[0] in ")[]{}<>":
     # skip if line starts with a bracket of any other type
-    printLine = False
+    continue
   
   # skip if line matches one of the custom filter regexs as specified above
-  for regex in FILTER_REGEXS:
-    if re.search(regex, line) is not None:
-      printLine = False
-      break
+  if any(re.search(regex, line) is not None
+         for regex in FILTER_REGEXS):
+    continue
   
   # print line if not skipped, flush
-  if printLine: print(line, flush=True)
+  print(line, flush=True)
 
 # return with LaTeX exit code
 sys.exit(process.returncode)
