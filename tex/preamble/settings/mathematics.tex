@@ -20,3 +20,11 @@
 \renewenvironment{proof}[1][Proof]{%
   \noindent{\formatcaption{#1}\hspace{1em}}%
 }{\qed\par}
+
+% siunitx setup
+\sisetup{
+  % reduce space between units
+  inter-unit-product={\hspace{0.03em}},
+  % use fractions for inverse units
+  per-mode=fraction,
+}
