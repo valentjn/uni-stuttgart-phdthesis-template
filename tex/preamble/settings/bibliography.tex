@@ -2,12 +2,6 @@
 % Bibliography
 % ======================================================================
 
-% break URLs after every character (most importantly for bibliography)
-\luaexec{require("breakurl")}
-\let\oldhref\href
-\renewcommand*{\url}[1]{\luadirect{breakurl(\luastringN{#1}, \luastringN{#1})}}
-\renewcommand*{\href}[2]{\luadirect{breakurl(\luastringN{#1}, \luastringN{#2})}}
-
 % location of *.bib file
 \addbibresource{../bib/bibliography.bib}
 
