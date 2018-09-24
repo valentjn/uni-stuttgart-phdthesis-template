@@ -54,6 +54,12 @@
 \def\fps@figure{tp}
 \def\fps@table{tp}
 
+% don't mix order of figures and tables
+% (by default, LaTeX only keeps the order of floats of the same type,
+% e.g., figure1-figure2-table1 in the code might display in the order
+% figure1-table1-figure1)
+\let\ftype@table\ftype@figure
+
 % wrap floats in mdframed boxes,
 % automatically center all float contents,
 % change font size in float environments
