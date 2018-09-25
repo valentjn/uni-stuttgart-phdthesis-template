@@ -50,7 +50,7 @@ while process.poll() is None:
     continue
   elif line[0] in "(":
     # skip if line starts with "(" and doesn't have the form
-    # "(blabla)   ", these are usually warning lines and blabla is
+    # "(blabla)  ", these are usually warning lines and blabla is
     # the package that emits the warning
     if re.match(r"\([A-Za-z0-9]+\)  ", line) is None: continue
   elif line[0] in ")[]{}<>":
