@@ -7,4 +7,25 @@
   postnote=mypostnote,
 ]
 
-\cleardoublepage
+\iftoggle{partialCompileMode}{
+  \cleardoublepage
+}{
+  \cleardoubleevenpage
+  
+  \thispagestyle{empty}
+  \newgeometry{
+    bindingoffset=0mm,
+    inner=0mm,
+    outer=0mm,
+    top=0mm,
+    bottom=0mm,
+  }
+  
+  \vspace*{\fill}
+  
+  \begin{center}
+    \includegraphics{sunset}
+  \end{center}
+  
+  \vspace*{\fill}
+}
