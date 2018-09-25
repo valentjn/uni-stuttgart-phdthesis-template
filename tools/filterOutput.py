@@ -58,8 +58,7 @@ while process.poll() is None:
     continue
   
   # skip if line matches one of the custom filter regexs as specified above
-  if any(re.search(regex, line) is not None
-         for regex in FILTER_REGEXS):
+  if any(re.search(regex, line) is not None for regex in FILTER_REGEXS):
     continue
   
   # print line if not skipped, flush
