@@ -42,9 +42,6 @@ env.Replace(MAKEGLOSSARYCOM=env["MAKEGLOSSARYCOM"].replace(
     "${SOURCE.filebase}.glo $MAKEGLOSSARYFLAGS -o ${SOURCE.filebase}.gls",
     "$MAKEGLOSSARYFLAGS -o ${SOURCE.filebase}.gls ${SOURCE.filebase}"))
 
-# set TMPDIR to get texfot to work on Windows
-if sys.platform == "win32": env["ENV"]["TMPDIR"] = env["ENV"]["TEMP"]
-
 # remove temporary files created accidential run of LuaLaTeX instead of SCons
 # (pressing the wrong button in TeXstudio)
 for path in os.listdir("."):
