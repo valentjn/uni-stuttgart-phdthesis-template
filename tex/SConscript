@@ -64,8 +64,9 @@ if createDirs:
   env.Execute(Mkdir(os.path.join(env["BUILD_DIR"].abspath, "document")))
 
 # compile PDF
-pdf = env.PDF(target=os.path.join(env["BUILD_DIR"].abspath, "thesis.pdf"),
-              source="thesis.tex")
+thesisPDF = env.PDF(
+    target=os.path.join(env["BUILD_DIR"].abspath, "thesis.pdf"),
+    source="thesis.tex")
 
 # force glossary generation for each run
 # (the glossary does not seem to update if the description of a
@@ -76,7 +77,7 @@ def deleteGlossaryFiles(target, source, env):
     path = os.path.join(env["BUILD_DIR"].abspath, "thesis.{}".format(extension))
     env.Execute(Delete(path))
 
-env.AddPreAction(pdf, deleteGlossaryFiles)
+env.AddPreAction(thesisPDF, deleteGlossaryFiles)
 
 # run checkcites after compiling the PDF, checking for unused
 # or undefined *.bib entries (if installed, see CTAN)
@@ -91,7 +92,7 @@ def runCheckCites(target, source, env):
     raise subprocess.CalledProcessError(process.returncode, process.args)
 
 if Helper.checkProgramInstalled(env, "checkcites"):
-  env.AddPostAction(pdf, runCheckCites)
+  env.AddPostAction(thesisPDF, runCheckCites)
 
 # draft PDF: directly call LuaLaTeX without Biber or buildGlossary.py;
 # useful when working on the thesis, making small changes,
@@ -127,7 +128,7 @@ def makeDraftPDFOld(target, source, env):
 env.AddPostAction(draftPDF, makeDraftPDFOld)
 
 # return PDFs to let SConstruct manage dependencies
-pdfs = [pdf, draftPDF]
+pdfs = [thesisPDF, draftPDF]
 
 # create draft alias
 env.Alias("draft", draftPDF)
