@@ -86,7 +86,6 @@ env.Decider("timestamp-newer")
 # note: "tex" has to be before "out"; "cpp" has to be before "gfx"
 dirTargets = {}
 dirs = ["bib", "cpp", "gfx", "lua", "misc", "tex", "out"]
-buildPDF = []
 createDirs = (not env.GetOption("help")) and (not env.GetOption("clean"))
 
 for dir_ in dirs:
