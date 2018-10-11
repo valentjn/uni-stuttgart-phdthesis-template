@@ -113,7 +113,12 @@
     \ifprintornaments%
       \hfill\includegraphics{ornament_2}%
       \hfill\null\\[1.3ex plus .5ex minus -.1ex]%
-      \pagebreak[0]%
+      \ifbreakpagebeforenextheading%
+        \pagebreak%
+        \global\breakpagebeforenextheadingfalse%
+      \else%
+        \pagebreak[0]%
+      \fi%
     \else%
       \vspace{1.3ex plus .5ex minus -.1ex}%
     \fi%
