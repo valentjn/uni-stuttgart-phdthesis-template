@@ -44,16 +44,18 @@ env.Replace(MAKEGLOSSARYCOM=env["MAKEGLOSSARYCOM"].replace(
 
 # remove temporary files created accidential run of LuaLaTeX instead of SCons
 # (pressing the wrong button in TeXstudio)
-for path in os.listdir("."):
-  name, ext = os.path.splitext(path)
-  
-  if ext == ".tex":
-    for extension in ["acn", "aux", "bbl", "bcf", "blg", "glo", "ist", "loa",
-                      "lof", "log", "lop", "lot", "nlo", "out", "pdf",
-                      "run.xml", "synctex.gz", "thm", "toc", "uhy", "upa",
-                      "upb"]:
-      path2 = "{}.{}".format(name, extension)
-      if os.path.isfile(path2): os.remove(path2)
+for root, dirs, files in os.walk("."):
+  for file in files:
+    path = os.path.join(root, file)
+    name, ext = os.path.splitext(path)
+    
+    if ext == ".tex":
+      for extension in ["acn", "aux", "bbl", "bcf", "blg", "glo", "ist",
+                        "loa", "lof", "log", "lop", "lot", "nlo", "out",
+                        "pdf", "run.xml", "synctex.gz", "thm", "toc", "uhy",
+                        "upa", "upb"]:
+        path2 = "{}.{}".format(name, extension)
+        if os.path.isfile(path2): os.remove(path2)
 
 # set output directory
 env.Append(PDFLATEXFLAGS="--output-directory={}".format(env["BUILD_DIR"]))
