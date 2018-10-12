@@ -39,17 +39,17 @@ for py in pys:
   name = os.path.splitext(py.name)[0]
   with open(py.abspath, "r") as f: py_code = f.readlines()
   pdf_count = 1
-  
+
   for line in py_code:
     if "number of output figures" in line.lower():
       number = line.split()[-1]
       if len(number.strip("0123456789")) == 0: pdf_count = int(number)
       break
-  
+
   # generate list of *.pdf files
   cur_pdfs = [os.path.join(env["BUILD_DIR"].abspath, "{}_{}.pdf".format(name, i))
               for i in range(1, pdf_count + 1)]
-  
+
   # generate *.pdf files
   py_env.Command(cur_pdfs, py, "python3 $SOURCE")
   pdfs.extend(cur_pdfs)
