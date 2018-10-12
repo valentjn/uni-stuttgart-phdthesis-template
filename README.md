@@ -97,3 +97,6 @@ don't want this.
 * The glossary has to be re-generated for every SCons call.
   Otherwise, it may happen that a change in the description of a
   glossary entry won't be reflected in the glossary itself.
+* The template simply will not compile with luatex 1.0.7 (bundled with TeX Live
+  2018). This is a
+  [known issue](https://tug.org/pipermail/luatex/2018-May/006823.html).

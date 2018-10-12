@@ -23,15 +23,15 @@
   \iftoggle{partialCompileMode}{}{
     % title page
     \input{titlepage}
-    
+
     % second title page
     \input{titlepage2}
-    
+
     % table of contents, create bookmark
     \cleardoublepage
     \pdfbookmark[section]{\contentsname}{toc}
     \tableofcontents
-    
+
     % lists of floats and theorems
     \addchap{Lists of Figures, Tables, Algorithms, and Theorems}
     \printornamentsfalse
@@ -40,28 +40,28 @@
     \listofalgorithms
     \listofmytheorems
     \printornamentstrue
-    
+
     % list of symbols and acronyms
     \printglossary[title={List of Symbols and Acronyms}]
-    
+
     % abstract
     \input{abstract}
-    
+
     % preface
     \input{preface}
   }
-  
+
   % chapters
   \include{1_introduction}
   \include{2_flux_capacitor}
   \include{3_conclusion}
-  
+
   % start appendix
   \appendix
-  
+
   % appendix chapters
   \include{app1_proofs}
-  
+
   % bibliography
   \printbibliography[%
     % change title
@@ -71,7 +71,7 @@
     % print custom note
     postnote=mypostnote,
   ]
-  
+
   %\iftoggle{partialCompileMode}{
     % end with even page
     \cleardoublepage%

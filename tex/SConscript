@@ -38,7 +38,7 @@ if sys.platform == "win32": env["ENV"]["TMPDIR"] = env["ENV"]["TEMP"]
 # (pressing the wrong button in TeXstudio)
 for path in os.listdir("."):
   name, ext = os.path.splitext(path)
-  
+
   if ext == ".tex":
     for extension in ["acn", "aux", "bbl", "bcf", "blg", "glo", "ist", "lof", "log", "lot", "nlo",
                       "out", "pdf", "run.xml", "synctex.gz", "thm", "toc", "uhy", "upa", "upb"]:
