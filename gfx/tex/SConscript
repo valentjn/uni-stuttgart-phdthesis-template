@@ -3,7 +3,7 @@ Import('env')
 
 env = env.Clone()
 env.Replace(PDFLATEX="texfot lualatex")
-env.Append(PDFLATEXFLAGS=['--enable-write18'])
+env.Append(PDFLATEXFLAGS=['--shell-escape', '--enable-write18'])
 
 # install helper scripts
 helper = [env.Glob("*.py")]

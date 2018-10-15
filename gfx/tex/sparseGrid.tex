@@ -1,4 +1,7 @@
-\documentclass[tikz,border=10pt]{standalone}
+\RequirePackage{luatex85}   % This issue will be resolved in TexLive 2018
+\documentclass{standalone}
+\usepackage{regexpatch, shellesc}
+\usepackage{tikz}
 \usetikzlibrary{shapes}
 \usepackage{python}
 
