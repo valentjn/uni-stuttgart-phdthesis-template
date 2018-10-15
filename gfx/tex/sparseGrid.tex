@@ -1,0 +1,48 @@
+\documentclass[tikz,border=10pt]{standalone}
+\usetikzlibrary{shapes}
+\usepackage{python}
+
+% Example how to draw a regular sparse grid in 2D without boundary points using
+% python package and TikZ.
+% Note that comments in python part have to be in python syntax.
+% Compile with --enable-write18
+
+\begin{document}
+  \begin{python}
+lmax = 5
+
+# calculate points in 1D
+pts = []
+for l in range(1, lmax + 1):
+    lvlPts = []
+    for x in range(2 ** l):
+        if x % 2 == 1:
+            lvlPts.append(x / float(2**l))
+    pts.append(lvlPts)
+
+
+# calculate tensor product (by hand because of max level sum)
+sgpts = []
+for x in range(lmax):
+    for y in range(lmax):
+        # note that index is shifted by 1 per dimension.
+        # without shift this line would read (x + y) < (lmax + 1)
+        if x + y < lmax:
+            for a in pts[x]:
+                for b in pts[y]:
+                    sgpts.append([a, b])
+
+# setup tikz env (scale by lmax to avoid bullets being too close together)
+print(r"\begin{tikzpicture}[scale=" + repr(lmax) + "]")
+
+# draw bounding box
+print(r"\draw (0, 0) rectangle (1, 1);")
+
+# draw sparse grid nodes
+for p in sgpts:
+    print(r"\node at (" + repr(p[0]) + ", " + repr(p[1]) + ") {\\textbullet};")
+
+# close tikz env
+print(r"\end{tikzpicture}")
+  \end{python}
+\end{document}
