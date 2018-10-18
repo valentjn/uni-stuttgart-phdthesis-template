@@ -19,7 +19,8 @@ pgfs = []
 helper_pys = []
 
 # home or Documents directory
-home_dir = (os.environ["HOME"] if sys.platform.startswith("linux") else
+home_dir = (os.environ["HOME"] if (sys.platform.startswith("linux") or \
+                                   sys.platform.startswith("darwin")) else
             os.path.join(os.environ["HOMEDRIVE"], os.environ["HOMEPATH"], "Documents"))
 
 # search for helper Python scripts
