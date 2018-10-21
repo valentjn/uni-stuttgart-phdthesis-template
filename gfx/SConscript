@@ -93,28 +93,33 @@ coverPrintDPI  = 500
 coverScreenDPI = 100
 
 # cover file paths
-coverSVG = os.path.join("pre", "cover.svgz")
-coverPrintPNG  = os.path.join(env["BUILD_DIR"].abspath, "coverPrint.png")
-coverScreenPNG = os.path.join(env["BUILD_DIR"].abspath, "coverScreen.png")
-coverPrintPDF  = os.path.join(env["BUILD_DIR"].abspath, "coverPrint.pdf")
-coverScreenPDF = os.path.join(env["BUILD_DIR"].abspath, "coverScreen.pdf")
-
-for coverDPI, coverPNG, coverPDF in \
-      [(coverPrintDPI,  coverPrintPNG,  coverPrintPDF),
-       (coverScreenDPI, coverScreenPNG, coverScreenPDF)]:
-  # rasterize cover
-  env.Command(coverPNG, coverSVG,
-              "inkscape --export-png=$TARGET --export-area-page "
-              "--export-dpi={} $SOURCE".format(coverDPI))
-  # convert from PNG to PDF with ImageMagick
-  env.Command(coverPDF, coverPNG,
-              "convert $SOURCE -density {} -units pixelsperinch "
-              "-rotate 270 -flatten $TARGET".format(coverDPI))
-  # compress resulting PDF
-  env.AddPostAction(coverPDF, Helper.compressPDFs)
-
-# make LaTeX depend on coverScreenPDF
-pdfs.append(coverScreenPDF)
+for name in ["Manuscript", "Published"]:
+  coverSVG = os.path.join("pre", "cover{}.svgz".format(name))
+  coverPrintPNG  = os.path.join(
+      env["BUILD_DIR"].abspath, "cover{}Print.png".format(name))
+  coverScreenPNG = os.path.join(
+      env["BUILD_DIR"].abspath, "cover{}Screen.png".format(name))
+  coverPrintPDF  = os.path.join(
+      env["BUILD_DIR"].abspath, "cover{}Print.pdf".format(name))
+  coverScreenPDF = os.path.join(
+      env["BUILD_DIR"].abspath, "cover{}Screen.pdf".format(name))
+  
+  for coverDPI, coverPNG, coverPDF in \
+        [(coverPrintDPI,  coverPrintPNG,  coverPrintPDF),
+         (coverScreenDPI, coverScreenPNG, coverScreenPDF)]:
+    # rasterize cover
+    env.Command(coverPNG, coverSVG,
+                "inkscape --export-png=$TARGET --export-area-page "
+                "--export-dpi={} $SOURCE".format(coverDPI))
+    # convert from PNG to PDF with ImageMagick
+    env.Command(coverPDF, coverPNG,
+                "convert $SOURCE -density {} -units pixelsperinch "
+                "-rotate 270 -flatten $TARGET".format(coverDPI))
+    # compress resulting PDF
+    env.AddPostAction(coverPDF, Helper.compressPDFs)
+  
+  # make LaTeX depend on coverScreenPDF
+  pdfs.append(coverScreenPDF)
 
 tex_figs = env.SConscript("tex/SConscript", exports="env")
 
