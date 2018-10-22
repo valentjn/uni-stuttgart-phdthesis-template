@@ -20,8 +20,8 @@
 % don't append "+" sign to BibLaTeX citations in alphabetic style
 \renewcommand*{\labelalphaothers}{}
 
-% define custom heading to make bibliography look like an appendix chapter
-\defbibheading{myheading}[\bibname]{\chapter{#1}}
+% define custom heading to add bibliography to table of contents
+\defbibheading{myheading}[\bibname]{\addchap{#1}}
 
 % add custom bibliography post note (URLs last checked on ...)
 \defbibnote{mypostnote}{%
