@@ -30,3 +30,37 @@
 
 % add \permille macro
 \DeclareSIUnit{\permille}{\text{\textperthousand}}
+
+% add \hms command similar to \ang to describe durations (e.g., runtimes),
+% use as \hms{1;2;3} ==> 1h 02min 03s
+\ExplSyntaxOn
+\NewDocumentCommand\hms{o>{\SplitArgument{2}{;}}m}{
+  \group_begin:
+  \IfNoValueF{#1}{\keys_set:nn{siunitx}{#1}}
+  \siunitx_hms_output:nnn #2
+  \group_end:
+}
+\cs_new_protected:Npn \siunitx_hms_output:nnn #1#2#3
+{
+  \IfNoValueF{#1}{
+    \tl_if_blank:nF{#1}{
+      \SI{#1}{\hour}
+      \IfNoValueF{#2}{~}
+    }
+  }
+  \IfNoValueF{#2}{
+    \tl_if_blank:nF{#2}{
+      \IfNoValueF{#1}{\tl_if_blank:nF{#1}{\sisetup{minimum-integer-digits=2}}}
+      \SI{#2}{\minute}
+      \IfNoValueF{#3}{~}
+    }
+  }
+  \IfNoValueF{#3}{
+    \tl_if_blank:nF{#3}{
+      \IfNoValueF{#1}{\tl_if_blank:nF{#1}{\sisetup{minimum-integer-digits=2}}}
+      \IfNoValueF{#2}{\tl_if_blank:nF{#2}{\sisetup{minimum-integer-digits=2}}}
+      \SI{#3}{\second}
+    }
+  }
+}
+\ExplSyntaxOff
