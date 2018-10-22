@@ -70,3 +70,7 @@
   \hphantom{#2}%
   \ifmmode\mathllap{#1}\else\llap{#1}\fi%
 }
+
+% use Oxford comma for multiple references in cleveref
+% (e.g, \cref{fig1,fig2,fig3} => Fig. 1, 2, and 3)
+\newcommand*{\creflastconjunction}{, and\nobreakspace}
