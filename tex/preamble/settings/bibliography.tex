@@ -23,9 +23,8 @@
 % define custom heading to add bibliography to table of contents
 \defbibheading{myheading}[\bibname]{\addchap{#1}}
 
-% add custom bibliography post note (URLs last checked on ...)
+% add custom bibliography post note (reset font size)
 \defbibnote{mypostnote}{%
-  All URLs have last been checked on \thedate.%
   \renewcommand*{\texttt}[1]{\oldtexttt{##1}}%
 }
 
