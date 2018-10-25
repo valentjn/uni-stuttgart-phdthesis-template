@@ -84,7 +84,7 @@ env.Precious(pdfs)
 # LuaLaTeX depends on pre-made graphics as well
 pdfs.extend(pre)
 
-# check dependencies for rasterization of book cover
+# check dependencies for rasterization of book cover and B-spline logo
 Helper.checkProgramInstalled(env, "inkscape", fail=True)
 Helper.checkProgramInstalled(env, "convert", fail=True)
 
@@ -92,8 +92,8 @@ Helper.checkProgramInstalled(env, "convert", fail=True)
 coverPrintDPI  = 500
 coverScreenDPI = 100
 
-# cover file paths
 for name in ["Manuscript", "Published"]:
+  # cover file paths
   coverSVG = os.path.join("pre", "cover{}.svgz".format(name))
   coverPrintPNG  = os.path.join(
       env["BUILD_DIR"].abspath, "cover{}Print.png".format(name))
