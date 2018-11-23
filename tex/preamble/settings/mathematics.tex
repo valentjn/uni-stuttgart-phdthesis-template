@@ -31,8 +31,8 @@
 % add \permille macro
 \DeclareSIUnit{\permille}{\text{\textperthousand}}
 
-% add \hms command similar to \ang to describe durations (e.g., runtimes),
-% use as \hms{1;2;3} ==> 1h 02min 03s
+% add \hms command similar to \ang to describe durations
+% (e.g., computation times), use as \hms{1;2;3} ==> 1h 02min 03s
 \ExplSyntaxOn
 \NewDocumentCommand\hms{o>{\SplitArgument{2}{;}}m}{
   \group_begin:
