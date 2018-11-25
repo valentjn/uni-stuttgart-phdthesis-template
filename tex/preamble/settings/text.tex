@@ -8,6 +8,13 @@
 % prohibit inserting page breaks in footnotes
 \interfootnotelinepenalty=10000
 
+% only display underfull \hbox/\vbox warnings if really, really bad;
+% in a technical text riddled with long inline formulas and narrow
+% sub-captions or side-captions, it's just not possible to avoid all
+% badnesses over 1000
+\hbadness=9999
+\vbadness=9999
+
 % mathdesign's Charter font has some questionable kerning between some
 % capital letters such as F, P, and V and a period (the space between those
 % is far too small); one solution would be to use the charter package for
