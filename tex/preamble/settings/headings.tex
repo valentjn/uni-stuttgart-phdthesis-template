@@ -78,10 +78,9 @@
   \addchap[#1]{#2\chaptermark{#3}}%
 }
 
-% flag to print ornaments, disable if desired
-% (in places where you don't want to have ornaments)
-\newif\ifprintornaments
-\printornamentstrue
+% flag to disable ornaments for the next heading
+\newif\ifdisableornamentsfornextheading
+\disableornamentsfornextheadingfalse
 
 % flag to break before the next heading, but after the ornament
 \newif\ifbreakpagebeforenextheading
@@ -90,7 +89,10 @@
 % dirty hack to automatically output ornaments before every section heading
 \RedeclareSectionCommand[
   font={%
-    \ifprintornaments%
+    \ifdisableornamentsfornextheading%
+      \vspace{1.625ex plus .5ex minus -.1ex}%
+      \global\disableornamentsfornextheadingfalse%
+    \else%
       \hfill\includegraphics{ornament_1}%
       \hfill\null\\[1.625ex plus .5ex minus -.1ex]%
       \ifbreakpagebeforenextheading%
@@ -99,8 +101,6 @@
       \else%
         \pagebreak[0]%
       \fi%
-    \else%
-      \vspace{1.625ex plus .5ex minus -.1ex}%
     \fi%
     \Large%
   },
@@ -110,7 +110,10 @@
 % dirty hack to automatically output ornaments before every subsection heading
 \RedeclareSectionCommand[
   font={%
-    \ifprintornaments%
+    \ifdisableornamentsfornextheading%
+      \vspace{1.3ex plus .5ex minus -.1ex}%
+      \global\disableornamentsfornextheadingfalse%
+    \else%
       \hfill\includegraphics{ornament_2}%
       \hfill\null\\[1.3ex plus .5ex minus -.1ex]%
       \ifbreakpagebeforenextheading%
@@ -119,8 +122,6 @@
       \else%
         \pagebreak[0]%
       \fi%
-    \else%
-      \vspace{1.3ex plus .5ex minus -.1ex}%
     \fi%
     \large%
   },
