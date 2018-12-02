@@ -86,6 +86,24 @@
 \newif\ifbreakpagebeforenextheading
 \breakpagebeforenextheadingfalse
 
+% command to fill up page by manually inserting section ornament
+% (for pages with underfull \vbox warnings)
+\newcommand*{\fillsectionornament}{%
+  \vspace{0ex plus 1fill}%
+  \hfill\includegraphics{ornament_1}\hfill\null%
+  \vspace{-2.125ex plus 1fill}%
+  \global\disableornamentsfornextheadingtrue%
+}
+
+% command to fill up page by manually inserting subsection ornament
+% (for pages with underfull \vbox warnings)
+\newcommand*{\fillsubsectionornament}{%
+  \vspace{0ex plus 1fil}%
+  \hfill\includegraphics{ornament_2}\hfill\null%
+  \vspace{-1.8ex plus 1fil}%
+  \global\disableornamentsfornextheadingtrue%
+}
+
 % dirty hack to automatically output ornaments before every section heading
 \RedeclareSectionCommand[
   font={%
