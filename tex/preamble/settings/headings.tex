@@ -89,7 +89,7 @@
 % command to fill up page by manually inserting section ornament
 % (for pages with underfull \vbox warnings)
 \newcommand*{\fillsectionornament}{%
-  \vspace{0ex plus 1fill}%
+  \vspace{0ex plus 1fill}\par%
   \hfill\includegraphics{ornament_1}\hfill\null%
   \vspace{-2.125ex plus 1fill}%
   \global\disableornamentsfornextheadingtrue%
@@ -98,7 +98,7 @@
 % command to fill up page by manually inserting subsection ornament
 % (for pages with underfull \vbox warnings)
 \newcommand*{\fillsubsectionornament}{%
-  \vspace{0ex plus 1fil}%
+  \vspace{0ex plus 1fil}\par%
   \hfill\includegraphics{ornament_2}\hfill\null%
   \vspace{-1.8ex plus 1fil}%
   \global\disableornamentsfornextheadingtrue%
