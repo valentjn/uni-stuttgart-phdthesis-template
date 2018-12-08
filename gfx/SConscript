@@ -87,5 +87,6 @@ pdfs.extend(pre)
 # compile *.tex PDFs
 texPDFs = env.SConscript("tex/SConscript", exports="env")
 env.Depends(texPDFs, pdfs)
+pdfs.extend(texPDFs)
 
 Return("pdfs")
