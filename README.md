@@ -31,7 +31,7 @@ You can download a compiled sample PDF located in
 * Improved typographic style with KOMA-Script and microtype
 * Draft mode: Line numbers, Git commit and compile date as watermark,
   highlighting of overfull hboxes and hyphenation places
-* Filtering of LuaL<sup>A</sup>T<sub>E</sub>X via texfot
+* Filtering of LuaL<sup>A</sup>T<sub>E</sub>X via custom blacklist
 * Output to-do notes as warnings to the log file to stay on track
 * Consistent figure, sub-figure, algorithm, and theorem style
 * Bibliography and glossary
