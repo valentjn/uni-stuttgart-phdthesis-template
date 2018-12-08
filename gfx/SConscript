@@ -84,7 +84,8 @@ env.Precious(pdfs)
 # LuaLaTeX depends on pre-made graphics as well
 pdfs.extend(pre)
 
-tex_figs = env.SConscript("tex/SConscript", exports="env")
+# compile *.tex PDFs
+texPDFs = env.SConscript("tex/SConscript", exports="env")
+env.Depends(texPDFs, pdfs)
 
-env.Depends(tex_figs, pdfs)
 Return("pdfs")

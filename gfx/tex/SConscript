@@ -1,9 +1,9 @@
 import os
-Import('env')
+Import("env")
 
 env = env.Clone()
 env.Replace(PDFLATEX="texfot lualatex")
-env.Append(PDFLATEXFLAGS=['--shell-escape', '--enable-write18'])
+env.Append(PDFLATEXFLAGS=["--shell-escape", "--enable-write18"])
 
 # install helper scripts
 helper = [env.Glob("*.py")]
@@ -11,9 +11,10 @@ h = env.Install(env["BUILD_DIR"], helper)
 
 pdfs = []
 files = env.Glob("*.tex", strings=True)
+
 for f in files:
-    pdfs.extend(env.PDF(target="{}/{}.pdf".format(
-                            env["BUILD_DIR"], f[:-4]),
-                        source="{}".format(f)))
+  pdfs.extend(env.PDF(target="{}/{}.pdf".format(env["BUILD_DIR"], f[:-4]),
+                      source="{}".format(f)))
+
 env.Depends(pdfs, h)
 Return("pdfs")
