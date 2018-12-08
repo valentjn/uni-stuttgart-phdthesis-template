@@ -3,5 +3,6 @@
 /bib/*.bib.sav
 /build/
 /out/*.pdf
+!/out/thesisManuscriptScreen.pdf
 /tex/thesis.txss
 /**/__pycache__/
