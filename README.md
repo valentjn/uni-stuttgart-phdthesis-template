@@ -25,7 +25,8 @@ back your work using pull requests.
 ![Sample text page](readme_image_text.png)
 ![Sample page with chapter heading](readme_image_heading.png)
 
-You can download a compiled sample PDF located in `pdf/thesis.pdf`.
+You can download a compiled sample PDF located in
+`out/thesisManuscriptScreen.pdf`.
 
 * Improved typographic style with KOMA-Script and microtype
 * Draft mode: Line numbers, Git commit and compile date as watermark,
@@ -50,7 +51,7 @@ You can download a compiled sample PDF located in `pdf/thesis.pdf`.
 
 Type `scons` in the root directory of the project to compile the
 template. The PDF will be placed in `build/pdf/` and copied to
-`pdf/`. Type `scons -c` to clean up.
+`out/`. Type `scons -c` to clean up.
 
 There several modes that can be activated or deactivated in
 `tex/switches.tex`:
