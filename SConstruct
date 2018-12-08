@@ -83,9 +83,9 @@ Helper.checkPDFSizeOptInstalled(env)
 env.Decider("timestamp-newer")
 
 # iterate over all dependent directories
-# note: "tex" has to be before "out"; "cpp" has to be before "gfx"
+# note: "tex" has to be before "out"
 dirTargets = {}
-dirs = ["bib", "cpp", "gfx", "lua", "misc", "tex", "out"]
+dirs = ["bib", "gfx", "lua", "misc", "tex", "out"]
 createDirs = (not env.GetOption("help")) and (not env.GetOption("clean"))
 
 for dir_ in dirs:
@@ -102,8 +102,6 @@ for dir_ in dirs:
   # clean up dir_
   env.Clean(dirTargets[dir_], env["BUILD_DIR"])
   
-  # set SGPP_FILES variable (list of files in build/cpp/sgpp)
-  if dir_ == "cpp": env["SGPP_FILES"] = dirTargets[dir_][0]
   # set BUILD_PDF variable (build/tex/thesis.pdf)
   if dir_ == "tex": env["BUILD_PDF"]  = dirTargets[dir_][0]
 
