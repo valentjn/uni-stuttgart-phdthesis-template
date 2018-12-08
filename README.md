@@ -76,7 +76,7 @@ There several modes that can be activated or deactivated in
 
 By default, the draft and the check mode are activated.
 
-On page 4 (back of the second title page), versioning information
+On the back of the title page, versioning information
 is printed (and also on every page, if the draft mode is activated).
 This info includes compile time, Git commit time, and the Git commit
 hash (with an asterisk if the working directiory is "dirty"). It is
