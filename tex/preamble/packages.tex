@@ -1,5 +1,5 @@
 % language-specific things (hyphenation, ...)
-\usepackage[ngerman,american]{babel}
+\usepackage[ngerman,main=american]{babel}
 
 % biblatex package wants to have csquotes (otherwise: warning)
 \usepackage{csquotes}
@@ -207,4 +207,6 @@
   capitalise,
   % mark all of "Lemma 1" as a link, not only "1"
   nameinlink,
+  % pass language used in document to enable cleveref in otherlanguage env
+  ngerman,english,
 ]{cleveref}
